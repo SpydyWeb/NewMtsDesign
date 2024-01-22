@@ -1,0 +1,58 @@
+/* change border radius of card component provided by bootstrap */
+.card {
+  border-radius: 0;
+}
+
+/* add * to depict required field */
+div.required-field label::after {
+  content: "*";
+  color: red;
+}
+
+.hideSection {
+  max-height: 0;
+  transition: max-height 0.35s ease-out;
+  overflow: hidden;
+
+  .addBtn{
+    display: none;
+  }
+}
+
+.displaySection {
+  max-height: 5000px;
+  transition: max-height 0.35s ease-in;
+
+  .addBtn{
+    display: initial;
+  }
+}
+
+.accordion{
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.navigation-indicator-icon{
+  font-size: 1.25rem;
+}
+
+.navigation-indicator-edit-icon{
+  font-size: 1.125rem;
+}
+
+.multiselect-container > div{
+  height: 95%;
+}
+
+.search-wrapper {
+  height: 90%;
+}
+
+.multiSelectContainer ul {
+  background: white;
+}
+
+.optionContainer .selected {
+  background: #0096fb;
+    color: #fff;
+}

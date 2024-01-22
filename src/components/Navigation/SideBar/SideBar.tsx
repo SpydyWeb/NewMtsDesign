@@ -1,0 +1,103 @@
+import { useProSidebar } from "react-pro-sidebar";
+import { AiOutlineMenu, AiFillHome, AiFillFileText } from "react-icons/ai";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
+import { pallete } from "../../../utils/style-utils";
+import { Link } from "react-router-dom";
+import {
+  StyledFooter,
+  StyledMenu,
+  StyledMenuItem,
+  StyledSideBar,
+} from "./SidebarStyledComponents";
+import { useEffect, useState } from "react";
+export const MenuData = [
+  {
+    icon: <AiFillHome />,
+    title: "Home",
+    url: "/dashboard",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Licence Type",
+    url: "/licencetype",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Communication Type",
+    url: "/communicationtype",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "State",
+    url: "/state",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Vendor Product",
+    url: "/viewvendorproduct",
+  },
+];
+
+// type AuthProps = {
+//   signOut: any;
+//   user: any;
+// };
+
+const SideBar = () => {
+  const { collapseSidebar } = useProSidebar();
+  const [defaultCollapsed, setDefaultCollapsed] = useState<boolean>(
+    window.outerWidth < 768
+  );
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setDefaultCollapsed(window.innerWidth < 768);
+    });
+  }, []);
+
+  return (
+    <>
+      <StyledSideBar
+        backgroundColor={pallete.sidebarBackground}
+        defaultCollapsed={defaultCollapsed}
+      >
+        <StyledMenu>
+          <StyledMenuItem
+            icon={<AiOutlineMenu />}
+            onClick={() => {
+              collapseSidebar();
+            }}
+          >
+            <h5 className="m-0">MTS</h5>
+          </StyledMenuItem>
+          {MenuData.map((ele, i) => {
+            return (
+              <StyledMenuItem
+                key={i}
+                icon={ele.icon}
+                component={<Link to={ele.url} />}
+                title={ele.title}
+              >
+                {ele.title}
+              </StyledMenuItem>
+            );
+          })}
+        </StyledMenu>
+        <StyledFooter>
+          {/* <StyledMenuItem icon={<FaUser />} title={props.user.attributes.email}>
+            {props.user.attributes.email}
+          </StyledMenuItem> */}
+          <StyledMenuItem
+            icon={<FaSignOutAlt />}
+            // component={<Link to="" onClick={props.signOut} />}
+            title="Sign out"
+          >
+            Sign out
+          </StyledMenuItem>
+        </StyledFooter>
+      </StyledSideBar>
+    </>
+  );
+};
+
+export default SideBar;

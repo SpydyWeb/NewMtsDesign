@@ -1,0 +1,58 @@
+{
+  "orders": [
+    {
+      "Id": 1,
+      "UserName": "",
+      "Client": {
+        "Id": "Prashant Arya",
+        "LoanId": "1234",
+        "ClientReferenceNumber": "c1",
+        "Instructions": ""
+      },
+      "Contacts": [
+        {
+          "FirstName": "Prashant",
+          "MiddleName": "",
+          "LastName": "Arya",
+          "Email": "prashantarya070601@gmail.com",
+          "Phone": "+918219994548"
+        }
+      ],
+      "Borrowers": [
+        {
+          "FirstName": "Prashant",
+          "MiddleName": "",
+          "LastName": "Arya",
+          "Email": "prashantarya070601@gmail.com",
+          "Phone": "+918219994548",
+          "IndCorp": "Individual",
+          "Last4SSNr": "0123"
+        }
+      ],
+      "PropertyAddress": {
+        "StreetAddress": "H/no - 32/2, ward no- 13",
+        "Suite": "Vishal Garments",
+        "City": "Paonta Sahib",
+        "State": "Himachal Pradesh",
+        "Zip": "173025",
+        "County": "India",
+        "Parcel": "",
+        "LoanAmount": "0"
+      },
+      "Products": {
+        "AvmProduct": "-select-",
+        "TitleProduct": "-select-",
+        "AppraisalProduct": "-select-",
+        "PCRProduct": "-select-",
+        "FloodProduct": "-select-",
+        "BPOProduct": "-select-",
+        "EvaluationProduct": "-select-"
+      },
+      "Documents": {
+        "DocumentType": "-select-",
+        "Product": "-select-",
+        "DocumentId": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+/* toggle button style */
+.form-check-input {
+  width: 10%;
+}
+.form-check-input:checked {
+  background-color: #4182ab;
+  border-color: #266293;
+}
+

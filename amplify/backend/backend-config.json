@@ -1,0 +1,101 @@
+{
+  "auth": {
+    "mtsgroup": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_mtsgroup_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    },
+    "AMPLIFY_auth_mtsgroup_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "mtsgroup"
+        }
+      ]
+    }
+  }
+}
