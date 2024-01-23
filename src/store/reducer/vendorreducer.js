@@ -1,4 +1,4 @@
-import { constant } from 'store/constant';
+import { constant } from '../constant';
 
 export const initialState = {
     stateData: [],

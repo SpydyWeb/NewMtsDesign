@@ -90,6 +90,9 @@ function App() {
                       <Route path="/orders/confirmation" Component={Confirmation} />
                       <Route path="/orders" Component={Orders} />
                       <Route path="/licencetype" Component={ViewTable} />
+                      <Route path="/communicationtype" Component={ViewTable} />
+                      <Route path="/state" Component={ViewTable} />
+                      <Route path="/role" Component={ViewTable} />
                     </Routes>
                   </main>
                 </div>

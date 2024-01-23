@@ -1,5 +1,5 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { constant } from 'store/constant';
+import { constant } from '../constant';
 import toast from 'react-hot-toast';
 import {
     GetRole,
@@ -11,7 +11,7 @@ import {
     EditRoleDefination,
     DeleteroleDefunation
 } from '../../servicesapi/Userroleapi';
-import { GetAllUSer } from 'servicesapi/Userapi';
+import { GetAllUSer } from '../../servicesapi/Userapi';
 
 let data = [];
 function* getroledata() {

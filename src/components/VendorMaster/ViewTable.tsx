@@ -16,32 +16,69 @@ import {
 } from "../../store/action/vendorAction";
 import { getaccessroledata, getroledata } from "../../store/action/userAction";
 import { HeadingName } from "./columnField";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 const ViewTable = () => {
   const dispatch = useDispatch();
   const { VendorData, customization, UserRoleData }: any = useSelector(
     (state) => state
   );
-  const [heading, SetHeading] = useState();
+  const [heading, SetHeading]: any = useState([]);
   useEffect(() => {
-    if (customization.isOpen.includes("licencetype"))
+    if (location.pathname.split("/").includes("licencetype"))
       dispatch(getLicencedata());
-    else if (customization.isOpen.includes("communicationtype"))
+    else if (location.pathname.split("/").includes("communicationtype"))
       dispatch(getCommunicationdata());
-    else if (customization.isOpen.includes("state")) dispatch(getStatedata());
-    else if (customization.isOpen.includes("role")) dispatch(getroledata());
-    else if (customization.isOpen.includes("accessrole"))
+    else if (location.pathname.split("/").includes("state"))
+      dispatch(getStatedata());
+    else if (location.pathname.split("/").includes("role"))
+      dispatch(getroledata());
+    else if (location.pathname.split("/").includes("accessrole"))
       dispatch(getaccessroledata());
+
     SetHeading(
-      ...HeadingName.filter((id) => id.id === location.pathname.split("/")[2])
+      ...HeadingName.filter(
+        (id: any) => id.id === location.pathname.split("/")[1]
+      )
     );
-  }, [customization.isOpen[0]]);
+  }, [location.pathname]);
+
+  const renderRow = (data: any) => {
+    let count = heading?.TableColumn?.length;
+    console.log("====================================");
+    console.log(data, location.pathname.split("/"));
+    console.log("====================================");
+
+    if (data.length > 0)
+      return data.map((val: any, i: number) => {
+        return (
+          <TableRow key={i} className="row">
+            {Object.keys(heading.TableColumn).map((Pkey) =>
+              Object.keys(val).map((key, index) =>
+                heading.TableColumn[Pkey].id === key ? (
+                  <div className={`col${index===0?"-1":""}`}>{val[key]}</div>
+                ) : Object.keys(heading.TableColumn).length - 1 === index &&
+                  heading.TableColumn[Pkey].id === "Action" ? (
+                    <div className="col">
+                    <FaRegEdit role="button" size={20}/>
+                    <MdDeleteOutline role="button" size={20}/>
+                  </div>
+                ) : (
+                  <></>
+                )
+              )
+            )}
+          </TableRow>
+        );
+      });
+  };
   return (
     <CenterContainer>
-      <Table className="table mb-5">
+      <Table className="table mb-5 mt-4">
         <div className="d-grid">
           <TableTitleRow>
             <TableTitleBar>
-              <TableTitle>Orders</TableTitle>
+              <TableTitle>{heading?.label}</TableTitle>
               {/* <AddButton
               onClick={() => {
                 history("/orders/add");
@@ -54,73 +91,35 @@ const ViewTable = () => {
         <div className="d-flex">
           <div className="container-fluid card">
             <TableRow className="row">
-              <div
-                className="col-1"
-                // onClick={() => handleSort("orderid", "orderIdSortIcon")}
-              >
-                <b>
-                  Order Id&nbsp;
-                  {/* <i id="sortIcon" className={icons["orderIdSortIcon"]}></i> */}
-                </b>
-              </div>
-              <div
-                className="col-3"
-                // onClick={() => handleSort("clientid", "clientIdSortIcon")}
-              >
-                <b>
-                  Client Id/ Name&nbsp;
-                  {/* <i id="sortIcon" className={icons["clientIdSortIcon"]}></i> */}
-                </b>
-              </div>
-              <div
-                className="col-3"
-                // onClick={() =>
-                //   handleSort(
-                //     "clientreferencenumber",
-                //     "clientReferenceNumberSortIcon"
-                //   )
-                // }
-              >
-                <b>
-                  Client Reference Number&nbsp;
-                  <i
-                    id="sortIcon"
-                    // className={icons["clientReferenceNumberSortIcon"]}
-                  ></i>
-                </b>
-              </div>
-              <div
-                className="col-1"
-                // onClick={() => handleSort("loanid", "loanIdSortIcon")}
-              >
-                <b>
-                  Loan id&nbsp;
-                  {/* <i id="sortIcon" className={icons["loanIdSortIcon"]}></i> */}
-                </b>
-              </div>
-              <div
-                className="col-3"
-                // onClick={() =>
-                //   handleSort("propertyAddress", "propertyAddressSortIcon")
-                // }
-              >
-                <b>
-                  Property Address&nbsp;
-                  {/* <i
-                    id="sortIcon"
-                    className={icons["propertyAddressSortIcon"]}
-                  ></i> */}
-                </b>
-              </div>
-              <div className="col-1">
-                <b>Action</b>
-              </div>
+              {heading?.TableColumn?.length > 0 ? (
+                heading?.TableColumn?.map((val: any, i: number) => {
+                  return (
+                    <div key={i} className={`col${i===0?"-1":""}`}>
+                      <b>{val.label}</b>
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </TableRow>
             {/* {orderPage.length == 0 && (
               <TableRow className="d-flex justify-content-center">
                 No items...
               </TableRow>
             )} */}
+
+            {renderRow(
+              location.pathname.split("/").includes("licencetype")
+                ? VendorData.licenceTypeData
+                : location.pathname.split("/").includes("state")
+                ? VendorData.stateData
+                : location.pathname.split("/").includes("role")
+                ? UserRoleData.RoleData
+                : location.pathname.split("/").includes("accessrole")
+                ? UserRoleData.AccessRoleData
+                : VendorData.communicationTypeData
+            )}
             {/* {orderPage.map((item, idx) => (
               <TableRow key={"order" + idx} className="row">
                 <div className="col-1">{item.orderid}</div>

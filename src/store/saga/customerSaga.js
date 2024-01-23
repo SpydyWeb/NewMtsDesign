@@ -1,6 +1,6 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { constant } from 'store/constant';
-import { CustomerSearch } from 'servicesapi/Customerapi';
+import { constant } from '../constant';
+import { CustomerSearch } from '../../servicesapi/Customerapi';
 
 function* getcustomerdata(action) {
     let customer = [];

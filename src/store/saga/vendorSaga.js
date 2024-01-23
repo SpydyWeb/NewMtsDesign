@@ -1,5 +1,5 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { constant } from 'store/constant';
+import { constant } from '../constant';
 import toast from 'react-hot-toast';
 import {
     GetStateList,
@@ -16,7 +16,7 @@ import {
     UpdateState,
     DeleteState,
     GetVendorProduct
-} from 'servicesapi/Vendorapi';
+} from '../../servicesapi/Vendorapi';
 let data = [];
 function* getstatedata() {
     let state = [];

@@ -1,5 +1,5 @@
 // action - customization reducer
-import { constant } from 'store/constant';
+import { constant } from '../constant';
 export const SET_MENU = '@customization/SET_MENU';
 export const MENU_TOGGLE = '@customization/MENU_TOGGLE';
 export const MENU_OPEN = '@customization/MENU_OPEN';

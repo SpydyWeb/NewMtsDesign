@@ -1,8 +1,8 @@
 // project imports
-import config from 'config';
+
 // action - state management
 import * as actionTypes from '../action/actions';
-import { constant } from 'store/constant';
+import { constant } from '../constant';
 export const initialState = {
     isOpen: [], // for active default menu
     opened: true,
