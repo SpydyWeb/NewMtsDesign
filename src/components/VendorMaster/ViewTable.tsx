@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   CenterContainer,
+  FloatingButton,
   Table,
   TableRow,
   TableTitle,
@@ -18,11 +19,13 @@ import { getaccessroledata, getroledata } from "../../store/action/userAction";
 import { HeadingName } from "./columnField";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 const ViewTable = () => {
   const dispatch = useDispatch();
   const { VendorData, customization, UserRoleData }: any = useSelector(
     (state) => state
   );
+  const history = useNavigate();
   const [heading, SetHeading]: any = useState([]);
   useEffect(() => {
     if (location.pathname.split("/").includes("licencetype"))
@@ -44,24 +47,22 @@ const ViewTable = () => {
   }, [location.pathname]);
 
   const renderRow = (data: any) => {
-    let count = heading?.TableColumn?.length;
-    console.log("====================================");
-    console.log(data, location.pathname.split("/"));
-    console.log("====================================");
-
+    
     if (data.length > 0)
       return data.map((val: any, i: number) => {
         return (
           <TableRow key={i} className="row">
-            {Object.keys(heading.TableColumn).map((Pkey) =>
+            {Object.keys(heading?.TableColumn).map((Pkey) =>
               Object.keys(val).map((key, index) =>
-                heading.TableColumn[Pkey].id === key ? (
-                  <div className={`col${index===0?"-1":""}`}>{val[key]}</div>
+                heading?.TableColumn[Pkey].id === key ? (
+                  <div className={`col${index === 0 ? "-1" : ""}`}>
+                    {val[key]}
+                  </div>
                 ) : Object.keys(heading.TableColumn).length - 1 === index &&
                   heading.TableColumn[Pkey].id === "Action" ? (
-                    <div className="col">
-                    <FaRegEdit role="button" size={20}/>
-                    <MdDeleteOutline role="button" size={20}/>
+                  <div className="col">
+                    <FaRegEdit role="button" size={20} />
+                    <MdDeleteOutline role="button" size={20} />
                   </div>
                 ) : (
                   <></>
@@ -94,7 +95,7 @@ const ViewTable = () => {
               {heading?.TableColumn?.length > 0 ? (
                 heading?.TableColumn?.map((val: any, i: number) => {
                   return (
-                    <div key={i} className={`col${i===0?"-1":""}`}>
+                    <div key={i} className={`col${i === 0 ? "-1" : ""}`}>
                       <b>{val.label}</b>
                     </div>
                   );
@@ -154,6 +155,12 @@ const ViewTable = () => {
           </div>
         </div>
       </Table>
+      <FloatingButton title={`Add ${heading?.label}`}
+        onClick={() => {
+          history(`/${heading.id}/add`);
+        }}>
+        +
+      </FloatingButton>
     </CenterContainer>
   );
 };

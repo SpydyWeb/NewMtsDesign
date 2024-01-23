@@ -18,6 +18,7 @@ import Confirmation from "./components/order/addOrder/ConfirmationPage";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import Login from "./components/Authenticate/Login";
 import ViewTable from "./components/VendorMaster/ViewTable";
+import CommonForm from "./components/VendorMaster/CommonForm";
 
 export type ApplicationContextType = {
   messages: any[];
@@ -93,6 +94,10 @@ function App() {
                       <Route path="/communicationtype" Component={ViewTable} />
                       <Route path="/state" Component={ViewTable} />
                       <Route path="/role" Component={ViewTable} />
+                      <Route path="/licencetype/add" Component={CommonForm} />
+                      <Route path="/communicationtype/add" Component={CommonForm} />
+                      <Route path="/state/add" Component={CommonForm} />
+                      <Route path="/role/add" Component={CommonForm} />
                     </Routes>
                   </main>
                 </div>
