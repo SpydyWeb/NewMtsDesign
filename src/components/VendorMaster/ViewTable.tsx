@@ -47,27 +47,30 @@ const ViewTable = () => {
   }, [location.pathname]);
 
   const renderRow = (data: any) => {
-    
     if (data.length > 0)
       return data.map((val: any, i: number) => {
         return (
           <TableRow key={i} className="row">
-            {Object.keys(heading?.TableColumn).map((Pkey) =>
-              Object.keys(val).map((key, index) =>
-                heading?.TableColumn[Pkey].id === key ? (
-                  <div className={`col${index === 0 ? "-1" : ""}`}>
-                    {val[key]}
-                  </div>
-                ) : Object.keys(heading.TableColumn).length - 1 === index &&
-                  heading.TableColumn[Pkey].id === "Action" ? (
-                  <div className="col">
-                    <FaRegEdit role="button" size={20} />
-                    <MdDeleteOutline role="button" size={20} />
-                  </div>
-                ) : (
-                  <></>
+            {heading?.TableColumn?.length > 0 ? (
+              Object.keys(heading?.TableColumn).map((Pkey) =>
+                Object.keys(val).map((key, index) =>
+                  heading?.TableColumn[Pkey].id === key ? (
+                    <div className={`col${index === 0 ? "-1" : ""}`}>
+                      {val[key]}
+                    </div>
+                  ) : Object.keys(heading.TableColumn).length - 1 === index &&
+                    heading.TableColumn[Pkey].id === "Action" ? (
+                    <div className="col">
+                      <FaRegEdit role="button" size={20} />
+                      <MdDeleteOutline role="button" size={20} />
+                    </div>
+                  ) : (
+                    <></>
+                  )
                 )
               )
+            ) : (
+              <></>
             )}
           </TableRow>
         );
@@ -155,10 +158,12 @@ const ViewTable = () => {
           </div>
         </div>
       </Table>
-      <FloatingButton title={`Add ${heading?.label}`}
+      <FloatingButton
+        title={`Add ${heading?.label}`}
         onClick={() => {
           history(`/${heading.id}/add`);
-        }}>
+        }}
+      >
         +
       </FloatingButton>
     </CenterContainer>

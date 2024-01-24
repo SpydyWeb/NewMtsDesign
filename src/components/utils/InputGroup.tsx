@@ -9,6 +9,7 @@ interface TextFieldProps {
   maxLength?: number;
   pattern?: string;
   required?: boolean;
+  onChange?:any
 }
 
 interface SelectBoxProps {
@@ -88,12 +89,7 @@ export const TextField = (props: TextFieldProps): JSX.Element => {
         title={props.label}
         pattern={props.pattern}
         maxLength={props.maxLength}
-        onChange={(e) => {
-          const errorDiv = document.getElementById(props.id + "Error") as HTMLDivElement;
-          errorDiv.innerText = "";
-          if (props.maxLength && e.target.value.length >= props.maxLength) errorDiv.innerText = "Max character limit reached (" + props.maxLength +")";
-          else if (props.required && e.target.value.length == 0) errorDiv.innerText = "This field is required!";
-        }}
+        onChange={props.onChange}
       />
       <label htmlFor={props.id}>{props.label}</label>
     </div>

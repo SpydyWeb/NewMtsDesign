@@ -17,6 +17,7 @@ import {
     DeleteState,
     GetVendorProduct
 } from '../../servicesapi/Vendorapi';
+
 let data = [];
 function* getstatedata() {
     let state = [];
@@ -44,24 +45,27 @@ function* getcommunicationtypedata() {
     yield put({ type: constant.SET_COMMUNICATIONTYPE_DATA, data: data });
 }
 function* addlicencetypedata(formdata) {
+    
     let res = '';
-    if (formdata.data.editid === undefined) {
+    yield put({ type: constant.SET_DATA_SAVE, value: false });
+    if (formdata.data.editid === undefined ||formdata.data.editid === "") {
         res = yield AddLicenceType(formdata.data.formData);
     } else res = yield UpdateLicenceType(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
-        yield toast.success(`Licence ${formdata.data.editid === undefined ? 'Created' : 'Updated'} Succsessfully`);
-        yield put({ type: constant.SET_DIALOGUE_VIEW, value: '' });
+        yield toast.success(`Licence ${formdata.data.editid === undefined ||formdata.data.editid === "" ? 'Created' : 'Updated'} Succsessfully`);
+        yield put({ type: constant.SET_DATA_SAVE, value: true });
         yield getlicencetypedata();
+        
     } else {
         yield res.json().then((res) => toast.error(res));
     }
 }
 function* addcommunicationtypedata(formdata) {
     let res = '';
-    if (formdata.data.editid === undefined) res = yield AddCommunication(formdata.data.formData);
+    if (formdata.data.editid === undefined ||formdata.data.editid === "") res = yield AddCommunication(formdata.data.formData);
     else res = yield UpdateCommuncationType(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
-        yield toast.success(`Communication ${formdata.data.editid === undefined ? 'Created' : 'Updated'} Succsessfully`);
+        yield toast.success(`Communication ${formdata.data.editid === undefined ||formdata.data.editid === "" ? 'Created' : 'Updated'} Succsessfully`);
         yield put({ type: constant.SET_DIALOGUE_VIEW, value: '' });
         yield getcommunicationtypedata();
     } else {
@@ -98,10 +102,10 @@ function* deletestatedata(formdata) {
 function* addstatedata(formdata) {
     let res = '';
     formdata.data.formData.nationId = 1;
-    if (formdata.data.editid === undefined) res = yield AddState(formdata.data.formData);
+    if (formdata.data.editid === undefined ||formdata.data.editid === "") res = yield AddState(formdata.data.formData);
     else res = yield UpdateState(formdata.data.formData, formdata.data.editid);
     if (res.status === 200) {
-        yield toast.success(`State ${formdata.data.editid === undefined ? 'Created' : 'Updated'} Succsessfully`);
+        yield toast.success(`State ${formdata.data.editid === undefined ||formdata.data.editid === "" ? 'Created' : 'Updated'} Succsessfully`);
         yield put({ type: constant.SET_DIALOGUE_VIEW, value: '' });
         yield getstatedata();
     } else {

@@ -8,7 +8,8 @@ export const initialState = {
     opened: true,
     tabview: 'View',
     dialogueview: '',
-    activeStep: 0
+    activeStep: 0,
+    isDataSaved:false
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -29,6 +30,8 @@ const customizationReducer = (state = initialState, action) => {
             };
         case constant.SET_TAB_VIEW:
             return { ...state, tabview: action.value };
+        case constant.SET_DATA_SAVE:
+                return { ...state, isDataSaved: action.value };
         case constant.SET_DIALOGUE_VIEW:
             return { ...state, dialogueview: action.value };
         case constant.SET_Active_Step_DATA:

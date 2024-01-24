@@ -15,6 +15,9 @@ export const getTabview = () => {
 export const setTabview = (value) => {
     return { type: constant.SET_TAB_VIEW, value: value };
 };
+export const setIsdataSaved = () => {
+    return { type: constant.SET_DATA_SAVE, value: false };
+};
 export const setDialogueview = (value) => {
     return { type: constant.SET_DIALOGUE_VIEW, value: value };
 };

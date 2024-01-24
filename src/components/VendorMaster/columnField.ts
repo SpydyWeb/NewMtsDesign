@@ -7,7 +7,8 @@ export const HeadingName = [
             {
                 label: 'Licence Type',
                 name: 'name',
-                required: true
+                required: true,
+                isErrorMsg:false
             }
         ],
         initialValue: { name: '' },
@@ -39,12 +40,12 @@ export const HeadingName = [
             {
                 label: 'Code',
                 name: 'uniquename',
-                required: true
+                required: true,   isErrorMsg:false
             },
             {
                 label: 'Communication Type',
                 name: 'name',
-                required: true
+                required: true,   isErrorMsg:false
             }
         ],
         initialValue: { name: '', uniquename: '' },
@@ -77,7 +78,7 @@ export const HeadingName = [
             {
                 label: 'State Name',
                 name: 'name',
-                required: true
+                required: true,   isErrorMsg:false
             }
         ],
         initialValue: { name: '' },
@@ -109,12 +110,12 @@ export const HeadingName = [
             {
                 label: 'Role Name',
                 name: 'name',
-                required: true
+                required: true,   isErrorMsg:false
             },
             {
                 label: 'Description',
                 name: 'description',
-                required: true
+                required: true,   isErrorMsg:false
             }
         ],
         initialValue: { name: '', description: '' },
@@ -138,7 +139,7 @@ export const HeadingName = [
             {
                 label: 'Access Control Name',
                 name: 'subrole',
-                required: true
+                required: true,   isErrorMsg:false
             }
         ],
         initialValue: { subrole: '' },
