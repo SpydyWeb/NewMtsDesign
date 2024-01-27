@@ -19,7 +19,8 @@ import ScrollToTop from "./components/utils/ScrollToTop";
 import Login from "./components/Authenticate/Login";
 import ViewTable from "./components/VendorMaster/ViewTable";
 import CommonForm from "./components/VendorMaster/CommonForm";
-
+import ViewTableData from "./components/VendorCutomer/ViewTableData"
+import StepperForm from "./components/VendorCutomer/AddForm/StepperForm";
 export type ApplicationContextType = {
   messages: any[];
   updateMessages: (m: any[]) => void;
@@ -36,9 +37,6 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const location = useLocation();
- console.log('====================================');
- console.log(location);
- console.log('====================================');
   const updateAlertMessages = (messages: any[]) => {
     if (messages.length > 3) messages.pop();
     setAlertMessages(messages);
@@ -98,6 +96,10 @@ function App() {
                       <Route path="/communicationtype/add" Component={CommonForm} />
                       <Route path="/state/add" Component={CommonForm} />
                       <Route path="/role/add" Component={CommonForm} />
+                      <Route path="/viewvendor" Component={ViewTableData} />
+                      <Route path="/vendor/create" Component={StepperForm} />
+                      <Route path="/customer/create" Component={StepperForm} />
+                      <Route path="/customer" Component={ViewTableData} />
                     </Routes>
                   </main>
                 </div>

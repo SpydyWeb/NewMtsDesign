@@ -36,6 +36,16 @@ export const MenuData = [
     title: "Vendor Product",
     url: "/viewvendorproduct",
   },
+  {
+    icon: <AiFillHome />,
+    title: "Vendor",
+    url: "/viewvendor",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Customer",
+    url: "/customer",
+  },
 ];
 
 // type AuthProps = {
