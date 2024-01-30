@@ -10,49 +10,38 @@ import {
   TableTitleBar,
   TableTitleRow,
 } from "../../order/OrderStyledComponents";
-import { ControlledTextField, TextField } from "../../utils/InputGroup";
+import { TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
 
-const Communication = (props: any) => {
-  const { formFields, Vendordata, communicationType, communicatioonMethod ,productD} =
-    props;
+const FileUpload = (props: any) => {
+  const { formFields, Vendordata, productD } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
 
-  const onhandleChange = (e: any, type: string, i: number) => {
+  const handlechangedate = (e: any, i: number) => {
     const { name, value } = e.target;
-    const data = [...Vendordata.communication];
-  
-    data[i][name] = value;
-    let status = false;
-    let count = 0;
-    if (name === "product_id")
-      props.communication.map((ele: any) => {
-        if (ele.product_id === value) count++;
-      });
-    if (count > 1) status = true;
-    if (status)
-      updateMessages([
-        {
-          title: "Error !!",
-          message: "Product name cannot be same",
-        },
-        ...messages,
-      ]);
-    else props.setVendordata({ ...Vendordata, [type]: data });
+    const data = [...Vendordata.productFiles];
+    var q = new Date();
+    var date = new Date(q.getFullYear(), q.getMonth(), q.getDate());
+
+    if (name === "issueDate") {
+      if (new Date(value) < date) {
+        data[i][name] = value;
+      } else {
+        updateMessages([
+          {
+            title: "Error !!",
+            message: "Issue date should be less than from today",
+          },
+          ...messages,
+        ]);
+      }
+    } else data[i][name] = value;
+    props.setVendordata({ ...props.Vendordata, ["productFiles"]: data });
   };
   const handleAddClick = () => {
-    let status = false;
-  
-    Vendordata.communication.map((ele: any, i: number) => {
-      if (
-        (ele.type === "" || ele.detail === "") &&
-        (ele.productId !== 0 || i === 0)
-      ) {
-        status = true;
-      }
-    });
-    if (status)
+    let data = Vendordata.productFiles;
+    if (data.at(-1).type === "" || data.at(-1).fileName === "")
       updateMessages([
         {
           title: "Error !!",
@@ -61,26 +50,17 @@ const Communication = (props: any) => {
         ...messages,
       ]);
     else {
-      if (props.edit) {
-        let data = [...Vendordata.communication];
-        data.push({
-          type: "",
-          detail: "",
-          product_id: 0,
-        });
-        props.setCommunicaion(data);
-      } else
-        props.setVendordata({
-          ...Vendordata,
-          ["communication"]: [
-            ...Vendordata.communication,
-            {
-              type: "",
-              detail: "",
-              product_id: 0,
-            },
-          ],
-        });
+      data.push({
+        fileName: "",
+        location: "",
+        size: 0,
+        file: "",
+        type: "",
+        remarks: "",
+        issueDate: "",
+        expiryDate: "",
+      });
+      props.setVendordata({ ...Vendordata, productFiles: data });
     }
   };
   return (
@@ -97,21 +77,20 @@ const Communication = (props: any) => {
       </div>
 
       <div id="contactsSection" className="displaySection">
-        {Vendordata.communication.map((val: any,idx:number) => {
+        {Vendordata.productFiles.map((val: any, idx: number) => {
           return (
             <div className="container-fluid card border-0 mt-2" key={"contact"}>
-              {props.Vendordata.communication.length > 1 && (
-                         <DeleteRowButton
-                        // onClick={() => {
-                        //   let temp = props.Vendordata.communication;
-                        //   temp.splice(idx, 1);
-                        //   props.updateContacts(temp);
-                        // }}
-                        >
-                          X
-                        </DeleteRowButton>
-                        
-                      )}
+              {Vendordata.productFiles.length > 1 && (
+                <DeleteRowButton
+                // onClick={() => {
+                //   let temp = props.Vendordata.communication;
+                //   temp.splice(idx, 1);
+                //   props.updateContacts(temp);
+                // }}
+                >
+                  X
+                </DeleteRowButton>
+              )}
               <TableRow className="row pt-0">
                 {formFields.formFields.map((item: any) => {
                   return (
@@ -138,39 +117,22 @@ const Communication = (props: any) => {
                               defaultValue={"-select-"}
                               required
                               onChange={(e: any) => {
-                                onhandleChange(
-                                  e,
-                                  val?.isParent ? val?.isParent : "",
-                                  idx
-                                );
+                                handlechangedate(e, idx);
+                                //   onhandleChange(
+                                //     e,
+                                //     val?.isParent ? val?.isParent : "",
+                                //     idx
+                                //   );
                               }}
                             >
                               <option defaultChecked disabled>
                                 -select-
                               </option>
-                              {item.name === "method"
-                                ? communicatioonMethod.map(
-                                    (items: any, i: number) => (
-                                      <option key={i} value={items.name}>
-                                        {items.name}
-                                      </option>
-                                    )
-                                  )
-                                :item.name === "product_id"
-                                ?productD.map(
-                                  (items: any, i: number) => (
-                                    <option key={i} value={items.id}>
-                                      {items.name}
-                                    </option>
-                                  )
-                                )
-                                : communicationType.map(
-                                    (items: any, i: number) => (
-                                      <option key={i} value={items.name}>
-                                        {items.name}
-                                      </option>
-                                    )
-                                  )}
+                              {productD.map((items: any, i: number) => (
+                                <option key={i} value={items.id}>
+                                  {items.name}
+                                </option>
+                              ))}
                             </select>
                             <label htmlFor="clientId">{item.label}</label>
                           </div>
@@ -188,7 +150,7 @@ const Communication = (props: any) => {
                             id={item.name}
                             name={item.name}
                             label={item.label}
-                            type="text"
+                            type={item.type}
                             value={
                               val?.isParent
                                 ? Vendordata[val.isParent][item.name]
@@ -196,11 +158,12 @@ const Communication = (props: any) => {
                             }
                             required
                             onChange={(e: any) => {
-                              onhandleChange(
-                                e,
-                                val?.isParent ? val?.isParent : "",
-                                idx
-                              );
+                              handlechangedate(e, idx);
+                              // onhandleChange(
+                              //   e,
+                              //   val?.isParent ? val?.isParent : "",
+                              //   idx
+                              // );
                             }}
                             //   onBlur={(e) => {
                             //     if (tooltip.valid && e.target.value.length > 3)
@@ -213,9 +176,9 @@ const Communication = (props: any) => {
                           <ErrorMessage id="loanIdError"></ErrorMessage>
                         </InputContainer>
                       )}
-                      
+
                       {/* <TableRow className="row pt-0"> */}
-                      {idx == props.Vendordata.communication.length - 1 && (
+                      {idx == props.Vendordata.productFiles.length - 1 && (
                         <AddRowButton
                           className="addBtn"
                           onClick={() => {
@@ -238,4 +201,4 @@ const Communication = (props: any) => {
   );
 };
 
-export default Communication;
+export default FileUpload;

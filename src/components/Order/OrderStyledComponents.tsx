@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 import styled from "styled-components";
 import { pallete } from "../../utils/style-utils";
 import { TiTick } from "react-icons/ti";
@@ -20,6 +20,12 @@ export const SearchBar = styled(Card.Header)`
   justify-content: space-between !important;
   background-color: ${pallete.tableBackgroundColor};
 `;
+export const Switch = styled(Form.Check)`
+  & input {
+    width: 2.8rem !important;
+    height: 1.5rem;
+  }
+`;
 
 export const SearchButton = styled.button`
   color: ${pallete.tableBackgroundColor};
@@ -27,7 +33,7 @@ export const SearchButton = styled.button`
   border: 0;
   width: 3rem;
 
-  &:hover{
+  &:hover {
     color: ${pallete.tableButtonHoverColor};
   }
 `;
@@ -40,8 +46,9 @@ export const UtilityButton = styled.button`
   width: 100%;
   height: fit-content;
   border-radius: 0.375rem;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-  &:hover{
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  &:hover {
     background-color: ${pallete.tableButtonHoverColor};
   }
 `;
@@ -60,7 +67,8 @@ export const ErrorMessage = styled.div`
 
 export const Table = styled.div`
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
 `;
 
 export const TableRow = styled.div`
@@ -93,13 +101,12 @@ export const AddRowButton = styled.button`
   color: white;
   border: 0;
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: rgba(0,0,0,0.25) 0px 31px 21rem, rgba(0,0,0,0.22) 0px 6px 1rem;
 
-  &:hover{
+  &:hover {
     background-color: ${pallete.tableButtonHoverColor};
   }
 `;
-
 
 export const DeleteRowButton = styled.span`
   position: absolute;
@@ -111,7 +118,7 @@ export const DeleteRowButton = styled.span`
   z-index: 100;
   color: black;
   font-weight: 700;
-  &:hover{
+  &:hover {
     color: ${pallete.tableButtonHoverColor};
   }
 `;
@@ -122,14 +129,14 @@ export const SerialNumber = styled.span`
   left: -2px;
 `;
 
-export const InputContainer = styled.div<{width: string}>`
-  width: ${({width}) => width};
+export const InputContainer = styled.div<{ width: string }>`
+  width: ${({ width }) => width};
 `;
 
 export const SuccessIcon = styled(TiTick)`
   background-color: ${pallete.tableBackgroundColor};
   color: white;
-  font-size: 5rem; 
+  font-size: 5rem;
   border-radius: 50%;
 `;
 

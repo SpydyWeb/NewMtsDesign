@@ -10,18 +10,27 @@ import { AiFillFileText } from "react-icons/ai";
 import Profile from "./Profile";
 import {
   GetCommunicationTypeList,
+  GetLicenceType,
   GetStateList,
+  GetVendorProduct,
 } from "../../../servicesapi/Vendorapi";
 import TabContainer from "./Stepper/Stepper";
 import { VendorFormField, intiatalVendor } from "./FormField";
 import Communication from "./Communication";
 import { GetcommunicationLists } from "../../../servicesapi/Customerapi";
+import Additional from "./Additional";
+import Licence from "./Licence";
+import FileUpload from "./FileUpload";
+import Product from "./Product";
 
 const StepperForm = () => {
   let orderId = "";
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const [communicatioonMethod, setCommunicationMethod] = useState([]);
   const [communicationType, setCommunicaionType] = useState([]);
+  const [productD, setProductD] = useState([]);
+  const [productdata, setProductdata] = useState([]);
+  const [licenceType, setLicenceType] = useState([]);
   const [formFields, setformFields]: any = useState(
     location.pathname.split("/").includes("vendor") ? VendorFormField : ""
   );
@@ -32,6 +41,28 @@ const StepperForm = () => {
 
   const [allstate, setAllState] = useState([]);
   useEffect(() => {
+    GetLicenceType().then((res:any) => {
+      setLicenceType(res);
+  });
+    GetVendorProduct().then((res: any) => {
+      setProductdata(res);
+      let data: any = [];
+      res.map((ele: any) => {
+        ele.subCategory.map((val: any) => {
+          data.push({
+            name: val.name,
+            price1: 0,
+            price2: 0,
+            price3: 0,
+            productId: ele.id,
+            selected: false,
+            id: val.id,
+          });
+        });
+      });
+
+      setProductD(data);
+    });
     GetStateList().then((res: any) => {
       setAllState(res);
     });
@@ -101,6 +132,31 @@ const StepperForm = () => {
               setVendordata={setVendordata}
               communicationType={communicationType}
               communicatioonMethod={communicatioonMethod}
+              productD={productD}
+            />
+          ) : activeTab === 2 ? (
+            <Product productdata={productdata} productD={productD} />
+          ) : activeTab === 3 ? (
+            <Additional
+              formFields={formFields.additional}
+              Vendordata={Vendordata}
+              setVendordata={setVendordata}
+
+            />
+          ) : activeTab === 4 ? (
+            <Licence
+              formFields={formFields.licence}
+              Vendordata={Vendordata}
+              setVendordata={setVendordata}
+              licenceType={licenceType}
+              allstate={allstate}
+            />
+          ) : activeTab === 5 ? (
+            <FileUpload
+              formFields={formFields.fileupload}
+              Vendordata={Vendordata}
+              productD={productD}
+              setVendordata={setVendordata}
             />
           ) : (
             <></>

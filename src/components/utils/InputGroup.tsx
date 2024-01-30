@@ -5,11 +5,13 @@ interface TextFieldProps {
   id: string;
   label: string;
   type: string;
-  defaultValue: any;
+  value: any;
   maxLength?: number;
   pattern?: string;
   required?: boolean;
-  onChange?:any
+  onChange?:any;
+  name:string
+
 }
 
 interface SelectBoxProps {
@@ -84,8 +86,9 @@ export const TextField = (props: TextFieldProps): JSX.Element => {
         type={props.type}
         className="form-control"
         id={props.id}
+        name={props.name}
         placeholder={props.label}
-        defaultValue={props.defaultValue}
+        value={props.value}
         title={props.label}
         pattern={props.pattern}
         maxLength={props.maxLength}
@@ -105,7 +108,7 @@ export const DisabledTextField = (props: TextFieldProps): JSX.Element => {
         className="form-control"
         id={props.id}
         placeholder={props.label}
-        defaultValue={props.defaultValue}
+        value={props.value}
         title={props.label}
         maxLength={props.maxLength}
         onChange={(e) => {
