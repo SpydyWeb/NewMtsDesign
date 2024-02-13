@@ -23,7 +23,7 @@ import {
   InputGroup,
   useAccordionButton,
 } from "react-bootstrap";
-import { FaAngleDown, FaAngleUp, FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp, FaRegEdit, FaSearch } from "react-icons/fa";
 import { ControlledSelectBox, SelectBox, TextField } from "../utils/InputGroup";
 import {
   SearchContainer,
@@ -57,6 +57,7 @@ const ViewTable = () => {
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
   const history = useNavigate();
+  
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
   const [filterdata, setFilterdata] = useState({
@@ -254,15 +255,25 @@ const ViewTable = () => {
       </span>
     );
   };
+  const handleEditData=(val:any)=>{
+    console.log(val);
+    
+    history(`/vendor/edit/${val.id}`,{state:val})
+  }
   const renderRows = (data: any, columns: any) => {
     let fields: [] = [];
     columns.map((ele: any) => {
       fields.push(ele.field);
     });
     return data.map((item: any, idx: number) => (
+     
       <TableRow key={"order" + idx} className="row">
         {fields.map((val, i) => {
           return (
+            i===0?<div
+            className={`col-1`}
+            key={i}>  <FaRegEdit role="button" size={20} onClick={()=>handleEditData(item)}/>
+            </div>:
             <div
               className={`col${
                 val === "status" || val === "Action" ? "-1" : ""

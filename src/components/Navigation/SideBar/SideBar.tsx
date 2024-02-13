@@ -11,10 +11,21 @@ import {
 } from "./SidebarStyledComponents";
 import { useEffect, useState } from "react";
 export const MenuData = [
+ 
   {
     icon: <AiFillHome />,
     title: "Home",
     url: "/dashboard",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Role Master",
+    url: "/role",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Access Role Master",
+    url: "/accessrole",
   },
   {
     icon: <AiFillHome />,

@@ -92,12 +92,20 @@ function App() {
                       <Route path="/communicationtype" Component={ViewTable} />
                       <Route path="/state" Component={ViewTable} />
                       <Route path="/role" Component={ViewTable} />
+                      <Route path="/accessrole" Component={ViewTable} />
+                      <Route path="/accessrole/add" Component={CommonForm} />
                       <Route path="/licencetype/add" Component={CommonForm} />
+                      <Route path="/accessrole/add/:id" Component={CommonForm} />
+                      <Route path="/licencetype/add/:id" Component={CommonForm} />
                       <Route path="/communicationtype/add" Component={CommonForm} />
+                      <Route path="/communicationtype/add/:id" Component={CommonForm} />
                       <Route path="/state/add" Component={CommonForm} />
                       <Route path="/role/add" Component={CommonForm} />
+                      <Route path="/state/add/:id" Component={CommonForm} />
+                      <Route path="/role/add/:id" Component={CommonForm} />
                       <Route path="/viewvendor" Component={ViewTableData} />
                       <Route path="/vendor/create" Component={StepperForm} />
+                      <Route path="/vendor/edit/:id" Component={StepperForm} />
                       <Route path="/customer/create" Component={StepperForm} />
                       <Route path="/customer" Component={ViewTableData} />
                     </Routes>

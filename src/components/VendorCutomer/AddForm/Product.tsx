@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import {
   ErrorMessage,
@@ -7,24 +7,80 @@ import {
   UtilityButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
+import { useDispatch, useSelector } from "react-redux";
+import ProductPricePopup from "./ProductPricePopup";
+import { setDialogueview } from "../../../store/action/actions";
+import { ApplicationContext, ApplicationContextType } from "../../../App";
 
 const Product = (props: any) => {
   const [expanded, setexpanded] = useState();
+  const { messages, updateMessages, updateLoading, updateLoadingMessage } =
+    useContext(ApplicationContext) as ApplicationContextType;
+
+  const { customization }: any = useSelector((state: any) => state);
+  const dispatch = useDispatch();
+  const [viewData, setViewData] = useState({
+    nation: [],
+    state: [],
+    county: [],
+  });
+  const [Productseletected, setProductseletected] = useState("");
+  const [productid, setProductid] = useState();
+  const [formType, setFormType] = useState(
+    location.pathname === "/admin/viewvendor" ? "vendor" : "customer"
+  );
+  const handlechange = (
+    e: any,
+    indx: number,
+    mainIndx: number,
+    productid: number
+  ) => {
+    const { name, value } = e.target;
+    console.log();
+    const data = [...props.productD];
+    for (let index = 0; index < data.length; index++) {
+      if (data[index].id === productid) {
+        if (name === "selected") data[index].selected = !data[index].selected;
+        else if (name === "price1") data[index].price1 = +value;
+        else if (name === "price2") data[index].price2 = +value;
+        else if (name === "price3") data[index].price3 = +value;
+        break;
+      }
+    }
+    props.setProductD(data);
+    const productdata = [...props.productdata];
+    if (name === "selected")
+      productdata[mainIndx].subCategory[indx].selected =
+        !productdata[mainIndx].subCategory[indx].selected;
+    else if (name === "price1")
+      productdata[mainIndx].subCategory[indx].price1 = isNaN(value)
+        ? ""
+        : +value;
+    else if (name === "price2")
+      productdata[mainIndx].subCategory[indx].price2 = isNaN(value)
+        ? ""
+        : +value;
+    else if (name === "price3")
+      productdata[mainIndx].subCategory[indx].price3 = isNaN(value)
+        ? ""
+        : +value;
+    props.setProductdata(productdata);
+  };
   return (
     <>
-      {/* {customization.dialogueview !== '' ? (
+      {customization.dialogueview !== "" ? (
         <ProductPricePopup
-            selecetedVedorId={props.selecetedVedorId}
-            setProductD={props.setProductD}
-            productid={productid}
-            productD={props.productD}
-            formType={formType}
-            Productseletected={Productseletected}
-            setProductseletected={setProductseletected}
+          selecetedVedorId={props.selecetedVedorId}
+          setProductD={props.setProductD}
+          productid={productid}
+          productD={props.productD}
+          formType={formType}
+          Productseletected={Productseletected}
+          setProductseletected={setProductseletected}
         />
-    ) : (
-        ''
-    )} */}
+      ) : (
+        ""
+      )}
       {/* {formType === 'customer' ? (
         <div
             className={`${
@@ -71,15 +127,28 @@ const Product = (props: any) => {
                                   name="selected"
                                   label={val.name}
                                   value={val.selected}
-                                  onChange={(e: any) => {
-                                    // onhandleChange(e);
-                                  }}
+                                  onChange={(e: any) =>
+                                    handlechange(e, i, indx, val.id)
+                                  }
                                 />
                               </InputContainer>
                               <InputContainer width={"20%"} className={`px-1`}>
                                 <UtilityButton
                                   onClick={() => {
-                                    // handleSearch();
+                                    if (val.selected) {
+                                      setProductid(val.id);
+                                      setProductseletected(ele);
+                                      dispatch(
+                                        setDialogueview("addproductprice")
+                                      );
+                                    } else
+                                      updateMessages([
+                                        {
+                                          title: "Error !!",
+                                          message: "Please select the product",
+                                        },
+                                        ...messages,
+                                      ]);
                                   }}
                                 >
                                   {selected === null

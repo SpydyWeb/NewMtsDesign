@@ -12,7 +12,7 @@ interface MyProps {
 
 const Pagination = (props: MyProps): JSX.Element => {
   return (
-    <PaginationContainer className="row" length={props.data.length}>
+    <PaginationContainer className="row pagination-bar" length={props.data.length}>
       <PageSizeContainer className={"col-sm-6"}>
         Records per page:
         <select

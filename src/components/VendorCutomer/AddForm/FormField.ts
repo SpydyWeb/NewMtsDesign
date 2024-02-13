@@ -2,6 +2,7 @@ export const VendorFormField = {
   profile: [
     {
       tabName: "Basic Detail",
+      isedit:false,
       formFields: [
         {
           name: "vendorId",
@@ -23,6 +24,7 @@ export const VendorFormField = {
     },
     {
       tabName: "Primary Address",
+      isedit:true,
       isParent: "primery_Address",
       formFields: [
         {
@@ -69,6 +71,7 @@ export const VendorFormField = {
     },
     {
       tabName: "Billing Address",
+      isedit:true,
       isParent: "secondary_Address",
       formFields: [
         {
@@ -115,6 +118,7 @@ export const VendorFormField = {
     },
     {
       tabName: "Primary Contact",
+      isedit:true,
       isParent: "primery_Contact",
       formFields: [
         {
@@ -177,6 +181,7 @@ export const VendorFormField = {
     },
     {
       tabName: "Additional Contact",
+      isedit:true,
       isParent: "secondary_contact",
       formFields: [
         {
@@ -239,6 +244,7 @@ export const VendorFormField = {
     },
     {
       tabName: "Accounting Information",
+      isedit:false,
       isParent: "accountinfo",
       formFields: [
         {
@@ -294,6 +300,7 @@ export const VendorFormField = {
   ],
   communication: {
     tabName: "Communication",
+    isParent: "communication",
     formFields: [
       {
         name: "type",
@@ -436,7 +443,7 @@ export const VendorFormField = {
       {
         name: "disciplinaryAction",
         label: "Disciplinary/ Other Actions",
-        require: true,
+        require: false,
         isErrorMsg: false,
         type: "text",
         width: "20%",
@@ -444,7 +451,7 @@ export const VendorFormField = {
       {
         name: "note",
         label: "Note",
-        require: true,
+        require: false,
         isErrorMsg: false,
         type: "text",
         width: "20%",

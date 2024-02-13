@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   CenterContainer,
   FloatingButton,
@@ -8,25 +8,71 @@ import {
   TableTitleBar,
   TableTitleRow,
 } from "../order/OrderStyledComponents";
-import Pagination from "../utils/PaginationComponent";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteCommunicationdata,
+  deleteLicencedata,
+  deletestatedata,
   getCommunicationdata,
   getLicencedata,
   getStatedata,
 } from "../../store/action/vendorAction";
-import { getaccessroledata, getroledata } from "../../store/action/userAction";
+import {
+  deleteaccessroledata,
+  deleteroledata,
+  getaccessroledata,
+  getroledata,
+} from "../../store/action/userAction";
 import { HeadingName } from "./columnField";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../Navigation/Pagination/Pagination";
+import { AlterToast } from "../../utils/renderUitils";
+import ConfimDialoague from "../Common/ConfimDialoague";
+import { ApplicationContext, ApplicationContextType } from "../../App";
+let PageSize = 10;
 const ViewTable = () => {
   const dispatch = useDispatch();
   const { VendorData, customization, UserRoleData }: any = useSelector(
     (state) => state
   );
   const history = useNavigate();
+  const { messages, updateMessages, updateLoading, updateLoadingMessage } =
+  useContext(ApplicationContext) as ApplicationContextType;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalData, settotalData] = useState(0);
+  const [open, setopen] = useState("");
+  const renderTableData=()=>{
+    if(customization.isLoading)
+    {
+      updateLoadingMessage("Fetching Data...");
+      updateLoading(true);
+    }
+    else
+    {
+      updateLoadingMessage("Fetching Data...");
+      updateLoading(false);
+    }
+    const firstPageIndex = (currentPage - 1) * PageSize;
+      const lastPageIndex = firstPageIndex + PageSize;
+      let data = location.pathname.split("/").includes("licencetype")
+        ? VendorData.licenceTypeData
+        : location.pathname.split("/").includes("state")
+        ? VendorData.stateData
+        : location.pathname.split("/").includes("role")
+        ? UserRoleData.RoleData
+        : location.pathname.split("/").includes("accessrole")
+        ? UserRoleData.AccessRoleData
+        : VendorData.communicationTypeData;
+      settotalData(data.length);
+      return data.slice(firstPageIndex, lastPageIndex);
+    }
+  const currentTableData = useMemo(() => {
+    return renderTableData()
+  }, [location.pathname, currentPage,customization.isLoading]);
   const [heading, SetHeading]: any = useState([]);
+ 
   useEffect(() => {
     if (location.pathname.split("/").includes("licencetype"))
       dispatch(getLicencedata());
@@ -45,7 +91,63 @@ const ViewTable = () => {
       )
     );
   }, [location.pathname]);
-
+  const handleEditData = (id:any) => {
+    if (location.pathname.split("/").includes('licencetype')) id = id?.id;
+    else if (location.pathname.split("/").includes('state')) id = id?.state_id;
+    else if (location.pathname.split("/").includes('role')) id = id?.name;
+    else if (location.pathname.split("/").includes('accessrole')) id = id?.subrole;
+    else id = id?.com_id;
+  
+    if (id !== '') {
+        let data = '';
+        if (location.pathname.split("/").includes('licencetype')) {
+            for (let i = 0; i < VendorData.licenceTypeData.length; i++) {
+                if (VendorData.licenceTypeData[i].Licence_id === id) {
+                    data = VendorData.licenceTypeData[i];
+                    break;
+                }
+            }
+        } else if (location.pathname.split("/").includes('state')) {
+            for (let i = 0; i < VendorData.stateData.length; i++) {
+                if (VendorData.stateData[i].state_id === id) {
+                    data = VendorData.stateData[i];
+                    break;
+                }
+            }
+        } else if (location.pathname.split("/").includes('role')) {
+            for (let i = 0; i < UserRoleData.RoleData.length; i++) {
+                if (UserRoleData.RoleData[i].name === id) {
+                    data = UserRoleData.RoleData[i];
+                    break;
+                }
+            }
+        } else if (location.pathname.split("/").includes('accessrole')) {
+            for (let i = 0; i < UserRoleData.AccessRoleData.length; i++) {
+                if (UserRoleData.AccessRoleData[i].subrole === id) {
+                    data = UserRoleData.AccessRoleData[i];
+                    break;
+                }
+            }
+        } else {
+            for (let i = 0; i < VendorData.communicationTypeData.length; i++) {
+                if (VendorData.communicationTypeData[i].com_id === id) {
+                    data = VendorData.communicationTypeData[i];
+                    break;
+                }
+            }
+        }
+        heading?.formfield?.map((ele) => {
+            heading.initialValue[ele.name] = data[ele.name];
+        });
+        history(`/${heading.id}/add/${id}`, { state: { formData:data } })
+    } else {
+        heading?.formfield?.map((ele) => {
+            heading.initialValue[ele.name] = '';
+        });
+    }
+    let formtype = location.pathname.split('/')[2];
+    // dispatch(setDialogueview(formtype));
+};
   const renderRow = (data: any) => {
     if (data.length > 0)
       return data.map((val: any, i: number) => {
@@ -61,8 +163,8 @@ const ViewTable = () => {
                   ) : Object.keys(heading.TableColumn).length - 1 === index &&
                     heading.TableColumn[Pkey].id === "Action" ? (
                     <div className="col">
-                      <FaRegEdit role="button" size={20} />
-                      <MdDeleteOutline role="button" size={20} />
+                      <FaRegEdit role="button" size={20} onClick={()=>handleEditData(val)}/>
+                      <MdDeleteOutline role="button" size={20} onClick={() => handleConfirmBox(val)}/>
                     </div>
                   ) : (
                     <></>
@@ -76,6 +178,33 @@ const ViewTable = () => {
         );
       });
   };
+  const handleConfirmBox = (id:any) => {
+
+    if (location.pathname.split("/").includes("licencetype"))
+      id = id?.id;
+    else if (location.pathname.split("/").includes("state"))
+      id = id?.state_id;
+    else if (location.pathname.split("/").includes("role")) id = id?.name;
+    else if (location.pathname.split("/").includes("accessrole"))
+      id = id?.subrole;
+    else id = id?.com_id;
+    setopen(id);
+  };
+  const handleConfirmDialogue = (type: boolean) => {
+    if (type) {
+      if (heading.id === "licencetype") dispatch(deleteLicencedata(open));
+      else if (heading.id === "communicationtype")
+        dispatch(deleteCommunicationdata(open));
+      else if (heading.id === "role") dispatch(deleteroledata(open));
+      else if (heading.id === "accessrole")
+        dispatch(deleteaccessroledata(open));
+      else dispatch(deletestatedata(open));
+    }
+    setopen("");
+    renderTableData()
+  };
+  console.log(customization);
+  
   return (
     <CenterContainer>
       <Table className="table mb-5 mt-4">
@@ -107,57 +236,33 @@ const ViewTable = () => {
                 <></>
               )}
             </TableRow>
-            {/* {orderPage.length == 0 && (
+            {currentTableData?.length == 0 && (
               <TableRow className="d-flex justify-content-center">
                 No items...
               </TableRow>
-            )} */}
-
-            {renderRow(
-              location.pathname.split("/").includes("licencetype")
-                ? VendorData.licenceTypeData
-                : location.pathname.split("/").includes("state")
-                ? VendorData.stateData
-                : location.pathname.split("/").includes("role")
-                ? UserRoleData.RoleData
-                : location.pathname.split("/").includes("accessrole")
-                ? UserRoleData.AccessRoleData
-                : VendorData.communicationTypeData
             )}
-            {/* {orderPage.map((item, idx) => (
-              <TableRow key={"order" + idx} className="row">
-                <div className="col-1">{item.orderid}</div>
-                <div className="col-3">{item.clientid}</div>
-                <div className="col-3">{item.clientreferencenumber}</div>
-                <div className="col-1">{item.loanid}</div>
-                <div className="col-3">{getAddress(item)}</div>
-                <div className="col-1">
-                  <i
-                    className="bi mx-1 bi-pencil-square pointer"
-                    onClick={() => {
-                      history("/orders/edit/" + item.orderid);
-                    }}
-                  ></i>
-                  <i
-                    className="bi mx-1 bi-clipboard-plus pointer"
-                    onClick={() => {
-                      history("/orders/property/" + item.orderid);
-                    }}
-                  ></i>
-                </div>
-              </TableRow>
-            ))}
+
+            {renderRow(currentTableData)}
+
             <Pagination
-              totalPage={totalPage}
-              data={orderPage}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-              currPage={currPage}
-              setCurrPage={setCurrPage}
-            /> */}
+              className="pagination-bar"
+              currentPage={currentPage}
+              totalCount={totalData}
+              pageSize={PageSize}
+              onPageChange={(page: number) => setCurrentPage(page)}
+            />
           </div>
         </div>
       </Table>
+      {open !== "" ? (
+        <ConfimDialoague
+          handleClick={(type: any) => handleConfirmDialogue(type)}
+          msg="Do you really want to delete ?"
+        />
+      ) : (
+        <></>
+      )}
+
       <FloatingButton
         title={`Add ${heading?.label}`}
         onClick={() => {

@@ -9,6 +9,7 @@ import {
   TableTitle,
   TableTitleBar,
   TableTitleRow,
+  UtilityButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
@@ -16,6 +17,8 @@ import { ApplicationContext, ApplicationContextType } from "../../../App";
 const Licence = (props: any) => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
+    let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const { formFields, Vendordata, allstate, licenceType } = props;
   const handleAddClick = () => {
@@ -116,7 +119,7 @@ const Licence = (props: any) => {
   
     props.setVendordata({ ...Vendordata, ["licences"]: data });
   };
-  return (
+  return (<>
     <Table className={"table mt-3 px-0"} key={"contacts"}>
       <div
         className="d-grid pointer"
@@ -130,9 +133,9 @@ const Licence = (props: any) => {
       </div>
 
       <div id="contactsSection" className="displaySection">
-        {Vendordata.licences.map((val: any,idx: number) => {
+        {Vendordata?.licences?.length>0?Vendordata.licences.map((val: any,idx: number) => {
           return (
-            <div className="container-fluid card border-0 mt-2" key={"contact"}>
+            <div className="container-fluid card border-0 mt-2 ml-2" key={"contact"}>
               {Vendordata.licences.length > 1 && (
                 <DeleteRowButton
                 // onClick={() => {
@@ -163,9 +166,7 @@ const Licence = (props: any) => {
                               name={item.name}
                               title={item.label}
                               value={
-                                val?.isParent
-                                  ? Vendordata[val.isParent][item.name]
-                                  : Vendordata[item.name]
+                                val[item.name]
                               }
                               defaultValue={"-select-"}
                               required
@@ -178,7 +179,7 @@ const Licence = (props: any) => {
                                 //   );
                               }}
                             >
-                              <option defaultChecked disabled>
+                              <option defaultChecked disabled value="">
                                 -select-
                               </option>
                               {item.name === "state"
@@ -219,9 +220,7 @@ const Licence = (props: any) => {
                             label={item.label}
                             type={item.type}
                             value={
-                              val?.isParent
-                                ? Vendordata[val.isParent][item.name]
-                                : Vendordata[item.name]
+                              val[item.name]
                             }
                             required
                             onChange={(e: any) => {
@@ -262,9 +261,22 @@ const Licence = (props: any) => {
               </TableRow>
             </div>
           );
-        })}
+        }):<></>}
       </div>
     </Table>
+    {isNaN(parseInt(urlD)) === false ? (
+        <div className="d-flex justify-content-end">
+          <UtilityButton
+            style={{ width: "200px", marginTop: "3rem" }}
+            onClick={() => {}}
+          >
+            Save & Update
+          </UtilityButton>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

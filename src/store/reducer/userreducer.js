@@ -15,7 +15,8 @@ export const UserRoleData = (state = initialState, action) => {
                 return data.push({
                     id: indx + 1,
                     name: ele.name,
-                    description: ele.description
+                    description: ele.description,
+                    tempId:indx
                 });
             });
             return { ...state, RoleData: data, loader: false };
@@ -23,7 +24,8 @@ export const UserRoleData = (state = initialState, action) => {
             action.data.map((ele, indx) => {
                 return data.push({
                     id: indx + 1,
-                    subrole: ele.subrole
+                    subrole: ele.subrole,
+                    tempId:indx
                 });
             });
             return { ...state, AccessRoleData: data, loader: false };

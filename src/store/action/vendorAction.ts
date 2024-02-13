@@ -8,7 +8,7 @@ export const getLicencedata = () => {
 export const getCommunicationdata = () => {
     return { type: constant.GET_COMMUNICATIONTYPE_DATA };
 };
-export const addLicencedata = (formdata) => {
+export const addLicencedata = (formdata:any) => {
     return { type: constant.ADD_LICENCETYPE_DATA, data: formdata };
 };
 export const addCommunicationdata = (formdata) => {

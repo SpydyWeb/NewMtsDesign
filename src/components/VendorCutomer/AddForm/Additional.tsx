@@ -15,7 +15,6 @@ const Additional = (props: any) => {
   const { formFields,Vendordata } = props;
   const onhandleChange = (e:any) => {
     const { name, value } = e?.target ? e.target : e;
-    console.log(name, value);
     props.setVendordata({ ...Vendordata, [name]: value });
   };
   return (

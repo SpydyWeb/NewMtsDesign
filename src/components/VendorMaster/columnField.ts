@@ -125,7 +125,7 @@ export const HeadingName = [
             { id: 'name', label: 'Name', flex: 1, renderCell: false },
             { id: 'description', label: 'Description', flex: 1, renderCell: false },
             {
-                id: 'action',
+                id: 'Action',
                 label: 'Action',
                 renderCell: true,
                 flex: 1
@@ -148,7 +148,7 @@ export const HeadingName = [
             { id: 'id', label: 'S No.', flex: 1, renderCell: false },
             { id: 'subrole', label: 'Access Name', flex: 1, renderCell: false },
             {
-                id: 'action',
+                id: 'Action',
                 label: 'Action',
                 renderCell: true,
                 flex: 1

@@ -16,10 +16,14 @@ import { GetAllUSer } from '../../servicesapi/Userapi';
 let data = [];
 function* getroledata() {
     let state = [];
+    yield put({ type: constant.SET_LOADING });
     yield GetRole().then((res) => {
         state = res;
+       
     });
+
     yield put({ type: constant.SET_ROLE_DATA, data: state });
+    yield put({ type: constant.SET_LOADING });
 }
 function* addroledata(formdata) {
     let res = '';
@@ -54,10 +58,12 @@ function* deleteroledata(formdata) {
 }
 function* getaccessroledata() {
     let state = [];
+    yield put({ type: constant.SET_LOADING });
     yield GetsubRole().then((res) => {
         state = res;
     });
     yield put({ type: constant.SET_ACCESS_ROLE_DATA, data: state });
+    yield put({ type: constant.SET_LOADING });
 }
 function* addaccessroledata(formdata) {
     let res = '';
@@ -91,10 +97,12 @@ function* deleteaccessroledata(formdata) {
 }
 function* getuserdata() {
     let state = [];
+    yield put({ type: constant.SET_LOADING });
     yield GetAllUSer().then((res) => {
         state = res;
     });
     yield put({ type: constant.SET_USER_DATA, data: state });
+    yield put({ type: constant.SET_LOADING });
 }
 function* userSaga() {
     yield takeEvery(constant.GET_ROLE_DATA, getroledata);
