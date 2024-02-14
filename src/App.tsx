@@ -21,6 +21,9 @@ import ViewTable from "./components/VendorMaster/ViewTable";
 import CommonForm from "./components/VendorMaster/CommonForm";
 import ViewTableData from "./components/VendorCutomer/ViewTableData"
 import StepperForm from "./components/VendorCutomer/AddForm/StepperForm";
+import ViewVendorProduct from "./components/VendorMaster/ViewVendorProduct";
+import { AddVendorCountyProduct } from "./servicesapi/Vendorapi";
+import AddVendorProduct from "./components/VendorMaster/AddVendorProduct";
 export type ApplicationContextType = {
   messages: any[];
   updateMessages: (m: any[]) => void;
@@ -108,6 +111,9 @@ function App() {
                       <Route path="/vendor/edit/:id" Component={StepperForm} />
                       <Route path="/customer/create" Component={StepperForm} />
                       <Route path="/customer" Component={ViewTableData} />
+                      <Route path="/viewvendorproduct" Component={ViewVendorProduct} />
+                      <Route path="/viewvendorproduct/add" Component={AddVendorProduct} />
+                 
                     </Routes>
                   </main>
                 </div>

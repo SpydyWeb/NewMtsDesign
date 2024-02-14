@@ -92,10 +92,13 @@ const ViewTable = () => {
     );
   }, [location.pathname]);
   const handleEditData = (id:any) => {
+    console.log('====================================');
+    console.log(id);
+    console.log('====================================');
     if (location.pathname.split("/").includes('licencetype')) id = id?.id;
     else if (location.pathname.split("/").includes('state')) id = id?.state_id;
-    else if (location.pathname.split("/").includes('role')) id = id?.name;
-    else if (location.pathname.split("/").includes('accessrole')) id = id?.subrole;
+    else if (location.pathname.split("/").includes('role')) id = id?.id;
+    else if (location.pathname.split("/").includes('accessrole')) id = id?.id;
     else id = id?.com_id;
   
     if (id !== '') {
@@ -115,15 +118,16 @@ const ViewTable = () => {
                 }
             }
         } else if (location.pathname.split("/").includes('role')) {
+          
             for (let i = 0; i < UserRoleData.RoleData.length; i++) {
-                if (UserRoleData.RoleData[i].name === id) {
+                if (UserRoleData.RoleData[i].id === id) {
                     data = UserRoleData.RoleData[i];
                     break;
                 }
             }
         } else if (location.pathname.split("/").includes('accessrole')) {
             for (let i = 0; i < UserRoleData.AccessRoleData.length; i++) {
-                if (UserRoleData.AccessRoleData[i].subrole === id) {
+                if (UserRoleData.AccessRoleData[i].id === id) {
                     data = UserRoleData.AccessRoleData[i];
                     break;
                 }
@@ -139,6 +143,9 @@ const ViewTable = () => {
         heading?.formfield?.map((ele) => {
             heading.initialValue[ele.name] = data[ele.name];
         });
+        console.log('====================================');
+        console.log(id,data);
+        console.log('====================================');
         history(`/${heading.id}/add/${id}`, { state: { formData:data } })
     } else {
         heading?.formfield?.map((ele) => {
@@ -203,7 +210,7 @@ const ViewTable = () => {
     setopen("");
     renderTableData()
   };
-  console.log(customization);
+
   
   return (
     <CenterContainer>
@@ -266,6 +273,7 @@ const ViewTable = () => {
       <FloatingButton
         title={`Add ${heading?.label}`}
         onClick={() => {
+         
           history(`/${heading.id}/add`);
         }}
       >

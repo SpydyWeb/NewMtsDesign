@@ -12,7 +12,8 @@ export const initialState = {
   isDataSaved: false,
   data: null,
   error: null,
-  isLoading:false
+  isLoading:false,
+  Message:''
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -40,7 +41,10 @@ const customizationReducer = (state = initialState, action) => {
     case constant.SET_Active_Step_DATA:
       return { ...state, activeStep: action.value };
       case constant.SET_LOADING:
-        return { ...state, isLoading:  !state.isLoading};
+        console.log('====================================');
+        console.log(action);
+        console.log('====================================');
+        return { ...state, isLoading:  !state.isLoading,Message:action.value};
     case constant.API_CALL_SUCCESS:
       return {
         ...state,

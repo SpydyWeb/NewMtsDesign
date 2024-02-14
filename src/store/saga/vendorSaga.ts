@@ -20,9 +20,9 @@ import {
 import { AlterToast } from "../../utils/renderUitils";
 import { apiCallSuccess } from "../action/actions";
 
-let data:any = [];
+let data: any = [];
 function* getstatedata() {
-  let state:any = [];
+  let state: any = [];
   yield put({ type: constant.SET_LOADING });
   yield GetStateList().then((res) => {
     state = res;
@@ -54,27 +54,22 @@ function* getcommunicationtypedata() {
 }
 function* addlicencetypedata(formdata: any) {
   let res: any = {};
-  yield put({ type: constant.SET_DATA_SAVE, value: false });
+  yield put({ type: constant.SET_LOADING, value: "" });
   if (formdata.data.editid === undefined || formdata.data.editid === "") {
     res = yield AddLicenceType(formdata.data.formData);
   } else
     res = yield UpdateLicenceType(formdata.data.formData, formdata.data.editid);
   if (res.status === 200) {
-    yield apiCallSuccess(
-       `Licence ${
-        formdata.data.editid === undefined || formdata.data.editid === ""
-          ? "Created"
-          : "Updated"
-      } Succsessfully`
-    )
-    yield put({ type: constant.SET_DATA_SAVE, value: true });
-    yield getlicencetypedata();
+    yield put({ type: constant.SET_LOADING, value: "save" });
   } else {
-    yield res.json().then((res) => toast.error(res));
+    let msg;
+    yield res.json().then((res) => (msg = res));
+    yield put({ type: constant.SET_LOADING, value: msg });
   }
 }
 function* addcommunicationtypedata(formdata) {
   let res = "";
+  yield put({ type: constant.SET_LOADING, value: "" });
   if (formdata.data.editid === undefined || formdata.data.editid === "")
     res = yield AddCommunication(formdata.data.formData);
   else
@@ -83,17 +78,12 @@ function* addcommunicationtypedata(formdata) {
       formdata.data.editid
     );
   if (res.status === 200) {
-    yield toast.success(
-      `Communication ${
-        formdata.data.editid === undefined || formdata.data.editid === ""
-          ? "Created"
-          : "Updated"
-      } Succsessfully`
-    );
+    yield put({ type: constant.SET_LOADING, value: "save" });
     yield put({ type: constant.SET_DIALOGUE_VIEW, value: "" });
-    yield getcommunicationtypedata();
   } else {
-    yield res.json().then((res) => toast.error(res));
+    let msg;
+    yield res.json().then((res) => (msg = res));
+    yield put({ type: constant.SET_LOADING, value: msg });
   }
 }
 function* deletelicencetypedata(formdata) {
@@ -123,24 +113,21 @@ function* deletestatedata(formdata) {
     yield res.json().then((res) => toast.error(res));
   }
 }
-function* addstatedata(formdata) {
-  let res = "";
+function* addstatedata(formdata:any) {
+  let res:any = "";
+  yield put({ type: constant.SET_LOADING ,value:""});
   formdata.data.formData.nationId = 1;
   if (formdata.data.editid === undefined || formdata.data.editid === "")
     res = yield AddState(formdata.data.formData);
   else res = yield UpdateState(formdata.data.formData, formdata.data.editid);
   if (res.status === 200) {
-    yield toast.success(
-      `State ${
-        formdata.data.editid === undefined || formdata.data.editid === ""
-          ? "Created"
-          : "Updated"
-      } Succsessfully`
-    );
+    yield put({ type: constant.SET_LOADING ,value:"save"});
     yield put({ type: constant.SET_DIALOGUE_VIEW, value: "" });
     yield getstatedata();
   } else {
-    yield res.json().then((res) => toast.error(res));
+    let msg
+    yield res.json().then((res) => msg=res);
+    yield put({ type: constant.SET_LOADING ,value:msg });
   }
 }
 function* getproductdata() {

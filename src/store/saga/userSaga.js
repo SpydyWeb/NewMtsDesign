@@ -27,6 +27,7 @@ function* getroledata() {
 }
 function* addroledata(formdata) {
     let res = '';
+    yield put({ type: constant.SET_LOADING ,value:""});
     if (formdata.data.editid === undefined || formdata.data.editid === '') {
         res = yield CreateRole(formdata.data.formData);
     } else {
@@ -38,22 +39,26 @@ function* addroledata(formdata) {
         res = yield EditRole(data);
     }
     if (res.status === 200) {
-        yield toast.success(
-            `Role ${formdata.data.editid === undefined || formdata.data.editid === '' ? 'Created' : 'Updated'} Succsessfully`
-        );
+        yield put({ type: constant.SET_LOADING ,value:"save"});
+      
         yield put({ type: constant.SET_DIALOGUE_VIEW, value: '' });
-        yield getroledata();
+  
     } else {
-        yield res.json().then((res) => toast.error(res));
+        let msg
+    yield res.json().then((res) => msg=res);
+    yield put({ type: constant.SET_LOADING ,value:msg });
     }
 }
 function* deleteroledata(formdata) {
+    yield put({ type: constant.SET_LOADING ,value:""});
     const res = yield Deleterole(formdata.data);
     if (res.status === 200) {
-        yield toast.success('Role deleted Succsessfully');
+        yield put({ type: constant.SET_LOADING ,value:"delete"});
         yield getroledata();
     } else {
-        yield res.json().then((res) => toast.error(res));
+        let msg
+        yield res.json().then((res) => msg=res);
+        yield put({ type: constant.SET_LOADING ,value:msg });
     }
 }
 function* getaccessroledata() {
@@ -67,6 +72,7 @@ function* getaccessroledata() {
 }
 function* addaccessroledata(formdata) {
     let res = '';
+    yield put({ type: constant.SET_LOADING ,value:""});
     if (formdata.data.editid === undefined || formdata.data.editid === '') {
         res = yield CreateSubRole(formdata.data.formData);
     } else {
@@ -77,22 +83,25 @@ function* addaccessroledata(formdata) {
         res = yield EditRoleDefination(data);
     }
     if (res.status === 200) {
-        yield toast.success(
-            `Access Control Role ${formdata.data.editid === undefined || formdata.data.editid === '' ? 'Created' : 'Updated'} Succsessfully`
-        );
+        yield put({ type: constant.SET_LOADING ,value:"save"});
         yield put({ type: constant.SET_DIALOGUE_VIEW, value: '' });
-        yield getaccessroledata();
+        
     } else {
-        yield res.json().then((res) => toast.error(res));
+        let msg
+    yield res.json().then((res) => msg=res);
+    yield put({ type: constant.SET_LOADING ,value:msg });
     }
 }
 function* deleteaccessroledata(formdata) {
+    yield put({ type: constant.SET_LOADING ,value:""});
     const res = yield DeleteroleDefunation(formdata.data);
     if (res.status === 200) {
-        yield toast.success('Access Control deleted Succsessfully');
+        yield put({ type: constant.SET_LOADING ,value:"delete"});
         yield getaccessroledata();
     } else {
-        yield res.json().then((res) => toast.error(res));
+        let msg
+    yield res.json().then((res) => msg=res);
+    yield put({ type: constant.SET_LOADING ,value:msg });
     }
 }
 function* getuserdata() {

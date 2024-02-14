@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ErrorMessage,
   InputContainer,
@@ -14,7 +14,7 @@ import {
   SearchIcon,
 } from "../Order/orderProperty/OrderPropertyStyledComponents";
 import { TextField } from "../utils/InputGroup";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { HeadingName } from "./columnField";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,20 +23,24 @@ import {
   addLicencedata,
   addStatedata,
 } from "../../store/action/vendorAction";
-import { setIsdataSaved } from "../../store/action/actions";
 import { addaccessroledata, addroledata } from "../../store/action/userAction";
 import { AlterToast } from "../../utils/renderUitils";
+import { ApplicationContext, ApplicationContextType } from "../../App";
 const CommonForm = () => {
   const history = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
+  const { messages, updateMessages, updateLoading, updateLoadingMessage } =
+    useContext(ApplicationContext) as ApplicationContextType;
   const { customization }: any = useSelector((state) => state);
   const [formValues, setformValues]: any = useState({});
   const [heading, SetHeading]: any = useState([]);
   const [formfield, Setformfield]: any = useState([]);
+  let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
+
   useEffect(() => {
-   
-    
-   let data: any = HeadingName.filter(
+    let data: any = HeadingName.filter(
       (id: any) => id.id === location.pathname.split("/")[1]
     );
     SetHeading(data[0]);
@@ -51,30 +55,49 @@ const CommonForm = () => {
   };
   const resetForm = () => {
     formfield?.map((ele) => {
-      if (formValues[ele.name] === "") ele.isErrorMsg = false;
+      if (formValues[ele.name] === "") {
+        ele.isErrorMsg = false;
+        formValues[ele.name] = "";
+      }
     });
+    if (isNaN(parseInt(urlD)) === true) setformValues(formValues);
   };
   useEffect(() => {
-    if (customization.isDataSaved) {
-      dispatch(setIsdataSaved());
-
+    console.log('====================================');
+    console.log(location);
+    console.log('====================================');
+    if (customization.isLoading === false && (customization.Message === "save")) {
+      updateMessages([
+        {
+          title: "Success !!",
+          message: "Data has been saved",
+        },
+        ...messages,
+      ]);
+      resetForm();
       history(`/${heading.id}`);
+    }
+    else if ((customization.Message !== "" &&customization.Message !==undefined))
+    {
+      updateMessages([
+        {
+          title: "Error !!",
+          message: customization.Message,
+        },
+        ...messages,
+      ]);
     }
   }, [customization.isLoading]);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     let formData = [...formfield];
     let id = "";
-    let urlD=  location.pathname.split("/")[location.pathname.split("/").length - 1]
     formData?.map((ele) => {
       if (formValues[ele.name] === "") ele.isErrorMsg = true;
     });
     Setformfield(formData);
-    if (
-      isNaN(parseInt(urlD))===false
-    ) {
-     id=urlD
-      
+    if (isNaN(parseInt(urlD)) === false) {
+      id = urlD;
     }
     if (formData.every((ele) => ele.isErrorMsg === false)) {
       if (heading.id === "licencetype")
@@ -90,10 +113,8 @@ const CommonForm = () => {
   };
   const renderForm = () => {
     return formfield?.map((ele: any, i: number) => {
-      console.log(ele);
-
       return (
-        <InputContainer className="px-1" key={i}>
+        <InputContainer width="100%" className="px-1" key={i}>
           <TextField
             id={ele.name}
             name={ele.name}
@@ -125,7 +146,12 @@ const CommonForm = () => {
               <form onSubmit={handleSubmit}>
                 {renderForm()}
                 <TableRow className="border-0 mt-4">
-                  <CancelButton onClick={() => history(`/${heading.id}`)}>
+                  <CancelButton
+                    onClick={() => {
+                      resetForm();
+                      history(`/${heading.id}`);
+                    }}
+                  >
                     Cancel
                   </CancelButton>
                   <SaveButton onClick={handleSubmit} className="float-end">
