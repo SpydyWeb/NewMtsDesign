@@ -63,9 +63,7 @@ const CommonForm = () => {
     if (isNaN(parseInt(urlD)) === true) setformValues(formValues);
   };
   useEffect(() => {
-    console.log('====================================');
-    console.log(location);
-    console.log('====================================');
+  
     if (customization.isLoading === false && (customization.Message === "save")) {
       updateMessages([
         {

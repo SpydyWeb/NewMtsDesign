@@ -16,6 +16,7 @@ import {
   GetVendorCommunicationbyid,
   GetVendorContactbyid,
   GetVendorEandOById,
+  GetVendorFileById,
   GetVendorLicencebyid,
   GetVendorProduct,
 } from "../../../servicesapi/Vendorapi";
@@ -164,6 +165,7 @@ const StepperForm = () => {
             comData.push({type: ele.type,
             detail: ele.detail,
             product_id: ele.product_id,
+            id:ele.id,
             method: ele.method})
           })
             setVendordata({communication:comData});
@@ -195,6 +197,7 @@ else if (activeTab === 4) {
       disciplinaryAction: ele.disciplinaryAction,
       note: ele.note,
       state: ele.state,
+      id:ele.id
         })
       })
       setVendordata({"licences":licencedata})
@@ -214,6 +217,31 @@ else if (activeTab === 3) {
  
       setVendordata(history.state.usr);
   }
+}
+else if (activeTab===5)
+{
+  GetVendorFileById(urlD).then((res) => {
+    let data:any=[]
+    res?.map(ele=>data.push({
+      fileName:ele.fileName,
+      fileid:ele.fileid,
+      id:ele.id,
+      location:ele.location,
+      remarks:ele.remarks,
+      type:ele.type,
+      issueDate:ele.issueDate?.split("T")[0],
+      expiryDate:ele.expiryDate?.split("T")[0]
+    }))
+    
+    setVendordata({ ...Vendordata, ['productFiles']: data });
+    // if (res.length === 0) {
+    //     setiseditdata(0);
+    //     seterrmsg('Data not found');
+    // } else {
+    //     setiseditdata(res.length);
+    //     seterrmsg('');
+    // }
+});
 }
  }
   },[activeTab])

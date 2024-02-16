@@ -9,14 +9,29 @@ import {
   TableTitle,
   TableTitleBar,
   TableTitleRow,
+  UtilityButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
+import { AiOutlineDownload } from "react-icons/ai";
+import { CurrentUrl } from "../../../servicesapi/UrlApi";
+import {
+  Addexistingvendorfile,
+  Addvendorfile,
+  UpdateVendorFile,
+} from "../../../servicesapi/Vendorapi";
+import {
+  Addcustomerfile,
+  Addexistingcustomerfile,
+  UpdatecustomerFile,
+} from "../../../servicesapi/Customerapi";
 
 const FileUpload = (props: any) => {
   const { formFields, Vendordata, productD } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
+  let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const handlechangedate = (e: any, i: number) => {
     const { name, value } = e.target;
@@ -63,141 +78,368 @@ const FileUpload = (props: any) => {
       props.setVendordata({ ...Vendordata, productFiles: data });
     }
   };
-  return (
-    <Table className={"table mt-3 px-0"} key={"contacts"}>
-      <div
-        className="d-grid pointer"
-        // onClick={() => handleCollapse()}
-      >
-        <TableTitleRow>
-          <TableTitleBar>
-            <TableTitle>{formFields.tabName}</TableTitle>
-          </TableTitleBar>
-        </TableTitleRow>
-      </div>
+  const handleEditSubmit = () => {
+    let status = false;
+    props.Vendordata.productFiles.map((ele) => {
+      if (
+        ele.fileName === "" ||
+        ele.type === "" ||
+        ele.issueDate === "" ||
+        ele.expiryDate === ""
+      ) {
+        status = true;
+      }
+    });
+    if (status)
+      updateMessages([
+        {
+          title: "Error !!",
+          message: "Please fill all the mandatory fields",
+        },
+        ...messages,
+      ]);
+    else {
+      let data = props.Vendordata.productFiles;
+      if (location.pathname.split("/").includes("vendor")) {
+        data.map((ele) => {
+          console.log();
+          if (props.iseditdata === 0 || ele.id === undefined) {
+            const data = new FormData();
+            data.append("expiryDate", ele.expiryDate);
+            data.append("issueDate", ele.issueDate);
+            data.append("remarks", ele.remarks);
+            data.append("size", ele.size);
+            data.append("type", ele.type);
+            data.append("fileName", ele.fileName);
+            Addvendorfile(ele.file).then((resP) => {
+              data.append("File_id", resP.data[0]);
+              Addexistingvendorfile(data, urlD).then(
+                (res) => {
+                  ele.File_id = ele.fileid;
+                  ele.new_File_id = res.data[0];
+                  delete ele.updateDate;
+                  // ele.File_id = ele.fileid;
+                  // ele.new_File_id = 0;
 
-      <div id="contactsSection" className="displaySection">
-        {Vendordata.productFiles.map((val: any, idx: number) => {
-          return (
-            <div className="container-fluid card border-0 mt-2" key={"contact"}>
-              {Vendordata.productFiles.length > 1 && (
-                <DeleteRowButton
-                // onClick={() => {
-                //   let temp = props.Vendordata.communication;
-                //   temp.splice(idx, 1);
-                //   props.updateContacts(temp);
-                // }}
+                  if (res.status === 200) {
+                    updateMessages([
+                      {
+                        title: "Success !!",
+                        message: "File updated succsessfully",
+                      },
+                      ...messages,
+                    ]);
+                  } else {
+                    res.json().then((res) =>
+                      updateMessages([
+                        {
+                          title: "Error !!",
+                          message: res,
+                        },
+                        ...messages,
+                      ])
+                    );
+                  }
+                }
+              );
+            });
+          } else {
+            console.log("else hit");
+            Addvendorfile(ele.file).then((res) => {
+              ele.File_id = ele.fileid;
+              ele.size = ele.size === null ? 0 : ele.size;
+              ele.new_File_id = res.data[0];
+              // ele.id = urlD;
+              delete ele.updateDate;
+              UpdateVendorFile(ele).then((res) => {
+                if (res.status === 200) {
+                  updateMessages([
+                    {
+                      title: "Success !!",
+                      message: "File updated succsessfully",
+                    },
+                    ...messages,
+                  ]);
+                } else {
+                  res.json().then((res) =>
+                    updateMessages([
+                      {
+                        title: "Error !!",
+                        message: res,
+                      },
+                      ...messages,
+                    ])
+                  );
+                }
+              });
+            });
+          }
+        });
+      } else {
+        data.map((ele) => {
+          console.log();
+          if (props.iseditdata === 0 || ele.id === undefined) {
+            const data = new FormData();
+            data.append("expiryDate", ele.expiryDate);
+            data.append("issueDate", ele.issueDate);
+            data.append("remarks", ele.remarks);
+            data.append("size", ele.size);
+            data.append("type", ele.type);
+            data.append("fileName", ele.fileName);
+            Addcustomerfile(ele.file).then((resP) => {
+              data.append("File_id", resP.data[0]);
+              Addexistingcustomerfile(data, urlD).then(
+                (res) => {
+                  ele.File_id = ele.fileid;
+                  ele.new_File_id = res.data[0];
+                  delete ele.updateDate;
+                  // ele.File_id = ele.fileid;
+                  // ele.new_File_id = 0;
+
+                  if (res.status === 200) {
+                    updateMessages([
+                      {
+                        title: "Success !!",
+                        message: "File updated succsessfully",
+                      },
+                      ...messages,
+                    ]);
+                  } else {
+                    res.json().then((res) =>
+                      updateMessages([
+                        {
+                          title: "Error !!",
+                          message: res,
+                        },
+                        ...messages,
+                      ])
+                    );
+                  }
+                }
+              );
+            });
+          } else {
+            Addcustomerfile(ele.file).then((res) => {
+              ele.File_id = ele.fileid;
+              ele.size = ele.size === null ? 0 : ele.size;
+              ele.new_File_id = res.data[0];
+              // ele.id = urlD;
+              delete ele.updateDate;
+              UpdatecustomerFile(ele).then((res) => {
+                if (res.status === 200) {
+                  updateMessages([
+                    {
+                      title: "Success !!",
+                      message: "File updated succsessfully",
+                    },
+                    ...messages,
+                  ]);
+                } else {
+                  res.json().then((res) =>
+                    updateMessages([
+                      {
+                        title: "Error !!",
+                        message: res,
+                      },
+                      ...messages,
+                    ])
+                  );
+                }
+              });
+            });
+          }
+        });
+      }
+      props.setVendorDetail({ ...props.vendorDetail, ["productFiles"]: data });
+      props.seteditModalOpen((prev) => !prev);
+    }
+  };
+  return (
+    <>
+      <Table className={"table mt-3 px-0"} key={"contacts"}>
+        <div
+          className="d-grid pointer"
+          // onClick={() => handleCollapse()}
+        >
+          <TableTitleRow>
+            <TableTitleBar>
+              <TableTitle>{formFields.tabName}</TableTitle>
+            </TableTitleBar>
+          </TableTitleRow>
+        </div>
+
+        <div id="contactsSection" className="displaySection">
+          {Vendordata?.productFiles?.length > 0 ? (
+            Vendordata.productFiles.map((val: any, idx: number) => {
+              return (
+                <div
+                  className="container-fluid card border-0 mt-2"
+                  key={"contact"}
                 >
-                  X
-                </DeleteRowButton>
-              )}
-              <TableRow className="row pt-0">
-                {formFields.formFields.map((item: any) => {
-                  return (
-                    <>
-                      {item.type === "select" ? (
-                        <InputContainer
-                          key={idx}
-                          width={item.width}
-                          className={`px-1 ${
-                            item.require ? "required-field" : ""
-                          }`}
-                        >
-                          <div className="form-floating mt-1">
-                            <select
-                              className="form-select"
-                              id="clientId"
-                              name={item.name}
-                              title={item.label}
-                              value={
-                                val?.isParent
-                                  ? Vendordata[val.isParent][item.name]
-                                  : Vendordata[item.name]
-                              }
-                              defaultValue={"-select-"}
-                              required
-                              onChange={(e: any) => {
-                                handlechangedate(e, idx);
-                                //   onhandleChange(
-                                //     e,
-                                //     val?.isParent ? val?.isParent : "",
-                                //     idx
-                                //   );
+                  {Vendordata.productFiles.length > 1 && (
+                    <DeleteRowButton
+                      onClick={() => {
+                        let data = props.Vendordata.productFiles;
+                        data.splice(idx, 1);
+                        props.setVendordata({
+                          ...props.Vendordata,
+                          productFiles: data,
+                        });
+                      }}
+                    >
+                      X
+                    </DeleteRowButton>
+                  )}
+                  <TableRow className="row pt-0">
+                    <InputContainer
+                      width="20%"
+                      className="d-flex align-items-center"
+                    >
+                      {val.file === "" ? (
+                        ""
+                      ) : (
+                        <AiOutlineDownload
+                          style={{ color: "blue" }}
+                          size={20}
+                          onClick={() => {
+                            if (val.location !== null) {
+                              let url =
+                                CurrentUrl +
+                                val.location.slice(
+                                  val.location.indexOf("UploadedVendorFiles")
+                                );
+                              window.open(url, "_blank", "noreferrer");
+                            } else
+                              updateMessages([
+                                {
+                                  title: "Error !!",
+                                  message: "File not found",
+                                },
+                                ...messages,
+                              ]);
+                          }}
+                        />
+                      )}
+                      {val.fileName === ""
+                        ? "No file"
+                        : val.fileName.length > 10
+                        ? val.fileName.slice(0, 10) + "..."
+                        : val.fileName}
+                    </InputContainer>
+                    {formFields.formFields.map((item: any) => {
+                      return (
+                        <>
+                          {item.type === "select" ? (
+                            <InputContainer
+                              key={idx}
+                              width={item.width}
+                              className={`px-1 ${
+                                item.require ? "required-field" : ""
+                              }`}
+                            >
+                              <div className="form-floating mt-1">
+                                <select
+                                  className="form-select"
+                                  id="clientId"
+                                  name={item.name}
+                                  title={item.label}
+                                  value={val[item.name]}
+                                  defaultValue={"-select-"}
+                                  required
+                                  onChange={(e: any) => {
+                                    handlechangedate(e, idx);
+                                    //   onhandleChange(
+                                    //     e,
+                                    //     val?.isParent ? val?.isParent : "",
+                                    //     idx
+                                    //   );
+                                  }}
+                                >
+                                  <option defaultChecked disabled value="">
+                                    -select-
+                                  </option>
+                                  {productD.map((items: any, i: number) => (
+                                    <option key={i} value={items.name}>
+                                      {items.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <label htmlFor="clientId">{item.label}</label>
+                              </div>
+                              <ErrorMessage id="clientIdError"></ErrorMessage>
+                            </InputContainer>
+                          ) : (
+                            <InputContainer
+                              key={idx}
+                              width={item.width}
+                              className={`px-1 ${
+                                item.require ? "required-field" : ""
+                              }`}
+                            >
+                              <TextField
+                                id={item.name}
+                                name={item.name}
+                                label={item.label}
+                                type={item.type}
+                                value={val[item.name]}
+                                required
+                                onChange={(e: any) => {
+                                  handlechangedate(e, idx);
+                                  // onhandleChange(
+                                  //   e,
+                                  //   val?.isParent ? val?.isParent : "",
+                                  //   idx
+                                  // );
+                                }}
+                                //   onBlur={(e) => {
+                                //     if (tooltip.valid && e.target.value.length > 3)
+                                //       setTooltip({
+                                //         isshow: false,
+                                //         valid: true,
+                                //       });
+                                //   }}
+                              />
+                              <ErrorMessage id="loanIdError"></ErrorMessage>
+                            </InputContainer>
+                          )}
+
+                          {/* <TableRow className="row pt-0"> */}
+                          {idx == props.Vendordata.productFiles.length - 1 && (
+                            <AddRowButton
+                              className="addBtn"
+                              onClick={() => {
+                                handleAddClick();
                               }}
                             >
-                              <option defaultChecked disabled>
-                                -select-
-                              </option>
-                              {productD.map((items: any, i: number) => (
-                                <option key={i} value={items.id}>
-                                  {items.name}
-                                </option>
-                              ))}
-                            </select>
-                            <label htmlFor="clientId">{item.label}</label>
-                          </div>
-                          <ErrorMessage id="clientIdError"></ErrorMessage>
-                        </InputContainer>
-                      ) : (
-                        <InputContainer
-                          key={idx}
-                          width={item.width}
-                          className={`px-1 ${
-                            item.require ? "required-field" : ""
-                          }`}
-                        >
-                          <TextField
-                            id={item.name}
-                            name={item.name}
-                            label={item.label}
-                            type={item.type}
-                            value={
-                              val?.isParent
-                                ? Vendordata[val.isParent][item.name]
-                                : Vendordata[item.name]
-                            }
-                            required
-                            onChange={(e: any) => {
-                              handlechangedate(e, idx);
-                              // onhandleChange(
-                              //   e,
-                              //   val?.isParent ? val?.isParent : "",
-                              //   idx
-                              // );
-                            }}
-                            //   onBlur={(e) => {
-                            //     if (tooltip.valid && e.target.value.length > 3)
-                            //       setTooltip({
-                            //         isshow: false,
-                            //         valid: true,
-                            //       });
-                            //   }}
-                          />
-                          <ErrorMessage id="loanIdError"></ErrorMessage>
-                        </InputContainer>
-                      )}
-
-                      {/* <TableRow className="row pt-0"> */}
-                      {idx == props.Vendordata.productFiles.length - 1 && (
-                        <AddRowButton
-                          className="addBtn"
-                          onClick={() => {
-                            handleAddClick();
-                          }}
-                        >
-                          +
-                        </AddRowButton>
-                      )}
-                      {/* </TableRow> */}
-                    </>
-                  );
-                })}
-              </TableRow>
-            </div>
-          );
-        })}
-      </div>
-    </Table>
+                              +
+                            </AddRowButton>
+                          )}
+                          {/* </TableRow> */}
+                        </>
+                      );
+                    })}
+                  </TableRow>
+                </div>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+      </Table>
+      {isNaN(parseInt(urlD)) === false ? (
+        <div className="d-flex justify-content-end">
+          <UtilityButton
+            style={{ width: "200px", marginTop: "3rem" }}
+            onClick={() => handleEditSubmit()}
+          >
+            Save & Update
+          </UtilityButton>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

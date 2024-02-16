@@ -21,7 +21,7 @@ export const setIsdataSaved = () => {
 export const setDialogueview = (value: any) => {
   return { type: constant.SET_DIALOGUE_VIEW, value: value };
 };
-export const setloading = (value: any) => {
+export const setloading = () => {
   return { type: constant.SET_LOADING, };
 };
 

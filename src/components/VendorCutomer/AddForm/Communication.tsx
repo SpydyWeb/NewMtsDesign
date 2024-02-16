@@ -15,6 +15,7 @@ import { ControlledTextField, TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
 import {
   AddCommunicationById,
+  DeleteCommuncationbyVendorid,
   UpdateVendorcommunications,
 } from "../../../servicesapi/Vendorapi";
 import {
@@ -29,7 +30,7 @@ const Communication = (props: any) => {
     communicationType,
     communicatioonMethod,
     productD,
-    setVendordata
+    setVendordata,
   } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
@@ -103,7 +104,7 @@ const Communication = (props: any) => {
   };
   const handleEditSubmit = () => {
     let status = false;
-    props.communication.map((ele: any, i: number) => {
+    Vendordata.communication.map((ele: any, i: number) => {
       if (
         (ele.type === "" || ele.detail === "") &&
         (ele.productId !== 0 || i === 0)
@@ -123,15 +124,15 @@ const Communication = (props: any) => {
       if (location.pathname.split("/").includes("vendor")) {
         let CreateComData: any = [];
         let UpdateComData: any = [];
-        props.communication.map((ele: any) => {
+        Vendordata.communication.map((ele: any) => {
           if (ele.id === undefined) CreateComData.push(ele);
           else UpdateComData.push(ele);
         });
         CreateComData.map((ele: any) => {
-          AddCommunicationById(ele, props.selecetedVedorId);
+          AddCommunicationById(ele, urlD);
         });
 
-        UpdateVendorcommunications(UpdateComData, props.selecetedVedorId).then(
+        UpdateVendorcommunications(UpdateComData, urlD).then(
           (res) => {
             if (res.status === 200) {
               updateMessages([
@@ -145,12 +146,12 @@ const Communication = (props: any) => {
                 ...props.vendorDetail,
                 ["communication"]: props.communication,
               });
-              props.seteditModalOpen((prev:any) => !prev);
+              props.seteditModalOpen((prev: any) => !prev);
               props.setEditData(!props.editData);
             } else {
               res.json().then((res) =>
                 updateMessages([
-                  { 
+                  {
                     title: "Errpr !!",
                     message: res,
                   },
@@ -182,8 +183,8 @@ const Communication = (props: any) => {
               },
               ...messages,
             ]);
-            props.setVendorDetail({
-              ...props.vendorDetail,
+            props.setVendordata({
+              ...props.Vendordata,
               ["communication"]: props.communication,
             });
             props.seteditModalOpen((prev) => !prev);
@@ -227,24 +228,29 @@ const Communication = (props: any) => {
                   className="container-fluid card border-0 mt-2"
                   key={"contact"}
                 >
-                  {idx!==0? (
+                  {idx !== 0 ? (
                     <DeleteRowButton
-                    onClick={() => {
-                      let temp = Vendordata.communication;
-                      temp.splice(idx, 1);
-                      setVendordata({...Vendordata,communication:temp});
-                    }}
+                      onClick={() => {
+                        DeleteCommuncationbyVendorid(val.id).then((res)=>{})
+                        let temp = Vendordata.communication;
+                        temp.splice(idx, 1);
+                        setVendordata({ ...Vendordata, communication: temp });
+                      }}
                     >
                       X
                     </DeleteRowButton>
-                  ):<></>}
+                  ) : (
+                    <></>
+                  )}
                   <TableRow className="row pt-0">
                     {formFields.formFields.map((item: any) => {
                       console.log("item", item);
 
                       return (
                         <>
-                          {item.type === "select" ? (
+                          {idx === 0 && item.name === "product_id" ? (
+                            <></>
+                          ) : item.type === "select" ? (
                             <InputContainer
                               key={idx}
                               width={item.width}
@@ -265,7 +271,11 @@ const Communication = (props: any) => {
                                     onhandleChange(e, "communication", idx);
                                   }}
                                 >
-                                  <option defaultChecked disabled value={item.name === "product_id"?0:""}>
+                                  <option
+                                    defaultChecked
+                                    disabled
+                                    value={item.name === "product_id" ? 0 : ""}
+                                  >
                                     -select-
                                   </option>
                                   {item.name === "method"

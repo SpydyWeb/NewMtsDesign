@@ -363,15 +363,13 @@ const Profile = (props: any) => {
                           label={item.label}
                           type="text"
                           value={
-                            val?.isParent
-                              ? Vendordata[val.isParent][item.name]
-                              : Vendordata[item.name]
+                            val[item.name]
                           }
                           required
                           onChange={(e: any) => {
                             if (
                               e.target.value.length > 3 &&
-                              e.target.value.length != 11
+                              e.target.value.length != 11 && item.name==="vendorId"
                             ) {
                               checkUserId(e.target.value);
                             }
@@ -389,7 +387,7 @@ const Profile = (props: any) => {
                           //   }}
                         />
                         <ErrorMessage id="loanIdError"></ErrorMessage>
-                        {tooltip.isshow && Vendordata?.vendorId !== "" ? (
+                        {item.name==="vendorId"?tooltip.isshow && Vendordata?.vendorId !== "" ? (
                           <ToolTipValidation
                             isValid={tooltip.valid}
                             validMessage="Correct"
@@ -397,7 +395,7 @@ const Profile = (props: any) => {
                           />
                         ) : (
                           <></>
-                        )}
+                        ):<></>}
                       </InputContainer>
                     ) : (
                       <InputContainer
@@ -414,9 +412,7 @@ const Profile = (props: any) => {
                             name={item.name}
                             title={item.label}
                             value={
-                              val?.isParent
-                                ? Vendordata[val.isParent][item.name]
-                                : Vendordata[item.name]
+                              val[item.name]
                             }
                             required
                             onChange={(e: any) => {
