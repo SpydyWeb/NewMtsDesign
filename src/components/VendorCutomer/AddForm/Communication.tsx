@@ -22,6 +22,10 @@ import {
   UpdateCustomercommunications,
   addCustomercommunications,
 } from "../../../servicesapi/Customerapi";
+import {
+  CancelButton,
+  SaveButton,
+} from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Communication = (props: any) => {
   const {
@@ -31,6 +35,7 @@ const Communication = (props: any) => {
     communicatioonMethod,
     productD,
     setVendordata,
+    setActiveTab
   } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
@@ -132,48 +137,48 @@ const Communication = (props: any) => {
           AddCommunicationById(ele, urlD);
         });
 
-        UpdateVendorcommunications(UpdateComData, urlD).then(
-          (res) => {
-            if (res.status === 200) {
+        UpdateVendorcommunications(UpdateComData, urlD).then((res) => {
+          if (res.status === 200) {
+            updateMessages([
+              {
+                title: "Success !!",
+                message: "Data updated succsessfully",
+              },
+              ...messages,
+            ]);
+            props.setVendorDetail({
+              ...props.vendorDetail,
+              ["communication"]: props.communication,
+            });
+            props.seteditModalOpen((prev: any) => !prev);
+            props.setEditData(!props.editData);
+          } else {
+            res.json().then((res) =>
               updateMessages([
                 {
-                  title: "Success !!",
-                  message: "Data updated succsessfully",
+                  title: "Errpr !!",
+                  message: res,
                 },
                 ...messages,
-              ]);
-              props.setVendorDetail({
-                ...props.vendorDetail,
-                ["communication"]: props.communication,
-              });
-              props.seteditModalOpen((prev: any) => !prev);
-              props.setEditData(!props.editData);
-            } else {
-              res.json().then((res) =>
-                updateMessages([
-                  {
-                    title: "Errpr !!",
-                    message: res,
-                  },
-                  ...messages,
-                ])
-              );
-            }
+              ])
+            );
           }
-        );
+        });
       } else {
         let CreateComData: any = [];
         let UpdateComData: any = [];
-        props.communication.map((ele: any) => {
+        Vendordata.communication.map((ele: any) => {
           if (ele.id === undefined) CreateComData.push(ele);
-          else UpdateComData.push(ele);
+          else {
+            ele.customerId=urlD
+            UpdateComData.push(ele);}
         });
         CreateComData.map((ele: any) => {
-          addCustomercommunications(ele, props.selecetedVedorId);
+          addCustomercommunications(ele,urlD);
         });
         UpdateCustomercommunications(
           UpdateComData,
-          props.selecetedVedorId
+          urlD
         ).then((res: any) => {
           if (res.status === 200) {
             updateMessages([
@@ -185,10 +190,10 @@ const Communication = (props: any) => {
             ]);
             props.setVendordata({
               ...props.Vendordata,
-              ["communication"]: props.communication,
+              ["communication"]: Vendordata.communication,
             });
-            props.seteditModalOpen((prev) => !prev);
-            props.setEditData(!props.editData);
+            // props.seteditModalOpen((prev) => !prev);
+            // props.setEditData(!props.editData);
           } else {
             res.json().then((res: any) =>
               updateMessages([
@@ -203,6 +208,26 @@ const Communication = (props: any) => {
         });
       }
     }
+  };
+  const handleSubmit = () => {
+    let status = false;
+    Vendordata.communication.map((ele:any, i:number) => {
+      if (
+        (ele.type === "" || ele.detail === "") &&
+        (ele.productId !== 0 || i === 0)
+      ) {
+        status = true;
+      }
+    });
+    if (status)
+      updateMessages([
+        {
+          title: "Error !!",
+          message: "Please fill all the mandatory fields",
+        },
+        ...messages,
+      ]);
+    else setActiveTab((prev: number) => prev + 1);
   };
   return (
     <>
@@ -221,8 +246,6 @@ const Communication = (props: any) => {
         <div id="contactsSection" className="displaySection">
           {Vendordata?.communication?.length > 0 ? (
             Vendordata?.communication.map((val: any, idx: number) => {
-              console.log("val", val);
-
               return (
                 <div
                   className="container-fluid card border-0 mt-2"
@@ -231,7 +254,7 @@ const Communication = (props: any) => {
                   {idx !== 0 ? (
                     <DeleteRowButton
                       onClick={() => {
-                        DeleteCommuncationbyVendorid(val.id).then((res)=>{})
+                        DeleteCommuncationbyVendorid(val.id).then((res) => {});
                         let temp = Vendordata.communication;
                         temp.splice(idx, 1);
                         setVendordata({ ...Vendordata, communication: temp });
@@ -244,8 +267,6 @@ const Communication = (props: any) => {
                   )}
                   <TableRow className="row pt-0">
                     {formFields.formFields.map((item: any) => {
-                      console.log("item", item);
-
                       return (
                         <>
                           {idx === 0 && item.name === "product_id" ? (
@@ -371,7 +392,12 @@ const Communication = (props: any) => {
           </UtilityButton>
         </div>
       ) : (
-        <></>
+        <div className="d-flex justify-content-between mt-5">
+          <CancelButton onClick={() => {setActiveTab((prev: number) => prev - 1);}}>Back</CancelButton>
+          <SaveButton onClick={handleSubmit} className="float-end">
+            Next
+          </SaveButton>
+        </div>
       )}
     </>
   );

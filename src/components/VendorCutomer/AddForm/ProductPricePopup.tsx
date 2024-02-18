@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -49,11 +49,15 @@ import {
   TableTitleRow,
   UtilityButton,
 } from "../../order/OrderStyledComponents";
+import { ApplicationContext, ApplicationContextType } from "../../../App";
 
 const steps = ["Nation-wise", "State-wise", "County-wise"];
 
 const ProductPricePopup = (props: any) => {
   const dispatch = useDispatch();
+  const { messages, updateMessages, updateLoading, updateLoadingMessage } =
+    useContext(ApplicationContext) as ApplicationContextType;
+
   const [stateList, setStateList] = useState([]);
   const [countyList, setCountyList] = useState([]);
   const [countyerrmsg, setCountyerrmsg] = useState("");
@@ -246,7 +250,7 @@ const ProductPricePopup = (props: any) => {
     }
     GetStateListBynation([1]).then((res) => {
       if (props?.selecetedVedorId) {
-        if (props.formType === "vendor") {
+        if (location.pathname.split("/").includes("vendor")) {
           GetVendorProductsPriceList(
             props.selecetedVedorId,
             props.productid,
@@ -441,11 +445,11 @@ const ProductPricePopup = (props: any) => {
     }
   };
   const handleSubmit = (type = "") => {
-    let data = [];
+    let data: any = [];
 
     if (viewState === 0) {
       if (type === "")
-        nationList.map((ele) => {
+        nationList.map((ele: any) => {
           if (ele.isChecked)
             data.push({
               price: +ele.price,
@@ -454,14 +458,21 @@ const ProductPricePopup = (props: any) => {
             });
         });
       if (props.selecetedVedorId !== undefined) {
-        if (props.formType === "vendor") {
+        if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorNationProduct(
             data,
             props.selecetedVedorId,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("Nation wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "Nation wise price saved successfully",
+                },
+                ...messages,
+              ]);
+
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -483,7 +494,14 @@ const ProductPricePopup = (props: any) => {
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("Nation wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "Nation wise price saved successfully",
+                },
+                ...messages,
+              ]);
+
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -525,7 +543,13 @@ const ProductPricePopup = (props: any) => {
 
         props.setProductD(product);
         // props.setProductseletected(selectedData);
-        toast.success("Nation wise price saved successfully");
+        updateMessages([
+          {
+            title: "Success !!",
+            message: "Nation wise price saved successfully",
+          },
+          ...messages,
+        ]);
       }
     } else if (viewState === 1) {
       if (type === "")
@@ -538,14 +562,21 @@ const ProductPricePopup = (props: any) => {
             });
         });
       if (props.selecetedVedorId !== undefined) {
-        if (props.formType === "vendor") {
+        if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorStateProduct(
             data,
             props.selecetedVedorId,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("State wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "State wise price saved successfully",
+                },
+                ...messages,
+              ]);
+
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -566,7 +597,13 @@ const ProductPricePopup = (props: any) => {
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("State wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "State wise price saved successfully",
+                },
+                ...messages,
+              ]);
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -606,12 +643,18 @@ const ProductPricePopup = (props: any) => {
 
         props.setProductD(product);
 
-        toast.success("State wise price saved successfully");
+        updateMessages([
+          {
+            title: "Success !!",
+            message: "State wise price saved successfully",
+          },
+          ...messages,
+        ]);
       }
     } else {
       if (type === "")
-        countyList.map((val) => {
-          val.countylist.map((ele) => {
+        countyList.map((val:any) => {
+          val.countylist.map((ele:any) => {
             if (ele.isChecked)
               data.push({
                 price: +ele.price,
@@ -621,14 +664,20 @@ const ProductPricePopup = (props: any) => {
           });
         });
       if (props.selecetedVedorId !== undefined) {
-        if (props.formType === "vendor") {
+        if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorCountyProduct(
             data,
             props.selecetedVedorId,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("County wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "County wise price saved successfully",
+                },
+                ...messages,
+              ]);
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -649,7 +698,13 @@ const ProductPricePopup = (props: any) => {
             props.productid
           ).then((res) => {
             if (res.status === 200) {
-              toast.success("County wise price saved successfully");
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "County wise price saved successfully",
+                },
+                ...messages,
+              ]);
               let selectedData = props.Productseletected.subCategory;
               for (let i = 0; i < selectedData.length; i++) {
                 if (props.productid === selectedData[i].id) {
@@ -689,7 +744,13 @@ const ProductPricePopup = (props: any) => {
 
         props.setProductD(product);
         // props.setProductseletected(selectedData);
-        toast.success("County wise price saved successfully");
+        updateMessages([
+          {
+            title: "Success !!",
+            message: "County wise price saved successfully",
+          },
+          ...messages,
+        ]);
       }
     }
     setViewState(0);
@@ -701,13 +762,24 @@ const ProductPricePopup = (props: any) => {
   };
   return (
     <>
-      <Modal show={true} size="lg" backdrop="static" centered>
+      <Modal
+        show={true}
+        onHide={() => dispatch(setDialogueview(""))}
+        size="lg"
+        backdrop="static"
+        centered
+      >
         <Modal.Header closeButton closeVariant="white">
           <Modal.Title>
             <Nav variant="pills" defaultActiveKey={steps[viewState]}>
               {steps.map((val, i) => (
                 <Nav.Item onClick={() => handleNext(i)}>
-                  <Nav.Link eventKey={val}>{val}</Nav.Link>
+                  <Nav.Link
+                    style={{ color: "#fff", fontSize: "13px" }}
+                    eventKey={val}
+                  >
+                    {val}
+                  </Nav.Link>
                 </Nav.Item>
               ))}
             </Nav>
@@ -725,20 +797,22 @@ const ProductPricePopup = (props: any) => {
                 {nationList.map((ele: any, idx: number) => {
                   return (
                     <div key={idx} className="col-6 row">
-                      <div className="col-6">
+                      <div
+                        className="col-6"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                        }}
+                      >
                         <Form.Check // prettier-ignore
                           type={"checkbox"}
                           label={ele.name}
+                          checked={ele.isChecked}
+                          onClick={(e) => handleChange(ele.id)}
                         />
-                        {/* <Checkbox
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                            defaultChecked={ele.isChecked}
-                                            checked={ele.isChecked}
-                                            onClick={(e) => handleChange(ele.id)}
-                                            value={ele.id}
-                                        /> */}
                       </div>
-                      <InputContainer className={`col-6 `}>
+                      <InputContainer width="50%" className={`col-6 `}>
                         <TextField
                           id={ele.name}
                           name={ele.name}
@@ -746,13 +820,9 @@ const ProductPricePopup = (props: any) => {
                           value={ele.price}
                           label="Price"
                           disabled={!ele.isChecked}
-                          // onChange={(e: any) => {
-                          //   onhandleChange(
-                          //     e,
-                          //     val?.isParent ? val?.isParent : "",
-                          //     idx
-                          //   );
-                          // }}
+                          onChange={(e) =>
+                            handleChange(ele.id, "price", e.target.value)
+                          }
                         />
                         {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
                       </InputContainer>
@@ -776,16 +846,12 @@ const ProductPricePopup = (props: any) => {
                         <Form.Check // prettier-ignore
                           type={"checkbox"}
                           label={ele.name}
+                          onClick={(e) => handleChange(ele.id)}
+                          checked={ele.isChecked}
                         />
-                        {/* <Checkbox
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                            defaultChecked={ele.isChecked}
-                                            checked={ele.isChecked}
-                                            onClick={(e) => handleChange(ele.id)}
-                                            value={ele.id}
-                                        /> */}
+                       
                       </div>
-                      <InputContainer className={`col-6 `}>
+                      <InputContainer width="50%" className={`col-6 `}>
                         <TextField
                           id={ele.name}
                           name={ele.name}
@@ -793,13 +859,9 @@ const ProductPricePopup = (props: any) => {
                           value={ele.price}
                           label="Price"
                           disabled={!ele.isChecked}
-                          // onChange={(e: any) => {
-                          //   onhandleChange(
-                          //     e,
-                          //     val?.isParent ? val?.isParent : "",
-                          //     idx
-                          //   );
-                          // }}
+                          onChange={(e) =>
+                            handleChange(ele.id, "price", e.target.value)
+                          }
                         />
                         {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
                       </InputContainer>
@@ -808,66 +870,10 @@ const ProductPricePopup = (props: any) => {
                 })}
               </div>
             ) : viewstatecounty === 0 ? (
-              <div className="row">{stateList.map((ele: any, idx: number) => {
-                return (
-                  <div key={idx} className="col-6 row mb-1">
-                  <div
-                    className="col-6"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Form.Check // prettier-ignore
-                      type={"checkbox"}
-                      label={ele.name}
-                    />
-                    {/* <Checkbox
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                        defaultChecked={ele.isChecked}
-                                        checked={ele.isChecked}
-                                        onClick={(e) => handleChange(ele.id)}
-                                        value={ele.id}
-                                    /> */}
-                  </div>
-                  <InputContainer className={`col-6 `}>
-                    <TextField
-                      id={ele.name}
-                      name={ele.name}
-                      type="text"
-                      value={ele.price}
-                      label="Price"
-                      disabled={!ele.isChecked}
-                      // onChange={(e: any) => {
-                      //   onhandleChange(
-                      //     e,
-                      //     val?.isParent ? val?.isParent : "",
-                      //     idx
-                      //   );
-                      // }}
-                    />
-                    {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
-                  </InputContainer>
-                </div>
-                );
-              })}</div>
-            ) : countyList.length > 0 ? (
-              countyList?.map((val: any, i: number) => {
-                return (
-                  <div style={{ width: "100%" }}>
-                    <TableTitleRow>
-                      <TableTitleBar>
-                        <TableTitle>{val.name}</TableTitle>
-                      </TableTitleBar>
-                    </TableTitleRow>
-
-                    <div
-                     className="row"
-                    >
-                      {val.countylist?.map((ele: any, ind: number) => {
-                        return (
-                          <div key={ind} className="col-6 row mb-1">
+              <div className="row">
+                {stateList.map((ele: any, idx: number) => {
+                  return (
+                    <div key={idx} className="col-6 row mb-1">
                       <div
                         className="col-6"
                         style={{
@@ -879,34 +885,67 @@ const ProductPricePopup = (props: any) => {
                         <Form.Check // prettier-ignore
                           type={"checkbox"}
                           label={ele.name}
+                          checked={ele.isChecked}
+                          onClick={(e) => handleChange(ele.id, 'check')}
                         />
-                        {/* <Checkbox
+                     
+                      </div>
+           
+                    </div>
+                  );
+                })}
+              </div>
+            ) : countyList.length > 0 ? (
+              countyList?.map((val: any, i: number) => {
+                return (
+                  <div style={{ width: "100%" }}>
+                    <TableTitleRow>
+                      <TableTitleBar>
+                        <TableTitle>{val.name}</TableTitle>
+                      </TableTitleBar>
+                    </TableTitleRow>
+
+                    <div className="row">
+                      {val.countylist?.map((ele: any, ind: number) => {
+                        return (
+                          <div key={ind} className="col-6 row mb-1">
+                            <div
+                              className="col-6"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Form.Check // prettier-ignore
+                                type={"checkbox"}
+                                label={ele.city}
+                                checked={ele.isChecked}
+                                onClick={(e) => handleChange(ele.id, 'check', '', i)}
+                                                             
+                              />
+                              {/* <Checkbox
                                             inputProps={{ 'aria-label': 'controlled' }}
                                             defaultChecked={ele.isChecked}
                                             checked={ele.isChecked}
                                             onClick={(e) => handleChange(ele.id)}
                                             value={ele.id}
                                         /> */}
-                      </div>
-                      <InputContainer className={`col-6 `}>
-                        <TextField
-                          id={ele.name}
-                          name={ele.name}
-                          type="text"
-                          value={ele.price}
-                          label="Price"
-                          disabled={!ele.isChecked}
-                          // onChange={(e: any) => {
-                          //   onhandleChange(
-                          //     e,
-                          //     val?.isParent ? val?.isParent : "",
-                          //     idx
-                          //   );
-                          // }}
-                        />
-                        {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
-                      </InputContainer>
-                    </div>
+                            </div>
+                            <InputContainer className={`col-6 `}>
+                              <TextField
+                                id={ele.name}
+                                name={ele.name}
+                                type="text"
+                                value={ele.price}
+                                label="Price"
+                                disabled={!ele.isChecked}
+                                onChange={(e) => handleChange(ele.id, 'price', e.target.value, i)}
+                                                       
+                              />
+                              {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
+                            </InputContainer>
+                          </div>
                         );
                       })}
                     </div>
@@ -919,15 +958,26 @@ const ProductPricePopup = (props: any) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <UtilityButton onClick={() => handleSubmit("remove")}>
+          <UtilityButton
+            style={{ width: "200px" }}
+            onClick={() => handleSubmit("remove")}
+          >
             {" "}
             Delete Price
           </UtilityButton>
-          <UtilityButton onClick={() => handlePrevious()}>
-            {" "}
-            Previous
-          </UtilityButton>
+          {viewState === 2 && viewstatecounty !== 0 ? (
+            <UtilityButton
+              style={{ width: "200px" }}
+              onClick={() => handlePrevious()}
+            >
+              {" "}
+              Previous
+            </UtilityButton>
+          ) : (
+            <></>
+          )}
           <UtilityButton
+            style={{ width: "200px" }}
             onClick={() =>
               viewState === 2 && viewstatecounty === 0
                 ? handlecountynext()

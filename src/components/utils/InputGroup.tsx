@@ -10,7 +10,8 @@ interface TextFieldProps {
   pattern?: string;
   required?: boolean;
   onChange?:any;
-  name:string
+  name:string;
+  onBlur?:any;
 
 }
 
@@ -93,6 +94,7 @@ export const TextField = (props: TextFieldProps): JSX.Element => {
         pattern={props.pattern}
         maxLength={props.maxLength}
         onChange={props.onChange}
+        onBlur={props.onBlur}
       />
       <label htmlFor={props.id}>{props.label}</label>
     </div>

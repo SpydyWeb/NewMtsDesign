@@ -85,7 +85,7 @@ export const addCustomercommunications = async (data, id) => {
     .post(`${Url}addCommunication?customerid=${id}`, data, config)
     .then((data) => data);
 };
-export const UpdateCustomerIntegrationDetail = async (data, id) => {
+export const UpdateCustomerIntegrationDetail = async (data:any, id:any) => {
   return await axios
     .put(`${Url}UpdateCustomerIntegrationDetail?detailid=${id}`, data, config)
     .then((data) => data);

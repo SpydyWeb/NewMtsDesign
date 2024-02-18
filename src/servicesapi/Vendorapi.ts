@@ -353,14 +353,11 @@ export const UpdateVendorEandO = async (data, id) => {
         .catch((err) => console.log('File Upload Error'));
 };
 export const GetVendorEandOById = async (id) => {
-    return await fetch(`${Url}Geteobyvendorid?id=${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-    }).then((data) => data.json());
+    return axios
+    .get(`${Url}Geteobyvendorid?id=${id}`)
+    .then((res) => res)
+    .catch((err) => console.log('File Upload Error'));
+   
 };
 
 export const GetFileById = async (id) => {

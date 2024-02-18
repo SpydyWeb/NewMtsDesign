@@ -18,6 +18,7 @@ import {
   DeleteVendorLicences,
   UpdateVendorLicences,
 } from "../../../servicesapi/Vendorapi";
+import { CancelButton, SaveButton } from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Licence = (props: any) => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
@@ -25,7 +26,7 @@ const Licence = (props: any) => {
   let urlD =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
-  const { formFields, Vendordata, allstate, licenceType } = props;
+  const { formFields, Vendordata, allstate, licenceType,setActiveTab } = props;
   const handleAddClick = () => {
     let status = false;
     if (props?.edit)
@@ -258,7 +259,7 @@ const Licence = (props: any) => {
                               ]);
                           });
                       }
-                      handleRemoveClick(i);
+                      handleRemoveClick(idx);
                   }}
                     >
                       X
@@ -394,7 +395,12 @@ const Licence = (props: any) => {
           </UtilityButton>
         </div>
       ) : (
-        <></>
+        <div className="d-flex justify-content-between mt-5">
+        <CancelButton onClick={() => {setActiveTab((prev: number) => prev - 1);}}>Back</CancelButton>
+        <SaveButton onClick={()=> setActiveTab((prev:number) => prev + 1)} className="float-end">
+          Next
+        </SaveButton>
+      </div>
       )}
     </>
   );

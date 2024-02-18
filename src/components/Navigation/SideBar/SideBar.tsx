@@ -2,7 +2,7 @@ import { useProSidebar } from "react-pro-sidebar";
 import { AiOutlineMenu, AiFillHome, AiFillFileText } from "react-icons/ai";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { pallete } from "../../../utils/style-utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   StyledFooter,
   StyledMenu,
@@ -69,6 +69,7 @@ const SideBar = () => {
   const [defaultCollapsed, setDefaultCollapsed] = useState<boolean>(
     window.outerWidth < 768
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -112,6 +113,10 @@ const SideBar = () => {
             icon={<FaSignOutAlt />}
             // component={<Link to="" onClick={props.signOut} />}
             title="Sign out"
+            onClick={()=>{
+              localStorage.removeItem('jwtTokenId');
+              navigate('/');
+            }}
           >
             Sign out
           </StyledMenuItem>

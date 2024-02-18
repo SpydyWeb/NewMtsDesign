@@ -16,20 +16,21 @@ import { Getvendorbyid, UpdateVendor } from "../../../servicesapi/Vendorapi";
 import { Updatecustomer } from "../../../servicesapi/Customerapi";
 import { useDispatch } from "react-redux";
 import { setloading } from "../../../store/action/actions";
+import { CancelButton, SaveButton } from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Additional = (props: any) => {
-  const { formFields, Vendordata, setVendordata } = props;
+  const { formFields, Vendordata, setVendordata, setActiveTab } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-    const dispatch=useDispatch()
+  const dispatch = useDispatch();
   let urlD =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
   useEffect(() => {
     if (isNaN(parseInt(urlD)) === false) {
-      dispatch(setloading())
+      dispatch(setloading());
       Getvendorbyid(urlD).then((res: any) => {
         setVendordata(res);
-        dispatch(setloading())
+        dispatch(setloading());
       });
     }
   }, []);
@@ -60,8 +61,8 @@ const Additional = (props: any) => {
             dailyReminder: props.Vendordata.dailyReminder,
             profileReminder: props.Vendordata.profileReminder,
           });
-          props.seteditModalOpen((prev) => !prev);
-          props.setEditData(!props.editData);
+          // props.seteditModalOpen((prev) => !prev);
+          // props.setEditData(!props.editData);
         } else {
           res.json().then((res: any) =>
             updateMessages([
@@ -75,7 +76,18 @@ const Additional = (props: any) => {
         }
       });
     } else {
-      Updatecustomer(props.Vendordata).then((res: any) => {
+      let formValues={
+        "order_Confirmation": Vendordata.order_Confirmation?Vendordata.order_Confirmation:false,
+        "assignment": Vendordata.assignment? Vendordata.assignment:false,
+        "inspection": Vendordata.inspection?Vendordata.inspection:false,
+        "in_QC_Review": Vendordata.in_QC_Review? Vendordata.in_QC_Review:false,
+        "order_ConfirmationNotes": Vendordata.order_ConfirmationNotes,
+        "assignmentNotes": Vendordata.assignmentNotes,
+        "inspectionNotes": Vendordata.inspectionNotes,
+        "in_QC_ReviewNotes": Vendordata.in_QC_ReviewNotes,
+        "id": Vendordata.customerId,
+      }
+      Updatecustomer(formValues).then((res: any) => {
         if (res.status === 200) {
           updateMessages([
             {
@@ -91,8 +103,8 @@ const Additional = (props: any) => {
             inspection: props.Vendordata.inspection,
             order_Confirmation: props.Vendordata.order_Confirmation,
           });
-          props.seteditModalOpen((prev) => !prev);
-          props.setEditData(!props.editData);
+          // props.seteditModalOpen((prev) => !prev);
+          // props.setEditData(!props.editData);
         } else {
           res.json().then((res: any) =>
             updateMessages([
@@ -183,7 +195,23 @@ const Additional = (props: any) => {
           </UtilityButton>
         </div>
       ) : (
-        <></>
+        <div className="d-flex justify-content-between mt-5">
+          <CancelButton
+            onClick={() => {
+              setActiveTab((prev: number) => prev - 1);
+            }}
+          >
+            Back
+          </CancelButton>
+          <SaveButton
+            onClick={() => {
+              setActiveTab((prev: number) => prev + 1);
+            }}
+            className="float-end"
+          >
+            Next
+          </SaveButton>
+        </div>
       )}
     </>
   );

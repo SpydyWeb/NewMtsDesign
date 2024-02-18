@@ -1,11 +1,9 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./components/home/Home";
+import Home from "./components/HomeComp/Home";
 import Orders from "./components/order/Order";
 import "./App.css";
-import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { components, formFields } from "./components/authenticate/AwsAmplifyAuthenticatorComponents";
 import SideBar from "./components/navigation/sidebar/SideBar";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { createContext, useState } from "react";
@@ -110,6 +108,7 @@ function App() {
                       <Route path="/vendor/create" Component={StepperForm} />
                       <Route path="/vendor/edit/:id" Component={StepperForm} />
                       <Route path="/customer/create" Component={StepperForm} />
+                      <Route path="/customer/edit/:id" Component={StepperForm} />
                       <Route path="/customer" Component={ViewTableData} />
                       <Route path="/viewvendorproduct" Component={ViewVendorProduct} />
                       <Route path="/viewvendorproduct/add" Component={AddVendorProduct} />

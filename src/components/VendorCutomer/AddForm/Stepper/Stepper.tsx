@@ -15,21 +15,61 @@ type StepperProps = {
   setActiveTab: Dispatch<SetStateAction<number>>;
 };
 const tabsCutomerName = [
-  "Profile",
-  "Communication",
-  "Product",
-  "Additional",
-  "Customer Integration Details",
-  "File Upload",
+  {
+    label: "Profile",
+    isEdit: true,
+  },
+  {
+    label: "Communication",
+    isEdit: true,
+  },
+  {
+    label: "Product",
+    isEdit: true,
+  },
+  {
+    label: "Additional",
+    isEdit: true,
+  },
+  {
+    label: "Customer Integration Details",
+    isEdit: true,
+  },
+  {
+    label: "File Upload",
+    isEdit: true,
+  },
 ];
 
 const tabsVendorName = [
-  "Profile",
-  "Communication",
-  "Product",
-  "Additional",
-  "Licence",
-  "File Upload",
+  {
+    label: "Profile",
+    isEdit: true,
+  },
+  {
+    label: "Communication",
+    isEdit: true,
+  },
+  {
+    label: "Product",
+    isEdit: true,
+  },
+  {
+    label: "Additional",
+    isEdit: true,
+  },
+  {
+    label: "Licence",
+    isEdit: true,
+  },
+  {
+    label: "File Upload",
+    isEdit: true,
+  },
+  {
+    label: "User Registration",
+    isEdit: false,
+  },
 ];
 
 const TabContainer = (props: StepperProps) => {
@@ -38,23 +78,29 @@ const TabContainer = (props: StepperProps) => {
       ? tabsVendorName
       : tabsCutomerName
   );
+  let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
+
   return (
     <Tabs>
       <TabLinkList>
-        {tabs.map((val: any, i: number) => {
-          return (
-            <TabLink
-              active={props.activeTab === i}
-              onClick={() => props.setActiveTab(i)}
-              key={i}
-            >
-              <TabLinkContent>
-                <FaWpforms />
-                &nbsp;{val}
-              </TabLinkContent>
-            </TabLink>
-          );
-        })}
+        { (
+          tabs.map((val: any, i: number) => {
+            return ((isNaN(parseInt(urlD)) === false && val?.isEdit === true) ||
+            isNaN(parseInt(urlD)) === true ?
+              <TabLink
+                active={props.activeTab === i}
+                onClick={() => props.setActiveTab(i)}
+                key={i}
+              >
+                <TabLinkContent>
+                  <FaWpforms />
+                  &nbsp;{val.label}
+                </TabLinkContent>
+              </TabLink>:<></>
+            );
+          })
+        ) }
 
         {/* <DownloadReportButton /> */}
       </TabLinkList>

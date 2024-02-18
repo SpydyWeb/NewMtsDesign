@@ -257,8 +257,8 @@ const ViewTable = () => {
   };
   const handleEditData=(val:any)=>{
     console.log(val);
-    
-    history(`/vendor/edit/${val.id}`,{state:val})
+    history(`/${location.pathname.split("/").includes("viewvendor")?`vendor`:'customer'}/edit/${val.id}`,{state:val});
+      
   }
   const renderRows = (data: any, columns: any) => {
     let fields: [] = [];

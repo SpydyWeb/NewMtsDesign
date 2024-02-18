@@ -25,9 +25,15 @@ import {
   Addexistingcustomerfile,
   UpdatecustomerFile,
 } from "../../../servicesapi/Customerapi";
+import { Form } from "react-bootstrap";
+import {
+  AddButton,
+  CancelButton,
+  SaveButton,
+} from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const FileUpload = (props: any) => {
-  const { formFields, Vendordata, productD } = props;
+  const { formFields, Vendordata, productD, setActiveTab } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
   let urlD =
@@ -80,7 +86,7 @@ const FileUpload = (props: any) => {
   };
   const handleEditSubmit = () => {
     let status = false;
-    props.Vendordata.productFiles.map((ele) => {
+    props.Vendordata.productFiles.map((ele: any) => {
       if (
         ele.fileName === "" ||
         ele.type === "" ||
@@ -101,7 +107,7 @@ const FileUpload = (props: any) => {
     else {
       let data = props.Vendordata.productFiles;
       if (location.pathname.split("/").includes("vendor")) {
-        data.map((ele) => {
+        data.map((ele: any) => {
           console.log();
           if (props.iseditdata === 0 || ele.id === undefined) {
             const data = new FormData();
@@ -111,37 +117,35 @@ const FileUpload = (props: any) => {
             data.append("size", ele.size);
             data.append("type", ele.type);
             data.append("fileName", ele.fileName);
-            Addvendorfile(ele.file).then((resP) => {
+            Addvendorfile(ele.file).then((resP: any) => {
               data.append("File_id", resP.data[0]);
-              Addexistingvendorfile(data, urlD).then(
-                (res) => {
-                  ele.File_id = ele.fileid;
-                  ele.new_File_id = res.data[0];
-                  delete ele.updateDate;
-                  // ele.File_id = ele.fileid;
-                  // ele.new_File_id = 0;
+              Addexistingvendorfile(data, urlD).then((res: any) => {
+                ele.File_id = ele.fileid;
+                ele.new_File_id = res.data[0];
+                delete ele.updateDate;
+                // ele.File_id = ele.fileid;
+                // ele.new_File_id = 0;
 
-                  if (res.status === 200) {
+                if (res.status === 200) {
+                  updateMessages([
+                    {
+                      title: "Success !!",
+                      message: "File updated succsessfully",
+                    },
+                    ...messages,
+                  ]);
+                } else {
+                  res.json().then((res) =>
                     updateMessages([
                       {
-                        title: "Success !!",
-                        message: "File updated succsessfully",
+                        title: "Error !!",
+                        message: res,
                       },
                       ...messages,
-                    ]);
-                  } else {
-                    res.json().then((res) =>
-                      updateMessages([
-                        {
-                          title: "Error !!",
-                          message: res,
-                        },
-                        ...messages,
-                      ])
-                    );
-                  }
+                    ])
+                  );
                 }
-              );
+              });
             });
           } else {
             console.log("else hit");
@@ -188,35 +192,33 @@ const FileUpload = (props: any) => {
             data.append("fileName", ele.fileName);
             Addcustomerfile(ele.file).then((resP) => {
               data.append("File_id", resP.data[0]);
-              Addexistingcustomerfile(data, urlD).then(
-                (res) => {
-                  ele.File_id = ele.fileid;
-                  ele.new_File_id = res.data[0];
-                  delete ele.updateDate;
-                  // ele.File_id = ele.fileid;
-                  // ele.new_File_id = 0;
+              Addexistingcustomerfile(data, urlD).then((res) => {
+                ele.File_id = ele.fileid;
+                ele.new_File_id = res.data[0];
+                delete ele.updateDate;
+                // ele.File_id = ele.fileid;
+                // ele.new_File_id = 0;
 
-                  if (res.status === 200) {
+                if (res.status === 200) {
+                  updateMessages([
+                    {
+                      title: "Success !!",
+                      message: "File updated succsessfully",
+                    },
+                    ...messages,
+                  ]);
+                } else {
+                  res.json().then((res) =>
                     updateMessages([
                       {
-                        title: "Success !!",
-                        message: "File updated succsessfully",
+                        title: "Error !!",
+                        message: res,
                       },
                       ...messages,
-                    ]);
-                  } else {
-                    res.json().then((res) =>
-                      updateMessages([
-                        {
-                          title: "Error !!",
-                          message: res,
-                        },
-                        ...messages,
-                      ])
-                    );
-                  }
+                    ])
+                  );
                 }
-              );
+              });
             });
           } else {
             Addcustomerfile(ele.file).then((res) => {
@@ -251,8 +253,30 @@ const FileUpload = (props: any) => {
         });
       }
       props.setVendorDetail({ ...props.vendorDetail, ["productFiles"]: data });
-      props.seteditModalOpen((prev) => !prev);
+      // props.seteditModalOpen((prev) => !prev);
     }
+  };
+  const handleNext = () => {
+    let status = false;
+    props.Vendordata.productFiles.map((ele: any) => {
+      if (
+        ele.fileName === "" ||
+        ele.type === "" ||
+        ele.issueDate === "" ||
+        ele.expiryDate === ""
+      ) {
+        status = true;
+      }
+    });
+    if (status)
+      updateMessages([
+        {
+          title: "Error !!",
+          message: "Please fill all the mandatory fields",
+        },
+        ...messages,
+      ]);
+    else props.setActiveTab((prev: number) => prev + 1);
   };
   return (
     <>
@@ -295,8 +319,12 @@ const FileUpload = (props: any) => {
                       width="20%"
                       className="d-flex align-items-center"
                     >
-                      {val.file === "" ? (
-                        ""
+                      {val.file === ""&&isNaN(urlD) ? (
+                       ""
+                        // <UtilityButton style={{ width: "100px" }}>
+                        //   Upload
+                         
+                        // </UtilityButton>
                       ) : (
                         <AiOutlineDownload
                           style={{ color: "blue" }}
@@ -320,11 +348,25 @@ const FileUpload = (props: any) => {
                           }}
                         />
                       )}
-                      {val.fileName === ""
+                      {isNaN(urlD)===false?val.fileName === ""
                         ? "No file"
                         : val.fileName.length > 10
                         ? val.fileName.slice(0, 10) + "..."
-                        : val.fileName}
+                        : val.fileName:  <input
+                        //  style={{display:'none'}}
+                         type="file"
+                         name="file"
+                         onChange={(e) => {
+                           const data = [...props.Vendordata.productFiles];
+                           data[idx]["fileName"] = e.target.files[0].name;
+                           data[idx]["size"] = e.target.files[0].size;
+                           data[idx]["file"] = e.target.files[0];
+                           props.setVendordata({
+                             ...props.Vendordata,
+                             ["productFiles"]: data,
+                           });
+                         }}
+                       />}
                     </InputContainer>
                     {formFields.formFields.map((item: any) => {
                       return (
@@ -437,7 +479,18 @@ const FileUpload = (props: any) => {
           </UtilityButton>
         </div>
       ) : (
-        <></>
+        <div className="d-flex justify-content-between mt-5">
+          <CancelButton
+            onClick={() => {
+              setActiveTab((prev: number) => prev - 1);
+            }}
+          >
+            Back
+          </CancelButton>
+          <SaveButton onClick={handleNext} className="float-end">
+            Next
+          </SaveButton>
+        </div>
       )}
     </>
   );

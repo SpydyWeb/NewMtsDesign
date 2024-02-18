@@ -11,11 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductPricePopup from "./ProductPricePopup";
 import { setDialogueview } from "../../../store/action/actions";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
+import {
+  CancelButton,
+  SaveButton,
+} from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Product = (props: any) => {
+  const { setActiveTab, setVendordata } = props;
   const [expanded, setexpanded] = useState();
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
+  let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const { customization }: any = useSelector((state: any) => state);
   const dispatch = useDispatch();
@@ -29,6 +36,28 @@ const Product = (props: any) => {
   const [formType, setFormType] = useState(
     location.pathname === "/admin/viewvendor" ? "vendor" : "customer"
   );
+  const handleNext = () => {
+    let status = false;
+    let count = 0;
+    props.productD.map((ele) => {
+      console.log();
+      if (ele.selected === true) {
+        count = 1;
+      }
+    });
+    if (status || count === 0)
+      updateMessages([
+        {
+          title: "Error !!",
+          message: "Please fill all the mandatory fields",
+        },
+        ...messages,
+      ]);
+    else {
+      setVendordata({ ...props.Vendordata, product: props.productD });
+      setActiveTab((prev: number) => prev + 1);
+    }
+  };
   const handlechange = (
     e: any,
     indx: number,
@@ -126,7 +155,7 @@ const Product = (props: any) => {
                                   id="custom-switch"
                                   name="selected"
                                   label={val.name}
-                                  value={val.selected}
+                                  checked={val.selected}
                                   onChange={(e: any) =>
                                     handlechange(e, i, indx, val.id)
                                   }
@@ -176,6 +205,31 @@ const Product = (props: any) => {
           } else return <></>;
         })}
       </div>
+      {isNaN(parseInt(urlD)) === false ? (
+        <div className="d-flex justify-content-end">
+          <UtilityButton
+            style={{ width: "200px", marginTop: "3rem" }}
+            onClick={() => {
+              // handleEditSubmit();
+            }}
+          >
+            Save & Update
+          </UtilityButton>
+        </div>
+      ) : (
+        <div className="d-flex justify-content-between mt-5">
+          <CancelButton
+            onClick={() => {
+              setActiveTab((prev: number) => prev - 1);
+            }}
+          >
+            Back
+          </CancelButton>
+          <SaveButton onClick={handleNext} className="float-end">
+            Next
+          </SaveButton>
+        </div>
+      )}
       {/* <Box
         sx={{
             display: props.edit ? 'none' : 'flex',
