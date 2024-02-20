@@ -33,7 +33,13 @@ import {
   SaveButton,
 } from "../../order/orderProperty/OrderPropertyStyledComponents";
 import { validateEmail } from "../renderUtils";
-
+const clientTypeDDl = [
+  { name: 'Lender', value: 'Lender' },
+  { name: 'Broker', value: 'Broker' },
+  { name: 'Agent', value: 'Agent' },
+  { name: 'Servicer', value: 'Servicer' },
+  { name: 'Other', value: 'Other' }
+];
 const Profile = (props: any) => {
   const {
     allstate,
@@ -609,7 +615,15 @@ const Profile = (props: any) => {
                               <option defaultChecked disabled value="">
                                 -select-
                               </option>
-                              {allstate.map((items: any, i: number) => (
+                              {item.name==="client_type"?
+                              clientTypeDDl.map((items:any,i:number)=>(
+                                <option key={i} value={items.value}>
+                                {items.name}
+                              </option>
+                              ))
+                              :
+                              
+                              allstate.map((items: any, i: number) => (
                                 <option key={i} value={items.name}>
                                   {items.name}
                                 </option>

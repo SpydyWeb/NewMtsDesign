@@ -28,6 +28,7 @@ const Additional = (props: any) => {
   useEffect(() => {
     if (isNaN(parseInt(urlD)) === false) {
       dispatch(setloading());
+      if(location.pathname.split("/").includes("vendor"))
       Getvendorbyid(urlD).then((res: any) => {
         setVendordata(res);
         dispatch(setloading());

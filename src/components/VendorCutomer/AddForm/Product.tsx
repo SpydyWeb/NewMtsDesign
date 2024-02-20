@@ -161,6 +161,7 @@ const Product = (props: any) => {
                                   }
                                 />
                               </InputContainer>
+                             {location.pathname.split("/").includes("vendor")||isNaN(urlD)===false?
                               <InputContainer width={"20%"} className={`px-1`}>
                                 <UtilityButton
                                   onClick={() => {
@@ -190,7 +191,7 @@ const Product = (props: any) => {
                                           : "County-wise"
                                       }`}
                                 </UtilityButton>
-                              </InputContainer>
+                              </InputContainer>:<></>}
                             </div>
                             //     </Typography>
                             // </AccordionDetails>

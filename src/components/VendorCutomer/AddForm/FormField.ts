@@ -488,7 +488,7 @@ export const VendorFormField = {
       {
         name: "remarks",
         label: "Remarks",
-        require: true,
+        require: false,
         isErrorMsg: false,
         type: "text",
         width: "20%",
@@ -776,7 +776,7 @@ export const CustomerFormField = {
       isedit: false,
       formFields: [
         {
-          name: "vendorId",
+          name: "customerId",
           label: "ID",
           require: true,
           isErrorMsg: false,
@@ -786,6 +786,30 @@ export const CustomerFormField = {
         {
           name: "name",
           label: "Name",
+          require: true,
+          isErrorMsg: false,
+          type: "text",
+          width: "20%",
+        },
+        {
+          name: "parent",
+          label: "Parent",
+          require: true,
+          isErrorMsg: false,
+          type: "text",
+          width: "20%",
+        },
+        {
+          name: "client_type",
+          label: "Type",
+          require: true,
+          isErrorMsg: false,
+          type: "select",
+          width: "20%",
+        },
+        {
+          name: "timezone",
+          label: "Time zone",
           require: true,
           isErrorMsg: false,
           type: "text",
@@ -1207,7 +1231,7 @@ export const CustomerFormField = {
       {
         name: "remarks",
         label: "Remarks",
-        require: true,
+        require: false,
         isErrorMsg: false,
         type: "text",
         width: "20%",
@@ -1272,7 +1296,7 @@ export const CustomerFormField = {
         require: true,
         isErrorMsg: false,
         type: "check",
-        width: "30%",
+        width: "15%",
       },
     ],
   },

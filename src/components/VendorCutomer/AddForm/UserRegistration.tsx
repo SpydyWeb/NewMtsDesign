@@ -3,6 +3,7 @@ import {
   ErrorMessage,
   InputContainer,
   Table,
+  TableRow,
   TableTitle,
   TableTitleBar,
   TableTitleRow,
@@ -12,16 +13,46 @@ import { TextField } from "../../utils/InputGroup";
 import { Form } from "react-bootstrap";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
 import { AddVendor, Addvendorfile } from "../../../servicesapi/Vendorapi";
-import { CancelButton } from "../../order/orderProperty/OrderPropertyStyledComponents";
+import {
+  AddButton,
+  CancelButton,
+} from "../../order/orderProperty/OrderPropertyStyledComponents";
+import { useNavigate } from "react-router-dom";
+import {
+  AddCustomer,
+  AddCustomerUser,
+  Addcustomerfile,
+  DeleteCustomerUser,
+  UpdateCustomerUser,
+  UploadProductFile,
+} from "../../../servicesapi/Customerapi";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { setloading } from "../../../store/action/actions";
 
 const UserRegistration = (props: any) => {
   const { formFields, Vendordata, setActiveTab } = props;
   const history = useNavigate();
+  const dispatch=useDispatch()
+  const [userlist, setUserList]: any = useState([]);
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
   const [cPassword, setCpassword] = useState("");
   let urlD =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
+  const [userregistration, setUserRegistation] = useState({
+    vendorid: 0,
+    firstName: "",
+    lastName: "",
+    emailId: "",
+    logId: "",
+    password: "",
+    allowTextMsg: true,
+  });
+  const [formType, setFormType] = useState(
+    location.pathname.split("/").includes("vendor") ? "vendor" : "customer"
+  );
   const Submit = (e: any) => {
     console.log(Vendordata);
 
@@ -43,6 +74,7 @@ const UserRegistration = (props: any) => {
         ]);
       else {
         // setLoading(true);
+        dispatch(setloading());
         let vendordata = props.Vendordata;
         vendordata.productFiles.map((ele) => {
           Addvendorfile(ele.file).then((res) => {
@@ -53,6 +85,7 @@ const UserRegistration = (props: any) => {
             AddVendor(props.Vendordata).then((res) => {
               if (res.status === 200) {
                 // setLoading(false);
+                dispatch(setloading());
                 updateMessages([
                   {
                     title: "Success !!",
@@ -61,101 +94,101 @@ const UserRegistration = (props: any) => {
                   ...messages,
                 ]);
                 // props.setActiveStep(0);
-                props.setVendordata({
-                  id: 0,
-                  vendorId: "",
-                  name: "",
-                  primery_Address: {
-                    address: "",
-                    city: "",
-                    suite: "",
-                    state: "",
-                    pincode: "",
-                  },
-                  secondary_Address: {
-                    address: "",
-                    city: "",
-                    suite: "",
-                    state: "",
-                    pincode: "",
-                  },
-                  primery_Contact: {
-                    firstName: "",
-                    middleName: "",
-                    lastName: "",
-                    phone: "",
-                    email: "",
-                    ext: "",
-                    cellPhone: "",
-                  },
-                  secondary_contact: {
-                    firstName: "",
-                    middleName: "",
-                    lastName: "",
-                    phone: "",
-                    email: "",
-                    ext: "",
-                    cellPhone: "",
-                  },
-                  assignmentNote: "",
-                  new_Assignment: true,
-                  qcRejection: true,
-                  dailyReminder: true,
-                  profileReminder: true,
-                  licences: [
-                    {
-                      firstName: "",
-                      lastName: "",
-                      licenceNo: "",
-                      licenceType: "",
-                      status: "",
-                      address: "",
-                      expiry_Date: "",
-                      issueDate: "",
-                      disciplinaryAction: "",
-                      note: "",
-                    },
-                  ],
-                  communication: [
-                    {
-                      type: "",
-                      detail: "",
-                      product_id: 0,
-                      method: "",
-                    },
-                  ],
-                  product: [
-                    {
-                      id: "",
-                      name: "string",
-                      price: 0,
-                      productId: 0,
-                      selected: false,
-                    },
-                  ],
-                  userregistration: {
-                    firstName: "",
-                    lastName: "",
-                    emailId: "",
-                    logId: "",
-                    password: "",
-                    allowTextMsg: true,
-                  },
-                  productFiles: [
-                    {
-                      fileName: "",
-                      location: "",
-                      size: 0,
-                      file: "",
-                      type: "",
-                      remarks: "",
-                      issueDate: "",
-                      expiryDate: "",
-                      fileid: 0,
-                    },
-                  ],
-                });
-                history('/viewvendor');
+                // props.setVendordata({
+                //   id: 0,
+                //   vendorId: "",
+                //   name: "",
+                //   primery_Address: {
+                //     address: "",
+                //     city: "",
+                //     suite: "",
+                //     state: "",
+                //     pincode: "",
+                //   },
+                //   secondary_Address: {
+                //     address: "",
+                //     city: "",
+                //     suite: "",
+                //     state: "",
+                //     pincode: "",
+                //   },
+                //   primery_Contact: {
+                //     firstName: "",
+                //     middleName: "",
+                //     lastName: "",
+                //     phone: "",
+                //     email: "",
+                //     ext: "",
+                //     cellPhone: "",
+                //   },
+                //   secondary_contact: {
+                //     firstName: "",
+                //     middleName: "",
+                //     lastName: "",
+                //     phone: "",
+                //     email: "",
+                //     ext: "",
+                //     cellPhone: "",
+                //   },
+                //   assignmentNote: "",
+                //   new_Assignment: true,
+                //   qcRejection: true,
+                //   dailyReminder: true,
+                //   profileReminder: true,
+                //   licences: [
+                //     {
+                //       firstName: "",
+                //       lastName: "",
+                //       licenceNo: "",
+                //       licenceType: "",
+                //       status: "",
+                //       address: "",
+                //       expiry_Date: "",
+                //       issueDate: "",
+                //       disciplinaryAction: "",
+                //       note: "",
+                //     },
+                //   ],
+                //   communication: [
+                //     {
+                //       type: "",
+                //       detail: "",
+                //       product_id: 0,
+                //       method: "",
+                //     },
+                //   ],
+                //   product: [
+                //     {
+                //       id: "",
+                //       name: "string",
+                //       price: 0,
+                //       productId: 0,
+                //       selected: false,
+                //     },
+                //   ],
+                //   userregistration: {
+                //     firstName: "",
+                //     lastName: "",
+                //     emailId: "",
+                //     logId: "",
+                //     password: "",
+                //     allowTextMsg: true,
+                //   },
+                //   productFiles: [
+                //     {
+                //       fileName: "",
+                //       location: "",
+                //       size: 0,
+                //       file: "",
+                //       type: "",
+                //       remarks: "",
+                //       issueDate: "",
+                //       expiryDate: "",
+                //       fileid: 0,
+                //     },
+                //   ],
+                // });
+                history("/viewvendor");
               } else {
                 res.json().then((val) =>
                   updateMessages([
@@ -172,123 +205,262 @@ const UserRegistration = (props: any) => {
         });
       }
     } else {
-      // if (userlist.length > 0) {
-      //     setLoading(true);
-      //     let vendordata = props.Vendordata;
-      //     vendordata.productFiles.map((ele) => {
-      //         Addcustomerfile(ele.file).then((res) => {
-      //             setLoading(false);
-      //             ele.fileid = res.data[0];
-      //             delete ele.file;
-      //             AddCustomer(props.Vendordata).then((res) => {
-      //                 if (res.status === 200) {
-      //                     UploadProductFile(props.fileupload, res.data).then((res) => {
-      //                         console.log(res);
-      //                     });
-      //                     toast.success('Customer has been create successfully');
-      //                     props.setActiveStep(0);
-      //                     props.setVendordata({
-      //                         customerId: '',
-      //                         name: '',
-      //                         parent: '',
-      //                         client_type: '',
-      //                         timezone: '',
-      //                         primery_Address: {
-      //                             address: '',
-      //                             city: '',
-      //                             suite: '',
-      //                             state: '',
-      //                             pincode: ''
-      //                         },
-      //                         secondary_Address: {
-      //                             address: '',
-      //                             city: '',
-      //                             suite: '',
-      //                             state: '',
-      //                             pincode: ''
-      //                         },
-      //                         primery_Contact: {
-      //                             firstName: '',
-      //                             middleName: '',
-      //                             lastName: '',
-      //                             phone: '',
-      //                             email: '',
-      //                             ext: '',
-      //                             cellPhone: ''
-      //                         },
-      //                         secondary_contact: {
-      //                             firstName: '',
-      //                             middleName: '',
-      //                             lastName: '',
-      //                             phone: '',
-      //                             email: '',
-      //                             ext: '',
-      //                             cellPhone: ''
-      //                         },
-      //                         order_Confirmation: false,
-      //                         assignment: false,
-      //                         inspection: false,
-      //                         in_QC_Review: false,
-      //                         uploadedfile: 'string',
-      //                         communication: [
-      //                             {
-      //                                 vendorId: 0,
-      //                                 type: '',
-      //                                 detail: '',
-      //                                 product_id: 0,
-      //                                 customerId: 0,
-      //                                 method: ''
-      //                             }
-      //                         ],
-      //                         product: [
-      //                             {
-      //                                 id: 0,
-      //                                 name: 'string',
-      //                                 price1: 0,
-      //                                 price2: 0,
-      //                                 price3: 0,
-      //                                 productId: 0,
-      //                                 selected: true,
-      //                                 subCategory: [null]
-      //                             }
-      //                         ],
-      //                         additionalDetail: [''],
-      //                         customer_Integration_details: {
-      //                             detail: '',
-      //                             port: '',
-      //                             login: '',
-      //                             password: '',
-      //                             customerId: 0
-      //                         },
-      //                         registerId: [0]
-      //                     });
-      //                 } else {
-      //                     res.json().then((val) => toast.error(val));
-      //                 }
-      //             });
-      //         });
-      //     });
-      // } else {
-      //     toast.error('Please enter atleast one user details');
-      // }
+      if (userlist.length > 0) {
+        //   setLoading(true);
+        dispatch(setloading());
+        let vendordata = props.Vendordata;
+        vendordata.productFiles.map((ele: any) => {
+          Addcustomerfile(ele.file).then((res: any) => {
+            //   setLoading(false);
+            ele.fileid = res.data[0];
+            delete ele.file;
+            AddCustomer(props.Vendordata).then((res) => {
+              if (res.status === 200) {
+                UploadProductFile(props.fileupload, res.data).then((res) => {
+                  console.log(res);
+                });
+                dispatch(setloading());
+                updateMessages([
+                  {
+                    title: "Success !!",
+                    message: "Customer has been create successfully",
+                  },
+                  ...messages,
+                ]);
+                //   props.setActiveStep(0);
+                //   props.setVendordata({
+                //       customerId: '',
+                //       name: '',
+                //       parent: '',
+                //       client_type: '',
+                //       timezone: '',
+                //       primery_Address: {
+                //           address: '',
+                //           city: '',
+                //           suite: '',
+                //           state: '',
+                //           pincode: ''
+                //       },
+                //       secondary_Address: {
+                //           address: '',
+                //           city: '',
+                //           suite: '',
+                //           state: '',
+                //           pincode: ''
+                //       },
+                //       primery_Contact: {
+                //           firstName: '',
+                //           middleName: '',
+                //           lastName: '',
+                //           phone: '',
+                //           email: '',
+                //           ext: '',
+                //           cellPhone: ''
+                //       },
+                //       secondary_contact: {
+                //           firstName: '',
+                //           middleName: '',
+                //           lastName: '',
+                //           phone: '',
+                //           email: '',
+                //           ext: '',
+                //           cellPhone: ''
+                //       },
+                //       order_Confirmation: false,
+                //       assignment: false,
+                //       inspection: false,
+                //       in_QC_Review: false,
+                //       uploadedfile: 'string',
+                //       communication: [
+                //           {
+                //               vendorId: 0,
+                //               type: '',
+                //               detail: '',
+                //               product_id: 0,
+                //               customerId: 0,
+                //               method: ''
+                //           }
+                //       ],
+                //       product: [
+                //           {
+                //               id: 0,
+                //               name: 'string',
+                //               price1: 0,
+                //               price2: 0,
+                //               price3: 0,
+                //               productId: 0,
+                //               selected: true,
+                //               subCategory: [null]
+                //           }
+                //       ],
+                //       additionalDetail: [''],
+                //       customer_Integration_details: {
+                //           detail: '',
+                //           port: '',
+                //           login: '',
+                //           password: '',
+                //           customerId: 0
+                //       },
+                //       registerId: [0]
+                //   });
+                history("/customer");
+              } else {
+                res.json().then((val: any) =>
+                  updateMessages([
+                    {
+                      title: "Error !!",
+                      message: val,
+                    },
+                    ...messages,
+                  ])
+                );
+              }
+            });
+          });
+        });
+      } else {
+        toast.error("Please enter atleast one user details");
+      }
     }
   };
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     if (location.pathname.split("/").includes("vendor")) {
-        props.setVendordata({
-            ...(props.Vendordata ? props.Vendordata : ''),
-            ['userregistration']: {
-                ...props.Vendordata.userregistration,
-                [e.target.name]: e.target.value
-            }
-        });
+      props.setVendordata({
+        ...(props.Vendordata ? props.Vendordata : ""),
+        ["userregistration"]: {
+          ...props.Vendordata.userregistration,
+          [e.target.name]: e.target.value,
+        },
+      });
     } else {
-        setUserRegistation({
-            ...userregistration,
-            [e.target.name]: e.target.value
-        });
+      setUserRegistation({
+        ...userregistration,
+        [e.target.name]: e.target.value,
+      });
     }
-};
+  };
+  const handleDleteuser = (id) => {
+    DeleteCustomerUser(id).then((res) => {
+      if (res.status === 200) {
+        updateMessages([
+          {
+            title: "Success !!",
+            message: "User deleted successfully",
+          },
+          ...messages,
+        ]);
+        let data = [...userlist];
+
+        data = data.filter((ele) => ele.vendorid !== id);
+        console.log(data);
+        setUserList(data);
+      }
+    });
+  };
+  const handleEdituser = (id) => {
+    let data = [...userlist];
+
+    let mydata = data.filter((ele) => ele.vendorid === id);
+
+    setUserRegistation(mydata[0]);
+  };
+  const handleAdduser = () => {
+    if (
+      userregistration.firstName === "" ||
+      userregistration.emailId === "" ||
+      userregistration.lastName === "" ||
+      userregistration.logId === "" ||
+      userregistration.password === "" ||
+      cPassword === ""
+    )
+      updateMessages([
+        {
+          title: "Error !!",
+          message: "Please fill all the mandatory fields",
+        },
+        ...messages,
+      ]);
+    else {
+      if (userregistration.vendorid === 0) {
+        AddCustomerUser(userregistration).then((res) => {
+          if (res.status === 200) {
+            if (res.data === 0) {
+              updateMessages([
+                {
+                  title: "Error !!",
+                  message: "User already exist",
+                },
+                ...messages,
+              ]);
+            } else {
+              updateMessages([
+                {
+                  title: "Success !!",
+                  message: "User added successfully",
+                },
+                ...messages,
+              ]);
+              let data = [...props.Vendordata.registerId];
+              data.push(res.data);
+              props.setVendordata({ ...props.Vendordata, registerId: data });
+              setUserList([
+                ...userlist,
+                {
+                  vendorid: res.data,
+                  firstName: userregistration.firstName,
+                  lastName: userregistration.lastName,
+                  emailId: userregistration.emailId,
+                  logId: userregistration.logId,
+                  password: userregistration.password,
+                  allowTextMsg: userregistration.allowTextMsg,
+                },
+              ]);
+              setUserRegistation({
+                vendorid: 0,
+                firstName: "",
+                lastName: "",
+                emailId: "",
+                logId: "",
+                password: "",
+                allowTextMsg: true,
+              });
+              setCpassword("");
+            }
+          }
+        });
+      } else {
+        UpdateCustomerUser(Vendordata.userregistration).then((res) => {
+          if (res.status === 200) {
+            updateMessages([
+              {
+                title: "Success !!",
+                message: "User updated successfully",
+              },
+              ...messages,
+            ]);
+            let data = [...userlist];
+            for (let index = 0; index < data.length; index++) {
+              if (data[index].vendorid === userregistration.vendorid) {
+                data[index] = userregistration;
+              }
+            }
+
+            setUserList(data);
+            setUserRegistation({
+              vendorid: 0,
+              firstName: "",
+              lastName: "",
+              emailId: "",
+              logId: "",
+              password: "",
+              allowTextMsg: true,
+            });
+            setCpassword("");
+          }
+        });
+      }
+    }
+  };
   return (
     <>
       <Table className="table mt-3">
@@ -317,38 +489,53 @@ const UserRegistration = (props: any) => {
                       name={item.name}
                       label={item.label}
                       type="text"
-                      value={item.name==="cPassword"?cPassword:Vendordata[item.name]}
+                      value={
+                        item.name === "cPassword"
+                          ? cPassword
+                          : formType === "vendor"
+                          ? Vendordata[item.name]
+                          : userregistration[item.name]
+                      }
                       required
                       onChange={(e: any) => {
-                        item.name==="cPassword"?
-                        setCpassword(e.target.value):
-                        handleChange(e);
+                        item.name === "cPassword"
+                          ? setCpassword(e.target.value)
+                          : handleChange(e);
                       }}
                       onBlur={() => {
                         if (location.pathname.split("/").includes("vendor")) {
-                            if (Vendordata.userregistration.password !== cPassword&&(item.name==="cPassword"||item.name==="password")) {
-                                updateMessages([
-                                    {
-                                      title: "Error !!",
-                                      message: "Confirm password should be same as password",
-                                    },
-                                    ...messages,
-                                  ]);
-                                setCpassword('');
-                            }
+                          if (
+                            Vendordata.userregistration.password !==
+                              cPassword &&
+                            (item.name === "cPassword" ||
+                              item.name === "password")
+                          ) {
+                            updateMessages([
+                              {
+                                title: "Error !!",
+                                message:
+                                  "Confirm password should be same as password",
+                              },
+                              ...messages,
+                            ]);
+                            setCpassword("");
+                          }
                         } else {
-                            if (userregistration.password !== cPassword) {
-                                updateMessages([
-                                    {
-                                      title: "Error !!",
-                                      message: "Confirm password should be same as password",
-                                    },
-                                    ...messages,
-                                  ]);
-                                setCpassword('');
-                            }
+                          if (
+                            Vendordata.userregistration.password !== cPassword
+                          ) {
+                            updateMessages([
+                              {
+                                title: "Error !!",
+                                message:
+                                  "Confirm password should be same as password",
+                              },
+                              ...messages,
+                            ]);
+                            setCpassword("");
+                          }
                         }
-                    }}
+                      }}
                     />
                     <ErrorMessage id="loanIdError"></ErrorMessage>
                   </InputContainer>
@@ -356,18 +543,91 @@ const UserRegistration = (props: any) => {
                   <InputContainer
                     key={index}
                     width={item.width}
-                    className={`px-1 ${item.require ? "required-field" : ""}`}
+                    className={`px-1 d-flex align-items-center ${
+                      item.require ? "required-field" : ""
+                    }`}
                   >
-                  <input type={"checkbox"} checked={true}/>{item.name}
-                   
+                    <input type={"checkbox"} checked={true} />
+                    {item.name}
                   </InputContainer>
                 );
               })}
+              {location.pathname.split("/").includes("vendor") === false ? (
+                <div
+                  style={{ width: "10%" }}
+                  className="d-flex align-items-center"
+                >
+                  <UtilityButton onClick={() => handleAdduser()}>
+                    Add
+                  </UtilityButton>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
       </Table>
 
+      {userlist.length > 0 ? (
+        <Table className="table mb-5">
+          <div className="d-grid">
+            <TableTitleRow>
+              <TableTitleBar>
+                <TableTitle>User List</TableTitle>
+                {/* <AddButton
+                    onClick={() => {
+                      history("/orders/add");
+                    }}>
+                    +
+                  </AddButton> */}
+              </TableTitleBar>
+            </TableTitleRow>
+          </div>
+          <div className="d-flex">
+            <div className="container-fluid card">
+              <TableRow className="row">
+                <div className="col-1">S. No.</div>
+                <div className="col">Name</div>
+                <div className="col">Email Id</div>
+                <div className="col">Log Id</div>
+                <div className="col">Status</div>
+                <div className="col">Action</div>
+              </TableRow>
+
+              {userlist.map((ele, i) => {
+                return (
+                  <TableRow className="row" key={i + 1}>
+                    <div className="col-1">{i + 1}</div>
+                    <div className="col">{`${ele.firstName} ${ele.lastName}`}</div>
+                    <div className="col">{ele.emailId}</div>
+                    <div className="col">{ele.logId}</div>
+                    <div className="col">
+                      {ele.allowTextMsg ? "True" : "False"}
+                    </div>
+                    <div className="col">
+                      <MdDelete
+                        size={20}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleDleteuser(ele.vendorid)}
+                      />
+                      <FaRegEdit
+                        size={20}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleEdituser(ele.vendorid)}
+                      />
+                    </div>
+                  </TableRow>
+                );
+              })}
+
+              {/* <Pagination totalPage={totalPage} data={orderPage} pageSize={pageSize} setPageSize={setPageSize} currPage={currPage} setCurrPage={setCurrPage} /> */}
+            </div>
+          </div>
+        </Table>
+      ) : (
+        <></>
+      )}
       <div
         className={`d-flex justify-content-${isNaN(urlD) ? "between" : "end"}`}
       >

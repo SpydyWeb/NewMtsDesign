@@ -32,12 +32,16 @@ const tabsCutomerName = [
     isEdit: true,
   },
   {
-    label: "Customer Integration Details",
+    label: "Customer Integration",
     isEdit: true,
   },
   {
     label: "File Upload",
     isEdit: true,
+  },
+  {
+    label: "User Registration",
+    isEdit: false,
   },
 ];
 

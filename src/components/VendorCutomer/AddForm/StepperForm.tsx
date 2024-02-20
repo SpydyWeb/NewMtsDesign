@@ -33,6 +33,7 @@ import Communication from "./Communication";
 import {
   GetCustomerCommunicationbyid,
   GetCustomerDetaills,
+  GetCustomerFileById,
   GetCustomerProductDetaills,
   GetcommunicationLists,
 } from "../../../servicesapi/Customerapi";
@@ -207,6 +208,7 @@ const StepperForm = () => {
           });
         }
       } else if (activeTab === 5) {
+        if (location.pathname.split("/").includes("vendor")) {
         GetVendorFileById(urlD).then((res) => {
           let data: any = [];
           res?.map((ele) =>
@@ -231,6 +233,32 @@ const StepperForm = () => {
           //     seterrmsg('');
           // }
         });
+      }
+      else{
+        GetCustomerFileById(urlD).then((res) => {
+          let data: any = [];
+          res?.map((ele) =>
+            data.push({
+              fileName: ele.fileName,
+              fileid: ele.fileid,
+              id: ele.id,
+              location: ele.location,
+              remarks: ele.remarks,
+              type: ele.type,
+              issueDate: ele.issueDate?.split("T")[0],
+              expiryDate: ele.expiryDate?.split("T")[0],
+            })
+          );
+          setVendordata({ ...Vendordata, ['productFiles']: data });
+          // if (res.length === 0) {
+          //     // setiseditdata(0);
+          //     // seterrmsg('Data not found');
+          // } else {
+          //     setiseditdata(res.length);
+          //     seterrmsg('');
+          // }
+      });
+      }
       }
     }
   }, [activeTab]);
