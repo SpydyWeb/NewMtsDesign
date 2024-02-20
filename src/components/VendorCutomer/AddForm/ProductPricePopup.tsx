@@ -57,6 +57,8 @@ const ProductPricePopup = (props: any) => {
   const dispatch = useDispatch();
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
+    let urlD =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const [stateList, setStateList] = useState([]);
   const [countyList, setCountyList] = useState([]);
@@ -105,14 +107,14 @@ const ProductPricePopup = (props: any) => {
           break;
         }
       }
-      if (props?.selecetedVedorId) {
+      if (urlD) {
         GetVendorProductsPriceList(
-          props.selecetedVedorId,
+         urlD,
           props.productid,
           0
         ).then((res1) => {
           res1.data.map((ele: any) => {
-            if (ele.selected && ele.price > 0) {
+            if (ele.selected || ele.price > 0) {
               ele["price"] = ele.price;
               ele["isChecked"] = true;
             } else {
@@ -249,10 +251,10 @@ const ProductPricePopup = (props: any) => {
       }
     }
     GetStateListBynation([1]).then((res) => {
-      if (props?.selecetedVedorId) {
+      if (urlD) {
         if (location.pathname.split("/").includes("vendor")) {
           GetVendorProductsPriceList(
-            props.selecetedVedorId,
+           urlD,
             props.productid,
             type
           ).then((res1) => {
@@ -303,7 +305,7 @@ const ProductPricePopup = (props: any) => {
           });
         } else {
           GetcustomerProductsPriceList(
-            props.selecetedVedorId,
+           urlD,
             props.productid,
             type
           ).then((res1) => {
@@ -457,11 +459,11 @@ const ProductPricePopup = (props: any) => {
               cityStateId: ele.id,
             });
         });
-      if (props.selecetedVedorId !== undefined) {
+      if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorNationProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
@@ -490,7 +492,7 @@ const ProductPricePopup = (props: any) => {
         } else {
           UpdateCustomerNationProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
@@ -561,11 +563,11 @@ const ProductPricePopup = (props: any) => {
               cityStateId: ele.id,
             });
         });
-      if (props.selecetedVedorId !== undefined) {
+      if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorStateProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
@@ -593,7 +595,7 @@ const ProductPricePopup = (props: any) => {
         } else {
           UpdatecustomerStateProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
@@ -663,11 +665,11 @@ const ProductPricePopup = (props: any) => {
               });
           });
         });
-      if (props.selecetedVedorId !== undefined) {
+      if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorCountyProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {
@@ -694,7 +696,7 @@ const ProductPricePopup = (props: any) => {
         } else {
           UpdatecustomerCountyProduct(
             data,
-            props.selecetedVedorId,
+           urlD,
             props.productid
           ).then((res) => {
             if (res.status === 200) {

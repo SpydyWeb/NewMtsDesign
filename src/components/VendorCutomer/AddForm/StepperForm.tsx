@@ -243,7 +243,7 @@ const StepperForm = () => {
               fileid: ele.fileid,
               id: ele.id,
               location: ele.location,
-              remarks: ele.remarks,
+              remarks: ele.remarks==null?'':ele.remarks,
               type: ele.type,
               issueDate: ele.issueDate?.split("T")[0],
               expiryDate: ele.expiryDate?.split("T")[0],
