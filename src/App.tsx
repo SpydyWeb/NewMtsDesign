@@ -93,7 +93,9 @@ function App() {
                       <Route path="/communicationtype" Component={ViewTable} />
                       <Route path="/state" Component={ViewTable} />
                       <Route path="/role" Component={ViewTable} />
+                      <Route path="/user" Component={ViewTable} />
                       <Route path="/accessrole" Component={ViewTable} />
+                      <Route path="/user/add" Component={CommonForm} />
                       <Route path="/accessrole/add" Component={CommonForm} />
                       <Route path="/licencetype/add" Component={CommonForm} />
                       <Route path="/accessrole/add/:id" Component={CommonForm} />

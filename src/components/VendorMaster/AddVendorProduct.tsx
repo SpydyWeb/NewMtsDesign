@@ -27,7 +27,7 @@ const AddVendorProduct = () => {
     const [inputval, setinputval] = useState('');
     const [productData, setproductData] = useState({
         name: '',
-        productid: ""
+        productid: 0
     });
     const [type, setType] = useState(true);
     useEffect(() => {
@@ -64,7 +64,7 @@ const AddVendorProduct = () => {
                   ]);
                     setproductData({
                         name: '',
-                        productid: ""
+                        productid: 0
                     });
                     setinputval('');
                     history('/viewvendorproduct');
@@ -136,7 +136,7 @@ const AddVendorProduct = () => {
                         setinputval(e.target.value);
                     }}
                     >
-                      <option defaultChecked disabled value={""}>
+                      <option defaultChecked disabled value={0}>
                         -select-
                       </option>
                       {CategoryProduct.map((items: any, i: number) => (

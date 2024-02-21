@@ -63,8 +63,7 @@ const CommonForm = () => {
     if (isNaN(parseInt(urlD)) === true) setformValues(formValues);
   };
   useEffect(() => {
-  
-    if (customization.isLoading === false && (customization.Message === "save")) {
+    if (customization.isLoading === false && customization.Message === "save") {
       updateMessages([
         {
           title: "Success !!",
@@ -74,9 +73,10 @@ const CommonForm = () => {
       ]);
       resetForm();
       history(`/${heading.id}`);
-    }
-    else if ((customization.Message !== "" &&customization.Message !==undefined))
-    {
+    } else if (
+      customization.Message !== "" &&
+      customization.Message !== undefined
+    ) {
       updateMessages([
         {
           title: "Error !!",
@@ -111,8 +111,8 @@ const CommonForm = () => {
   };
   const renderForm = () => {
     return formfield?.map((ele: any, i: number) => {
-      return (
-        <InputContainer width="100%" className="px-1" key={i}>
+      return ele.type === "text" ? (
+        <InputContainer width={ele?.width?ele.width:"100%"} className="px-1" key={i}>
           <TextField
             id={ele.name}
             name={ele.name}
@@ -125,6 +125,27 @@ const CommonForm = () => {
             {ele.isErrorMsg ? `${ele.label} is required` : ""}
           </ErrorMessage>
         </InputContainer>
+      ) : (
+        <>
+        {ele?.parentLabel!==undefined?<div className="px-1" key={i}>{ele?.parentLabel}</div>:<></>}
+        <InputContainer width={ele?.width?ele.width:"100%"} className="px-1" key={i}>
+          
+          <div className="form-floating mt-1">
+            {" "}
+            <select
+              className="form-select"
+              id={ele.name}
+              name={ele.name}
+              value={formValues[ele.name]}
+              onChange={handleChange}
+            ></select>
+            <label htmlFor={ele.name}>{ele.label}</label>
+          </div>
+          <ErrorMessage id="suiteError">
+            {ele.isErrorMsg ? `${ele.label} is required` : ""}
+          </ErrorMessage>
+        </InputContainer>
+        </>
       );
     });
   };
@@ -142,7 +163,9 @@ const CommonForm = () => {
           <div className="container-fluid card border-0">
             <div className="row">
               <form onSubmit={handleSubmit}>
+              <div className="row">
                 {renderForm()}
+                </div>
                 <TableRow className="border-0 mt-4">
                   <CancelButton
                     onClick={() => {

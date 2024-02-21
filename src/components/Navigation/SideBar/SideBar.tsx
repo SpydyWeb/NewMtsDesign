@@ -49,6 +49,11 @@ export const MenuData = [
   },
   {
     icon: <AiFillHome />,
+    title: "Users",
+    url: "/user",
+  },
+  {
+    icon: <AiFillHome />,
     title: "Vendor",
     url: "/viewvendor",
   },

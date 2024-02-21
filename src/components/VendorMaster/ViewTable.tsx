@@ -21,6 +21,7 @@ import {
   deleteaccessroledata,
   deleteroledata,
   getaccessroledata,
+  getalluserdata,
   getroledata,
 } from "../../store/action/userAction";
 import { HeadingName } from "./columnField";
@@ -39,40 +40,39 @@ const ViewTable = () => {
   );
   const history = useNavigate();
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
-  useContext(ApplicationContext) as ApplicationContextType;
+    useContext(ApplicationContext) as ApplicationContextType;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalData, settotalData] = useState(0);
   const [open, setopen] = useState("");
-  const renderTableData=()=>{
-    if(customization.isLoading)
-    {
+  const renderTableData = () => {
+    if (customization.isLoading) {
       updateLoadingMessage("Fetching Data...");
       updateLoading(true);
-    }
-    else
-    {
+    } else {
       updateLoadingMessage("Fetching Data...");
       updateLoading(false);
     }
     const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      let data = location.pathname.split("/").includes("licencetype")
-        ? VendorData.licenceTypeData
-        : location.pathname.split("/").includes("state")
-        ? VendorData.stateData
-        : location.pathname.split("/").includes("role")
-        ? UserRoleData.RoleData
-        : location.pathname.split("/").includes("accessrole")
-        ? UserRoleData.AccessRoleData
-        : VendorData.communicationTypeData;
-      settotalData(data.length);
-      return data.slice(firstPageIndex, lastPageIndex);
-    }
+    const lastPageIndex = firstPageIndex + PageSize;
+    let data = location.pathname.split("/").includes("licencetype")
+      ? VendorData.licenceTypeData
+      : location.pathname.split("/").includes("state")
+      ? VendorData.stateData
+      : location.pathname.split("/").includes("role")
+      ? UserRoleData.RoleData
+      : location.pathname.split("/").includes("accessrole")
+      ? UserRoleData.AccessRoleData
+      : location.pathname.split("/").includes("user")
+      ? UserRoleData.UserData
+      : VendorData.communicationTypeData;
+    settotalData(data.length);
+    return data.slice(firstPageIndex, lastPageIndex);
+  };
   const currentTableData = useMemo(() => {
-    return renderTableData()
-  }, [location.pathname, currentPage,customization.isLoading]);
+    return renderTableData();
+  }, [location.pathname, currentPage, customization.isLoading]);
   const [heading, SetHeading]: any = useState([]);
- 
+
   useEffect(() => {
     if (location.pathname.split("/").includes("licencetype"))
       dispatch(getLicencedata());
@@ -84,77 +84,72 @@ const ViewTable = () => {
       dispatch(getroledata());
     else if (location.pathname.split("/").includes("accessrole"))
       dispatch(getaccessroledata());
-
+    else if (location.pathname.split("/").includes("user"))
+      dispatch(getalluserdata());
     SetHeading(
       ...HeadingName.filter(
         (id: any) => id.id === location.pathname.split("/")[1]
       )
     );
   }, [location.pathname]);
-  const handleEditData = (id:any) => {
-    console.log('====================================');
-    console.log(id);
-    console.log('====================================');
-    if (location.pathname.split("/").includes('licencetype')) id = id?.id;
-    else if (location.pathname.split("/").includes('state')) id = id?.state_id;
-    else if (location.pathname.split("/").includes('role')) id = id?.id;
-    else if (location.pathname.split("/").includes('accessrole')) id = id?.id;
+  const handleEditData = (id: any) => {
+    if (location.pathname.split("/").includes("licencetype")) id = id?.id;
+    else if (location.pathname.split("/").includes("state")) id = id?.state_id;
+    else if (location.pathname.split("/").includes("role")) id = id?.id;
+    else if (location.pathname.split("/").includes("accessrole")) id = id?.id;
     else id = id?.com_id;
-  
-    if (id !== '') {
-        let data = '';
-        if (location.pathname.split("/").includes('licencetype')) {
-            for (let i = 0; i < VendorData.licenceTypeData.length; i++) {
-                if (VendorData.licenceTypeData[i].Licence_id === id) {
-                    data = VendorData.licenceTypeData[i];
-                    break;
-                }
-            }
-        } else if (location.pathname.split("/").includes('state')) {
-            for (let i = 0; i < VendorData.stateData.length; i++) {
-                if (VendorData.stateData[i].state_id === id) {
-                    data = VendorData.stateData[i];
-                    break;
-                }
-            }
-        } else if (location.pathname.split("/").includes('role')) {
-          
-            for (let i = 0; i < UserRoleData.RoleData.length; i++) {
-                if (UserRoleData.RoleData[i].id === id) {
-                    data = UserRoleData.RoleData[i];
-                    break;
-                }
-            }
-        } else if (location.pathname.split("/").includes('accessrole')) {
-            for (let i = 0; i < UserRoleData.AccessRoleData.length; i++) {
-                if (UserRoleData.AccessRoleData[i].id === id) {
-                    data = UserRoleData.AccessRoleData[i];
-                    break;
-                }
-            }
-        } else {
-            for (let i = 0; i < VendorData.communicationTypeData.length; i++) {
-                if (VendorData.communicationTypeData[i].com_id === id) {
-                    data = VendorData.communicationTypeData[i];
-                    break;
-                }
-            }
+
+    if (id !== "") {
+      let data = "";
+      if (location.pathname.split("/").includes("licencetype")) {
+        for (let i = 0; i < VendorData.licenceTypeData.length; i++) {
+          if (VendorData.licenceTypeData[i].Licence_id === id) {
+            data = VendorData.licenceTypeData[i];
+            break;
+          }
         }
-        heading?.formfield?.map((ele) => {
-            heading.initialValue[ele.name] = data[ele.name];
-        });
-        console.log('====================================');
-        console.log(id,data);
-        console.log('====================================');
-        history(`/${heading.id}/add/${id}`, { state: { formData:data } })
+      } else if (location.pathname.split("/").includes("state")) {
+        for (let i = 0; i < VendorData.stateData.length; i++) {
+          if (VendorData.stateData[i].state_id === id) {
+            data = VendorData.stateData[i];
+            break;
+          }
+        }
+      } else if (location.pathname.split("/").includes("role")) {
+        for (let i = 0; i < UserRoleData.RoleData.length; i++) {
+          if (UserRoleData.RoleData[i].id === id) {
+            data = UserRoleData.RoleData[i];
+            break;
+          }
+        }
+      } else if (location.pathname.split("/").includes("accessrole")) {
+        for (let i = 0; i < UserRoleData.AccessRoleData.length; i++) {
+          if (UserRoleData.AccessRoleData[i].id === id) {
+            data = UserRoleData.AccessRoleData[i];
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < VendorData.communicationTypeData.length; i++) {
+          if (VendorData.communicationTypeData[i].com_id === id) {
+            data = VendorData.communicationTypeData[i];
+            break;
+          }
+        }
+      }
+      heading?.formfield?.map((ele: any) => {
+        heading.initialValue[ele.name] = data[ele.name];
+      });
+
+      history(`/${heading.id}/add/${id}`, { state: { formData: data } });
     } else {
-        heading?.formfield?.map((ele) => {
-            heading.initialValue[ele.name] = '';
-        });
+      heading?.formfield?.map((ele: any) => {
+        heading.initialValue[ele.name] = "";
+      });
     }
-    let formtype = location.pathname.split('/')[2];
+    let formtype = location.pathname.split("/")[2];
     // dispatch(setDialogueview(formtype));
-};
+  };
   const renderRow = (data: any) => {
     if (data.length > 0)
       return data.map((val: any, i: number) => {
@@ -170,8 +165,16 @@ const ViewTable = () => {
                   ) : Object.keys(heading.TableColumn).length - 1 === index &&
                     heading.TableColumn[Pkey].id === "Action" ? (
                     <div className="col">
-                      <FaRegEdit role="button" size={20} onClick={()=>handleEditData(val)}/>
-                      <MdDeleteOutline role="button" size={20} onClick={() => handleConfirmBox(val)}/>
+                      <FaRegEdit
+                        role="button"
+                        size={20}
+                        onClick={() => handleEditData(val)}
+                      />
+                      <MdDeleteOutline
+                        role="button"
+                        size={20}
+                        onClick={() => handleConfirmBox(val)}
+                      />
                     </div>
                   ) : (
                     <></>
@@ -185,12 +188,9 @@ const ViewTable = () => {
         );
       });
   };
-  const handleConfirmBox = (id:any) => {
-
-    if (location.pathname.split("/").includes("licencetype"))
-      id = id?.id;
-    else if (location.pathname.split("/").includes("state"))
-      id = id?.state_id;
+  const handleConfirmBox = (id: any) => {
+    if (location.pathname.split("/").includes("licencetype")) id = id?.id;
+    else if (location.pathname.split("/").includes("state")) id = id?.state_id;
     else if (location.pathname.split("/").includes("role")) id = id?.name;
     else if (location.pathname.split("/").includes("accessrole"))
       id = id?.subrole;
@@ -208,10 +208,9 @@ const ViewTable = () => {
       else dispatch(deletestatedata(open));
     }
     setopen("");
-    renderTableData()
+    renderTableData();
   };
 
-  
   return (
     <CenterContainer>
       <Table className="table mb-5 mt-4">
@@ -273,7 +272,6 @@ const ViewTable = () => {
       <FloatingButton
         title={`Add ${heading?.label}`}
         onClick={() => {
-         
           history(`/${heading.id}/add`);
         }}
       >
