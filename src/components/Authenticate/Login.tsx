@@ -97,6 +97,9 @@ const Login = () => {
         <div className="form-group mt-4">
           <LoginButton className="w-100" onClick={(e)=>{LogSubmit(e)}}>Sign In</LoginButton>
         </div>
+        <div className="form-group mt-4">
+          <LoginButton className="w-100" onClick={(e)=>{ navigate("/createuser");}}>Create Account</LoginButton>
+        </div>
       </form>
     </LoginContainer>
   );

@@ -22,6 +22,8 @@ import StepperForm from "./components/VendorCutomer/AddForm/StepperForm";
 import ViewVendorProduct from "./components/VendorMaster/ViewVendorProduct";
 import { AddVendorCountyProduct } from "./servicesapi/Vendorapi";
 import AddVendorProduct from "./components/VendorMaster/AddVendorProduct";
+import AddRoleDefination from "./components/VendorMaster/addRoleDefination";
+import Viewaccessrole from "./components/VendorMaster/Viewaccessrole";
 export type ApplicationContextType = {
   messages: any[];
   updateMessages: (m: any[]) => void;
@@ -76,7 +78,7 @@ function App() {
             <ProSidebarProvider>
               <ScrollToTop>
                 <div className="App">
-                  {location.pathname==="/"?<></>:<SideBar/>}
+                  {location.pathname==="/"||location.pathname==="/createuser"?<></>:<SideBar/>}
 
                   <main id="main">
                     <Toasts messages={alertMessages} setMessages={setAlertMessages} />
@@ -96,6 +98,7 @@ function App() {
                       <Route path="/user" Component={ViewTable} />
                       <Route path="/accessrole" Component={ViewTable} />
                       <Route path="/user/add" Component={CommonForm} />
+                      <Route path="/createuser" Component={CommonForm} />
                       <Route path="/accessrole/add" Component={CommonForm} />
                       <Route path="/licencetype/add" Component={CommonForm} />
                       <Route path="/accessrole/add/:id" Component={CommonForm} />
@@ -114,6 +117,8 @@ function App() {
                       <Route path="/customer" Component={ViewTableData} />
                       <Route path="/viewvendorproduct" Component={ViewVendorProduct} />
                       <Route path="/viewvendorproduct/add" Component={AddVendorProduct} />
+                      <Route path="/accessroledefinition" Component={AddRoleDefination} />
+                      <Route path="/viewaccessrole" Component={Viewaccessrole} />
                  
                     </Routes>
                   </main>

@@ -32,7 +32,7 @@ function* addroledata(formdata) {
         res = yield CreateRole(formdata.data.formData);
     } else {
         let data = {
-            oldrole: formdata.data.editid.name,
+            oldrole: formdata.data.formData.oldrole,
             newName: formdata.data.formData.name,
             newDescription: formdata.data.formData.description
         };
@@ -77,7 +77,7 @@ function* addaccessroledata(formdata) {
         res = yield CreateSubRole(formdata.data.formData);
     } else {
         let data = {
-            oldname: formdata.data.editid.subrole,
+            oldname: formdata.data.formData.oldName,
             newName: formdata.data.formData.subrole
         };
         res = yield EditRoleDefination(data);

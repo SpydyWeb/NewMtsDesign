@@ -269,14 +269,18 @@ const ViewTable = () => {
         <></>
       )}
 
-      <FloatingButton
-        title={`Add ${heading?.label}`}
-        onClick={() => {
-          history(`/${heading.id}/add`);
-        }}
-      >
-        +
-      </FloatingButton>
+      {heading.id === "state" ? (
+        ""
+      ) : (
+        <FloatingButton
+          title={`Add ${heading?.label}`}
+          onClick={() => {
+            history(`/${heading.id}/add`);
+          }}
+        >
+          +
+        </FloatingButton>
+      )}
     </CenterContainer>
   );
 };

@@ -29,6 +29,16 @@ export const MenuData = [
   },
   {
     icon: <AiFillHome />,
+    title: "Role Defination",
+    url: "/viewaccessrole",
+  },
+  {
+    icon: <AiFillHome />,
+    title: "Users",
+    url: "/user",
+  },
+  {
+    icon: <AiFillHome />,
     title: "Licence Type",
     url: "/licencetype",
   },
@@ -47,11 +57,7 @@ export const MenuData = [
     title: "Vendor Product",
     url: "/viewvendorproduct",
   },
-  {
-    icon: <AiFillHome />,
-    title: "Users",
-    url: "/user",
-  },
+
   {
     icon: <AiFillHome />,
     title: "Vendor",

@@ -57,7 +57,7 @@ const ViewTable = () => {
   const [allstate, setAllState] = useState([]);
   const [allstatedata, setAllStatedata] = useState([]);
   const history = useNavigate();
-  
+
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
   const [filterdata, setFilterdata] = useState({
@@ -89,21 +89,7 @@ const ViewTable = () => {
     {
       field: "Action",
       headerName: "Action",
-      // renderCell: (params) => {
-      //     return (
-      //         <div className="justify-content-center d-flex">
-      //             <FaEdit
-      //                 role="button"
-      //                 className="hover:cursor-pointer"
-      //                 size={15}
-      //                 style={{ color: '#03a5e7' }}
-      //                 onClick={() => {
-      //                     GetmoreData(params.id);
-      //                 }}
-      //             />
-      //         </div>
-      //     );
-      // }
+    
     },
     { headerName: "ID", field: "vendorid", minWidth: 150, flex: 1 },
     { headerName: "Name", field: "name", minWidth: 150, flex: 1 },
@@ -112,17 +98,19 @@ const ViewTable = () => {
     { headerName: "Contact", field: "contact", minWidth: 300, flex: 1 },
     // { headerName: 'Product', field: 'product', minWidth: 150, flex: 1 }
   ];
-  useEffect(()=>{
-    setAllStatedata([])
-    setFilterdata({ Id: "",
-    Email: "",
-    Name: "",
-    Status: 0,
-    Contact: "",
-    Licence: "",
-    State: "",
-    Product: "",})
-  },[location.pathname])
+  useEffect(() => {
+    setAllStatedata([]);
+    setFilterdata({
+      Id: "",
+      Email: "",
+      Name: "",
+      Status: 0,
+      Contact: "",
+      Licence: "",
+      State: "",
+      Product: "",
+    });
+  }, [location.pathname]);
   const handleSearch = () => {
     updateLoadingMessage("Fetching Vendor Data...");
     updateLoading(true);
@@ -139,6 +127,16 @@ const ViewTable = () => {
       data.status = filterdata.Status;
       GetallVendorBySearch(data).then((res) => {
         let data: any = [];
+   console.log(res);
+   
+        if(res.length===0)
+        updateMessages([
+          {
+            title: "Error !!",
+            message: "No data found!!",
+          },
+          ...messages,
+        ]);
         res.map((ele: any) =>
           data.push({
             id: ele.id,
@@ -161,7 +159,16 @@ const ViewTable = () => {
         setAllStatedata(data);
       });
     } else {
-      CustomerSearch(data).then((res) => {
+      CustomerSearch(data).then((res:any) => {
+        console.log(res);
+        if(res.data.length===0)
+        updateMessages([
+          {
+            title: "Error !!",
+            message: "No data found!!",
+          },
+          ...messages,
+        ]);
         let data: any = [];
         res.data.map((ele: any) =>
           data.push({
@@ -255,25 +262,35 @@ const ViewTable = () => {
       </span>
     );
   };
-  const handleEditData=(val:any)=>{
+  const handleEditData = (val: any) => {
     console.log(val);
-    history(`/${location.pathname.split("/").includes("viewvendor")?`vendor`:'customer'}/edit/${val.id}`,{state:val});
-      
-  }
+    history(
+      `/${
+        location.pathname.split("/").includes("viewvendor")
+          ? `vendor`
+          : "customer"
+      }/edit/${val.id}`,
+      { state: val }
+    );
+  };
   const renderRows = (data: any, columns: any) => {
     let fields: [] = [];
     columns.map((ele: any) => {
       fields.push(ele.field);
     });
     return data.map((item: any, idx: number) => (
-     
       <TableRow key={"order" + idx} className="row">
         {fields.map((val, i) => {
-          return (
-            i===0?<div
-            className={`col-1`}
-            key={i}>  <FaRegEdit role="button" size={20} onClick={()=>handleEditData(item)}/>
-            </div>:
+          return i === 0 ? (
+            <div className={`col-1`} key={i}>
+              {" "}
+              <FaRegEdit
+                role="button"
+                size={20}
+                onClick={() => handleEditData(item)}
+              />
+            </div>
+          ) : (
             <div
               className={`col${
                 val === "status" || val === "Action" ? "-1" : ""
@@ -374,7 +391,13 @@ const ViewTable = () => {
       <FloatingButton
         title="Add order"
         onClick={() => {
-          history(`/${location.pathname.split("/").includes("viewvendor")?'vendor':'customer'}/create`);
+          history(
+            `/${
+              location.pathname.split("/").includes("viewvendor")
+                ? "vendor"
+                : "customer"
+            }/create`
+          );
         }}
       >
         +

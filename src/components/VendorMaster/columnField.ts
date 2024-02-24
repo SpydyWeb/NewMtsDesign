@@ -15,6 +15,7 @@ export const HeadingName = [
         name: "name",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
     ],
     initialValue: { name: "" },
@@ -54,12 +55,14 @@ export const HeadingName = [
         name: "uniquename",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
       {
         label: "Communication Type",
         name: "name",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
     ],
     initialValue: { name: "", uniquename: "" },
@@ -106,6 +109,7 @@ export const HeadingName = [
         name: "name",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
     ],
     initialValue: { name: "" },
@@ -127,13 +131,7 @@ export const HeadingName = [
         flex: 1,
         renderCell: false,
       },
-      {
-        id: "Action",
-        label: "Action",
-        renderCell: true,
-        flex: 1,
-        minWidth: 100,
-      },
+     
     ],
   },
   {
@@ -145,12 +143,14 @@ export const HeadingName = [
         name: "name",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
       {
         label: "Description",
         name: "description",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
     ],
     initialValue: { name: "", description: "" },
@@ -176,6 +176,7 @@ export const HeadingName = [
         name: "subrole",
         required: true,
         isErrorMsg: false,
+        type:'text'
       },
     ],
     initialValue: { subrole: "" },
@@ -192,7 +193,7 @@ export const HeadingName = [
     ],
   },
   {
-    label: "All Users",
+    label: "Add Users",
     id: "user",
     formfield: [
       {
@@ -263,67 +264,80 @@ export const HeadingName = [
       {
         label: "Out Email",
         name: "outEmail",
-        required: true,
+        required: false,
         isErrorMsg: false,
         type: "text",
       },
       {
         label: "Cell Phone",
         name: "cellPhone",
-        required: true,
+        required: false,
         isErrorMsg: false,
         type: "text",
       },
       {
         label: "Hours",
-        name: "hours",
-        required: true,
+        name: "Hour",
+        required: false,
         isErrorMsg: false,
         type: "select",
         width:'30%',
-        parentLabel:'Work Start Time'
+        parentLabel:'Work Start Time',
+        groupBy:'wst'
       },
       {
         label: "Minute",
-        name: "minutes",
-        required: true,
+        name: "Minute",
+        required: false,
         isErrorMsg: false,
         type: "select",
-        width:'30%',
+        width:'40%',
+        groupBy:'wst'
       },
       {
         label: "AM/PM",
-        name: "TimeType",
-        required: true,
+        name: "type",
+        required: false,
         isErrorMsg: false,
         type: "select",
-        width:'30%'
+        width:'30%',
+        groupBy:'wst'
       },
 
       {
         label: "Hours",
-        name: "hours",
-        required: true,
+        name: "Hour",
+        required: false,
         isErrorMsg: false,
         type: "select",
         width:'30%',
-        parentLabel:'Work End Time'
+        parentLabel:'Work End Time',
+        groupBy:'wet'
       },
       {
         label: "Minute",
-        name: "minutes",
-        required: true,
+        name: "Minute",
+        required: false,
         isErrorMsg: false,
         type: "select",
-        width:'30%',
+        width:'40%',
+        groupBy:'wet'
       },
       {
         label: "AM/PM",
-        name: "TimeType",
-        required: true,
+        name: "type",
+        required: false,
         isErrorMsg: false,
         type: "select",
-        width:'30%'
+        width:'30%',
+        groupBy:'wet'
+      },
+      {
+        label: "Email Signature",
+        name: "emailSignature",
+        required: false,
+        isErrorMsg: false,
+        type: "text",
       },
     ],
     initialValue: {
