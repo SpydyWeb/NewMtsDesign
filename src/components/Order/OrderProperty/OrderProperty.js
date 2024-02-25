@@ -1,0 +1,20 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from "react";
+import Stepper from "../../navigation/stepper/Stepper";
+import { CenterContainer, OrderContainer } from "../OrderStyledComponents";
+import BasicInfo from "./BasicInfo";
+import DeedsTable from "./DeedsTable";
+import MortgageTable from "./MortgageTable";
+import LienTable from "./LienTable";
+import TaxTable from "./TaxTable";
+import MiscellaneousTable from "./MiscellaneousTable";
+import NavigationIndicator from "../../navigation/navigationIndicator/NavigationIndicator";
+import { useParams } from "react-router-dom";
+import { VscSymbolProperty } from "react-icons/vsc";
+import { AiFillFileText } from "react-icons/ai";
+const Order = () => {
+    const [activeTab, setActiveTab] = useState(0);
+    const { orderId } = useParams();
+    return (_jsxs(OrderContainer, { className: "mt-4", children: [_jsx(CenterContainer, { children: _jsx(NavigationIndicator, { curr: { name: "Order Property", url: "/orders/property/" + orderId, icon: _jsx(VscSymbolProperty, { className: "navigation-indicator-icon" }) }, path: [{ name: "Orders", url: "/orders", icon: _jsx(AiFillFileText, { className: "navigation-indicator-icon" }) }] }) }), _jsx(CenterContainer, { className: "mt-4", children: _jsx(Stepper, { activeTab: activeTab, setActiveTab: setActiveTab }) }), _jsxs(CenterContainer, { children: [activeTab == 0 && _jsx(BasicInfo, {}), activeTab == 1 && _jsx(DeedsTable, {}), activeTab == 2 && _jsx(MortgageTable, {}), activeTab == 3 && _jsx(LienTable, {}), activeTab == 4 && _jsx(TaxTable, {}), activeTab == 5 && _jsx(MiscellaneousTable, {})] })] }));
+};
+export default Order;

@@ -74,7 +74,7 @@ const IntegrationDetail = (props: any) => {
         <div id="clientFormSection" className="displaySection">
           <div className="container-fluid card border-0">
             <div className="row">
-              {formFields.formFields.map((item: any, index: number) => {
+              {Vendordata?.customer_Integration_details?formFields.formFields.map((item: any, index: number) => {
                 return item.type === "text"||item.type === "password"  ? (
                   <InputContainer
                     key={index}
@@ -102,7 +102,7 @@ const IntegrationDetail = (props: any) => {
                 ) : (
                   <></>
                 );
-              })}
+              }):<></>}
             </div>
           </div>
         </div>

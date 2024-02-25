@@ -65,7 +65,6 @@ const Product = (props: any) => {
     productid: number
   ) => {
     const { name, value } = e.target;
-    console.log();
     const data = [...props.productD];
     for (let index = 0; index < data.length; index++) {
       if (data[index].id === productid) {
@@ -76,6 +75,8 @@ const Product = (props: any) => {
         break;
       }
     }
+    console.log(data);
+    
     props.setProductD(data);
     const productdata = [...props.productdata];
     if (name === "selected")
@@ -93,6 +94,8 @@ const Product = (props: any) => {
       productdata[mainIndx].subCategory[indx].price3 = isNaN(value)
         ? ""
         : +value;
+      console.log(productdata);
+      
     props.setProductdata(productdata);
   };
   return (

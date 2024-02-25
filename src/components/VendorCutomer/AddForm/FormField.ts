@@ -861,6 +861,7 @@ export const CustomerFormField = {
           isErrorMsg: false,
           type: "text",
           width: "20%",
+          maxLength:"5"
         },
       ],
     },
@@ -907,6 +908,7 @@ export const CustomerFormField = {
           require: true,
           isErrorMsg: false,
           type: "text",
+          maxLength:"5",
           width: "20%",
         },
       ],

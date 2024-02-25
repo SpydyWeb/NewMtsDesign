@@ -50,7 +50,7 @@ const Communication = (props: any) => {
     let status = false;
     let count = 0;
     if (name === "product_id")
-      props.communication.map((ele: any) => {
+      Vendordata.communication.map((ele: any) => {
         if (ele.product_id === value) count++;
       });
     if (count > 1) status = true;

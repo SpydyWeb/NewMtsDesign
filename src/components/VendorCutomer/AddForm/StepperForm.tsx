@@ -125,7 +125,7 @@ const StepperForm = () => {
         } else {
           GetCustomerDetaills(urlD).then((res) => {
             console.log(res);
-            // setVendordata(res.data);
+            setVendordata(res.data);
           });
         }
       } else if (activeTab === 1) {
@@ -190,6 +190,7 @@ const StepperForm = () => {
           });
         } else {
           GetCustomerDetaills(urlD).then((res) => {
+           console.log(res);
            
             setVendordata({customer_Integration_details:res.data.customer_Integration_details});
           });

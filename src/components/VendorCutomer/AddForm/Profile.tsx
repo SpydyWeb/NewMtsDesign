@@ -135,18 +135,28 @@ const Profile = (props: any) => {
       let datacontact = [];
       let dataaccountinginfo = [];
       dataaddress.push(Vendordata.primery_Address);
+      if(Vendordata.secondary_Address!==null)
       dataaddress.push(Vendordata.secondary_Address);
+      if(Vendordata.primery_Contact!==null)
       datacontact.push(Vendordata.primery_Contact);
+      if(Vendordata.secondary_contact!==null)
       datacontact.push(Vendordata.secondary_contact);
       dataaccountinginfo = Vendordata.accountinfo;
-      if (datacontact[1].firstName === "") {
+      console.log(datacontact[1]);
+      
+     if(datacontact[1]!==null&&datacontact[1]!==undefined){
+      if (datacontact[1]?.firstName === "") {
         datacontact = new Array(datacontact[0]);
       } else {
         delete datacontact[1]["id"];
+        delete datacontact[0]["updateDate"];
+        delete datacontact[0]["createdDate"];
+        delete datacontact[0]["isDeleted"];
         delete datacontact[1]["updateDate"];
         delete datacontact[1]["createdDate"];
         delete datacontact[1]["isDeleted"];
       }
+    }
       if (location.pathname.split("/").includes("vendor")) {
         UpdateVendorAddress(dataaddress, urlD).then((res) => {
           if (res.status === 200) {
@@ -311,6 +321,8 @@ const Profile = (props: any) => {
             );
           }
         });
+        console.log(datacontact,datacontact[0],delete datacontact[0]["updateDate"]);
+        
         UpdateCustomerContact(datacontact, urlD).then((res: any) => {
           if (res.status === 200) {
             updateMessages([
@@ -491,9 +503,7 @@ const Profile = (props: any) => {
                 <div className="row">
                   {Vendordata?.primery_Address ? (
                     val.formFields.map((item: any, index: number) => {
-                      console.log('--value--',  val?.isParent
-                      ? Vendordata[val.isParent][item.name]
-                      : Vendordata[item.name]);
+                    
                       
                       return item.type === "text" ? (
                         <InputContainer
@@ -507,9 +517,10 @@ const Profile = (props: any) => {
                             id={item.name}
                             name={item.name}
                             label={item.label}
+                            maxLength={item?.maxLength}
                             type="text"
                             value={
-                              val?.isParent
+                              val?.isParent&&Vendordata[val.isParent]!==null
                                 ? Vendordata[val.isParent][item.name]
                                 : Vendordata[item.name]
                             }
