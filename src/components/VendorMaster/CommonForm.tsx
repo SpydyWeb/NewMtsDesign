@@ -5,14 +5,14 @@ import {
   Table,
   TableRow,
   TableTitleBar,
-} from "../Order/OrderStyledComponents";
-import { TableTitle, TableTitleRow } from "../Order/OrderStyledComponents";
-import {
   CancelButton,
   SaveButton,
   SearchContainer,
+  TableTitle,
+  TableTitleRow,
   SearchIcon,
-} from "../Order/orderProperty/OrderPropertyStyledComponents";
+} from "../order/OrderStyledComponents";
+
 import { TextField } from "../utils/InputGroup";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { HeadingName } from "./columnField";
@@ -73,12 +73,10 @@ const CommonForm = () => {
     let data: any = HeadingName.filter(
       (id: any) => id.id === location.pathname.split("/")[1]
     );
-    if(location.pathname.split("/")[1]==="createuser")
-    data= HeadingName.filter(
-      (id: any) => id.id === "user"
-    );
+    if (location.pathname.split("/")[1] === "createuser")
+      data = HeadingName.filter((id: any) => id.id === "user");
     console.log(location.pathname.split("/")[1]);
-    
+
     // if(location.pathname.split("/")[1])
 
     if (data[0]?.id === "role") {
@@ -98,7 +96,7 @@ const CommonForm = () => {
     setformValues({ ...formValues, [name]: value });
   };
   const resetForm = () => {
-    formfield?.map((ele) => {
+    formfield?.map((ele:any) => {
       if (formValues[ele.name] === "") {
         ele.isErrorMsg = false;
         formValues[ele.name] = "";
@@ -106,7 +104,7 @@ const CommonForm = () => {
     });
     if (isNaN(parseInt(urlD)) === true) setformValues(formValues);
   };
-  const onChangeHandle = (evt) => {
+  const onChangeHandle = (evt:any) => {
     if (evt.target.name === "password") {
       // setPasswordValid(CheckvalidatePassword(evt.target.value, passwordValid));
       isPasswordMview();
@@ -119,7 +117,7 @@ const CommonForm = () => {
     // }
     setUserData({ ...UserData, [evt.target.name]: evt.target.value });
   };
-  const onChangeStartTime = (evt) => {
+  const onChangeStartTime = (evt:any) => {
     if (evt.target.name === "type") {
       if (evt.target.value === "PM") {
         setUserData({
@@ -144,7 +142,7 @@ const CommonForm = () => {
 
     setWorkSt({ ...WorkSt, [evt.target.name]: evt.target.value });
   };
-  const onChangeEndTime = (evt) => {
+  const onChangeEndTime = (evt:any) => {
     if (evt.target.name === "type") {
       if (evt.target.value === "PM") {
         setUserData({ ...UserData, workEndH: parseInt(WorkEt.Hour) + 12 });
@@ -193,7 +191,7 @@ const CommonForm = () => {
             ...messages,
           ]);
           // document.getElementById("closePopup").click();
-        history('/user')
+          history("/user");
         }
       });
     }
@@ -298,9 +296,13 @@ const CommonForm = () => {
             label={ele.label}
             type="text"
             value={
-              heading.id === "user" ?ele.name === "Cpassword"?Cpassword: UserData[ele.name] : formValues[ele.name]
+              heading.id === "user"
+                ? ele.name === "Cpassword"
+                  ? Cpassword
+                  : UserData[ele.name]
+                : formValues[ele.name]
             }
-            onChange={(e:any)=>
+            onChange={(e: any) =>
               heading.id === "user"
                 ? ele.name === "Cpassword"
                   ? setCpassword(e.target.value)
@@ -308,18 +310,21 @@ const CommonForm = () => {
                 : handleChange(e)
             }
             onBlur={() => {
-              if ( heading.id === "user"&&UserData.password !== Cpassword&&ele.name === "Cpassword") {
-                  setCpassword('');
-                  updateMessages([
-                    {
-                      title: "Error !!",
-                      message: 'Password and confirm passwrod should be the same',
-                    },
-                    ...messages,
-                  ]);
-                
+              if (
+                heading.id === "user" &&
+                UserData.password !== Cpassword &&
+                ele.name === "Cpassword"
+              ) {
+                setCpassword("");
+                updateMessages([
+                  {
+                    title: "Error !!",
+                    message: "Password and confirm passwrod should be the same",
+                  },
+                  ...messages,
+                ]);
               }
-          }}
+            }}
           />
           <ErrorMessage id="suiteError">
             {ele.isErrorMsg ? `${ele.label} is required` : ""}
@@ -434,10 +439,8 @@ const CommonForm = () => {
                   <CancelButton
                     onClick={() => {
                       resetForm();
-                      if(location.pathname==="/createuser")
-                      history('/')
-                      else
-                      history(`/${heading.id}`);
+                      if (location.pathname === "/createuser") history("/");
+                      else history(`/${heading.id}`);
                     }}
                   >
                     Cancel

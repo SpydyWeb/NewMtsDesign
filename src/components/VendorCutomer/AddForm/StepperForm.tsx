@@ -3,7 +3,7 @@ import {
   CenterContainer,
   OrderContainer,
 } from "../../order/OrderStyledComponents";
-import NavigationIndicator from "../../navigation/navigationIndicator/NavigationIndicator";
+import NavigationIndicatorTab from "../../Navigation/navigationIndicator/NavigationIndicatorTab";
 import { BsFillPencilFill } from "react-icons/bs";
 import { IoMdAdd, IoMdAddCircle } from "react-icons/io";
 import { AiFillFileText } from "react-icons/ai";
@@ -101,7 +101,7 @@ const StepperForm = () => {
     });
   }, []);
   useEffect(() => {
-    let urlD =
+    let urlD:any =
       location.pathname.split("/")[location.pathname.split("/").length - 1];
     if (isNaN(parseInt(urlD)) === false) {
       if (activeTab === 2) {
@@ -137,7 +137,7 @@ const StepperForm = () => {
         if (location.pathname.split("/").includes("vendor")) {
           GetVendorCommunicationbyid(urlD).then((res) => {
             let comData: any = [];
-            res.map((ele) => {
+            res.map((ele:any) => {
               comData.push({
                 type: ele.type,
                 detail: ele.detail,
@@ -170,7 +170,7 @@ const StepperForm = () => {
         if (location.pathname.split("/").includes("vendor")) {
           GetVendorLicencebyid(+urlD).then((res) => {
             let licencedata: any = [];
-            res.map((ele) => {
+            res.map((ele:any) => {
               licencedata.push({
                 firstName: ele.firstName,
                 lastName: ele.lastName,
@@ -212,7 +212,7 @@ const StepperForm = () => {
         if (location.pathname.split("/").includes("vendor")) {
         GetVendorFileById(urlD).then((res) => {
           let data: any = [];
-          res?.map((ele) =>
+          res?.map((ele:any) =>
             data.push({
               fileName: ele.fileName,
               fileid: ele.fileid,
@@ -238,7 +238,7 @@ const StepperForm = () => {
       else{
         GetCustomerFileById(urlD).then((res) => {
           let data: any = [];
-          res?.map((ele) =>
+          res?.map((ele:any) =>
             data.push({
               fileName: ele.fileName,
               fileid: ele.fileid,
@@ -266,7 +266,7 @@ const StepperForm = () => {
   return (
     <OrderContainer className="mt-4">
       <CenterContainer>
-        <NavigationIndicator
+        <NavigationIndicatorTab
           curr={
             orderId !== ""
               ? {

@@ -14,10 +14,10 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  SearchContainer,
 } from "../order/OrderStyledComponents";
 import { Card } from "react-bootstrap";
 import { SelectBox, TextField } from "../utils/InputGroup";
-import { SearchContainer } from "../order/orderProperty/OrderPropertyStyledComponents";
 import { FaSearch } from "react-icons/fa";
 import { AdvancedformField } from "./renderUtils";
 const AdvanceFilter = (props: any) => {
@@ -28,7 +28,9 @@ const AdvanceFilter = (props: any) => {
       return val.type === "text" ? (
         <InputContainer width="20%" className="px-1" key={i}>
           <TextField
+            id={val.name}
             label={val.label}
+            type={val.type}
             name={val.name}
             value={filterdata[val.name]}
             onChange={(e: any) => handleFilterChange(e)}

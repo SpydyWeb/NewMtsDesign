@@ -7,6 +7,8 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  CancelButton,
+  SaveButton,
 } from "../../order/OrderStyledComponents";
 import { TextArea, TextField } from "../../utils/InputGroup";
 import {
@@ -28,17 +30,13 @@ import {
   UpdateCustomerContact,
   Updatecustomeraccountinfo,
 } from "../../../servicesapi/Customerapi";
-import {
-  CancelButton,
-  SaveButton,
-} from "../../order/orderProperty/OrderPropertyStyledComponents";
 import { validateEmail } from "../renderUtils";
 const clientTypeDDl = [
-  { name: 'Lender', value: 'Lender' },
-  { name: 'Broker', value: 'Broker' },
-  { name: 'Agent', value: 'Agent' },
-  { name: 'Servicer', value: 'Servicer' },
-  { name: 'Other', value: 'Other' }
+  { name: "Lender", value: "Lender" },
+  { name: "Broker", value: "Broker" },
+  { name: "Agent", value: "Agent" },
+  { name: "Servicer", value: "Servicer" },
+  { name: "Other", value: "Other" },
 ];
 const Profile = (props: any) => {
   const {
@@ -50,6 +48,7 @@ const Profile = (props: any) => {
     setActiveTab,
   } = props;
   const target = useRef(null);
+  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   const [sameAs, setSameas] = useState({ address: false, contact: false });
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
@@ -83,7 +82,6 @@ const Profile = (props: any) => {
   });
   useEffect(() => {
     console.log(Vendordata);
-    
   }, []);
   const onhandleChange = (e: any, type: string) => {
     if (type === "")
@@ -100,6 +98,9 @@ const Profile = (props: any) => {
         },
       });
     }
+  };
+  const handleInput = (value: any) => {
+    return value !== "" ? value.replace(phoneRegex, "($1) $2-$3") : "";
   };
   const handleEditSubmit = () => {
     if (
@@ -135,28 +136,28 @@ const Profile = (props: any) => {
       let datacontact = [];
       let dataaccountinginfo = [];
       dataaddress.push(Vendordata.primery_Address);
-      if(Vendordata.secondary_Address!==null)
-      dataaddress.push(Vendordata.secondary_Address);
-      if(Vendordata.primery_Contact!==null)
-      datacontact.push(Vendordata.primery_Contact);
-      if(Vendordata.secondary_contact!==null)
-      datacontact.push(Vendordata.secondary_contact);
+      if (Vendordata.secondary_Address !== null)
+        dataaddress.push(Vendordata.secondary_Address);
+      if (Vendordata.primery_Contact !== null)
+        datacontact.push(Vendordata.primery_Contact);
+      if (Vendordata.secondary_contact !== null)
+        datacontact.push(Vendordata.secondary_contact);
       dataaccountinginfo = Vendordata.accountinfo;
       console.log(datacontact[1]);
-      
-     if(datacontact[1]!==null&&datacontact[1]!==undefined){
-      if (datacontact[1]?.firstName === "") {
-        datacontact = new Array(datacontact[0]);
-      } else {
-        delete datacontact[1]["id"];
-        delete datacontact[0]["updateDate"];
-        delete datacontact[0]["createdDate"];
-        delete datacontact[0]["isDeleted"];
-        delete datacontact[1]["updateDate"];
-        delete datacontact[1]["createdDate"];
-        delete datacontact[1]["isDeleted"];
+
+      if (datacontact[1] !== null && datacontact[1] !== undefined) {
+        if (datacontact[1]?.firstName === "") {
+          datacontact = new Array(datacontact[0]);
+        } else {
+          delete datacontact[1]["id"];
+          delete datacontact[0]["updateDate"];
+          delete datacontact[0]["createdDate"];
+          delete datacontact[0]["isDeleted"];
+          delete datacontact[1]["updateDate"];
+          delete datacontact[1]["createdDate"];
+          delete datacontact[1]["isDeleted"];
+        }
       }
-    }
       if (location.pathname.split("/").includes("vendor")) {
         UpdateVendorAddress(dataaddress, urlD).then((res) => {
           if (res.status === 200) {
@@ -277,7 +278,7 @@ const Profile = (props: any) => {
             // props.setEditData(!props.editData);
             // props.seteditModalOpen((prev) => !prev);
           } else {
-            res.json().then((res) =>
+            res.json().then((res: any) =>
               updateMessages([
                 {
                   title: "Error !!",
@@ -307,7 +308,7 @@ const Profile = (props: any) => {
               ["primery_Address"]: props.Vendordata.primery_Address,
               ["secondary_Address"]: props.Vendordata.secondary_Address,
             });
-            props.seteditModalOpen((prev) => !prev);
+            props.seteditModalOpen((prev: any) => !prev);
             props.setEditData(!props.editData);
           } else {
             res.json().then((res: any) =>
@@ -321,8 +322,6 @@ const Profile = (props: any) => {
             );
           }
         });
-        console.log(datacontact,datacontact[0],delete datacontact[0]["updateDate"]);
-        
         UpdateCustomerContact(datacontact, urlD).then((res: any) => {
           if (res.status === 200) {
             updateMessages([
@@ -338,7 +337,7 @@ const Profile = (props: any) => {
               ["secondary_contact"]: props.Vendordata.secondary_contact,
             });
             props.setEditData(!props.editData);
-            props.seteditModalOpen((prev) => !prev);
+            props.seteditModalOpen((prev: any) => !prev);
           } else {
             res.json().then((res: any) =>
               updateMessages([
@@ -352,7 +351,7 @@ const Profile = (props: any) => {
           }
         });
         let accoutninfodata = props.Vendordata.accountinfo;
-        Updatecustomeraccountinfo(accoutninfodata, urlD).then((res) => {
+        Updatecustomeraccountinfo(accoutninfodata, urlD).then((res: any) => {
           if (res.status === 200) {
             updateMessages([
               {
@@ -366,7 +365,7 @@ const Profile = (props: any) => {
               ["accountinfo"]: accoutninfodata,
             });
             props.setEditData(!props.editData);
-            props.seteditModalOpen((prev) => !prev);
+            props.seteditModalOpen((prev: any) => !prev);
           } else {
             res.json().then((res: any) =>
               updateMessages([
@@ -421,7 +420,7 @@ const Profile = (props: any) => {
   return (
     <>
       {formFields.map((val: any, i: number) => {
-       return (isNaN(parseInt(urlD)) === false && val?.isedit === true) ||
+        return (isNaN(parseInt(urlD)) === false && val?.isedit === true) ||
           isNaN(parseInt(urlD)) === true ? (
           <Table className="table mt-3" key={i}>
             <div
@@ -503,8 +502,6 @@ const Profile = (props: any) => {
                 <div className="row">
                   {Vendordata?.primery_Address ? (
                     val.formFields.map((item: any, index: number) => {
-                    
-                      
                       return item.type === "text" ? (
                         <InputContainer
                           key={index}
@@ -520,7 +517,7 @@ const Profile = (props: any) => {
                             maxLength={item?.maxLength}
                             type="text"
                             value={
-                              val?.isParent&&Vendordata[val.isParent]!==null
+                              val?.isParent && Vendordata[val.isParent] !== null
                                 ? Vendordata[val.isParent][item.name]
                                 : Vendordata[item.name]
                             }
@@ -596,6 +593,59 @@ const Profile = (props: any) => {
                             <></>
                           )}
                         </InputContainer>
+                      ) : item.type === "phone" ? (
+                        <InputContainer
+                          key={index}
+                          width={item.width}
+                          className={`px-1 ${
+                            item.require ? "required-field" : ""
+                          }`}
+                        >
+                          <TextField
+                            id={item.name}
+                            name={item.name}
+                            label={item.label}
+                            pattern="[0-9]*"
+                            maxLength={10}
+                            type="text"
+                            value={handleInput(
+                              val?.isParent && Vendordata[val.isParent] !== null
+                                ? Vendordata[val.isParent][item.name]
+                                : Vendordata[item.name]
+                            )}
+                            required
+                            onChange={(e: any) => {
+                              onhandleChange(
+                                e,
+                                val?.isParent ? val?.isParent : ""
+                              );
+                            }}
+                            onBlur={(e: any) => {
+                              console.log(
+                                e.target.value,
+                                e.target.value.length
+                              );
+
+                              if (e.target.value.length !== 14) {
+                                updateMessages([
+                                  {
+                                    title: "Error !!",
+                                    message: "Please enter the valid phone no.",
+                                  },
+                                  ...messages,
+                                ]);
+                                props.setVendordata({
+                                  ...(props.Vendordata ? props.Vendordata : ""),
+                                  [val?.isParent]: {
+                                    ...props.Vendordata[val?.isParent],
+                                    [e.target.name]: "",
+                                  },
+                                });
+                              }
+                            }}
+                          />
+                          <ErrorMessage id="loanIdError"></ErrorMessage>
+                        </InputContainer>
                       ) : (
                         <InputContainer
                           key={index}
@@ -626,19 +676,17 @@ const Profile = (props: any) => {
                               <option defaultChecked disabled value="">
                                 -select-
                               </option>
-                              {item.name==="client_type"?
-                              clientTypeDDl.map((items:any,i:number)=>(
-                                <option key={i} value={items.value}>
-                                {items.name}
-                              </option>
-                              ))
-                              :
-                              
-                              allstate.map((items: any, i: number) => (
-                                <option key={i} value={items.name}>
-                                  {items.name}
-                                </option>
-                              ))}
+                              {item.name === "client_type"
+                                ? clientTypeDDl.map((items: any, i: number) => (
+                                    <option key={i} value={items.value}>
+                                      {items.name}
+                                    </option>
+                                  ))
+                                : allstate.map((items: any, i: number) => (
+                                    <option key={i} value={items.name}>
+                                      {items.name}
+                                    </option>
+                                  ))}
                             </select>
                             <label htmlFor="clientId">{item.label}</label>
                           </div>

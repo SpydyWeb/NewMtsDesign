@@ -7,12 +7,10 @@ import {
   TableTitle,
   TableTitleBar,
   TableTitleRow,
-} from "../order/OrderStyledComponents";
-import {
   AddButton,
   CancelButton,
   SaveButton,
-} from "../order/orderProperty/OrderPropertyStyledComponents";
+} from "../order/OrderStyledComponents";
 import { TextField } from "../utils/InputGroup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -28,7 +26,7 @@ const AddVendorProduct = () => {
   const history = useNavigate();
   const [CategoryProduct, setCategoryProduct] = useState([]);
   const [inputval, setinputval] = useState(0);
-  const [productData, setproductData] = useState({
+  const [productData, setproductData]:any = useState({
     name: "",
     productid: 0,
   });
@@ -45,7 +43,7 @@ const AddVendorProduct = () => {
     });
   }, []);
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = (e:any) => {
     e.preventDefault();
     if (productData.name === "")
       updateMessages([
@@ -114,7 +112,7 @@ const AddVendorProduct = () => {
                     label={type ? "Product Name *" : "Category Name *"}
                     type="text"
                     value={productData.name}
-                    onChange={(e) =>
+                    onChange={(e:any) =>
                       setproductData({
                         ...productData,
                         name: e.target.value,
@@ -135,7 +133,7 @@ const AddVendorProduct = () => {
                         value={inputval}
                         defaultValue={"-select-"}
                         required
-                        onChange={(e) => {
+                        onChange={(e:any) => {
                           setproductData({
                             ...productData,
                             productid: e.target.value,

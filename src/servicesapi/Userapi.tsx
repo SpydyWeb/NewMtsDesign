@@ -8,7 +8,7 @@ let config = {
       "Access-Control-Allow-Origin": "*",
     },
   };
-export const UserRegistration = async (userData: aany) => {
+export const UserRegistration = async (userData: any) => {
   return await fetch(`${Url}Registration`, {
     method: "POST",
     body: JSON.stringify(userData),

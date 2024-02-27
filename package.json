@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "react-scripts build",
+    "build": "vite build",
     "preview": "vite preview",
     "server": "json-server --watch data.json --port 8000",
     "buildcode": "vite build --outDir=build"
@@ -21,7 +21,6 @@
     "@types/node": "20.2.5",
     "@types/react-bootstrap": "0.32.32",
     "aws-amplify": "5.0.25",
-    "axios": "^1.6.7",
     "bootstrap": "5.2.3",
     "date-fns": "2.29.3",
     "dayjs": "1.11.7",

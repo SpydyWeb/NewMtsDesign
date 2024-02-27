@@ -28,7 +28,7 @@ const IntegrationDetail = (props: any) => {
        
       ]
     // data["additionalDetail"] = props.Vendordata.additionalDetail;
-    UpdateCustomerIntegrationDetail(data, urlD).then((res) => {
+    UpdateCustomerIntegrationDetail(data, urlD).then((res:any) => {
       if (res.status === 200) {
         updateMessages([
           {
@@ -46,7 +46,7 @@ const IntegrationDetail = (props: any) => {
         // props.seteditModalOpen((prev) => !prev);
         // props.setEditData(!props.editData);
       } else {
-        res.json().then((res) =>
+        res.json().then((res:any) =>
           updateMessages([
             {
               title: "Error !!",
@@ -87,7 +87,7 @@ const IntegrationDetail = (props: any) => {
                       label={item.label}
                       type={item.type}
                         value={Vendordata['customer_Integration_details'][item.name]}
-                        onChange={(e) => {
+                        onChange={(e:any) => {
                             props.setVendordata({
                                 ...props.Vendordata,
                                 ['customer_Integration_details']: {

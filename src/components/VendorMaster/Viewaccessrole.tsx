@@ -85,7 +85,7 @@ const Viewaccessrole = () => {
                             {val.subroles.length > 0
                               ? val.subroles.map((subVal: any) => {
                                   return (
-                                    <span style={{border:'1px solid #818181',borderRadius:'10px',padding:'4px'}}>
+                                    <span style={{border:'1px solid #818181',borderRadius:'10px',padding:'4px',marginRight:'5px'}}>
                                       <span style={{marginRight:'5px'}}>{subVal.name}</span>
                                       <IoMdCloseCircleOutline
                                         role="button"

@@ -54,7 +54,7 @@ const ViewVendorProduct = () => {
   }, [currentPage, customization.isLoading, rowdata]);
   const [heading, SetHeading]: any = useState([]);
   useEffect(() => {
-    dispatch(setloading(true));
+    dispatch(setloading());
     GetVendorProduct().then((res: any) => {
       let count: number = 0;
       let data: any = [];
@@ -78,7 +78,7 @@ const ViewVendorProduct = () => {
         }
       });
       console.log(data);
-      dispatch(setloading(false));
+      dispatch(setloading());
       setRowData(data);
     });
   }, []);

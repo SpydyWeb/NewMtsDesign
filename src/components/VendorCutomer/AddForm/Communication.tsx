@@ -10,6 +10,8 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  CancelButton,
+  SaveButton,
 } from "../../order/OrderStyledComponents";
 import { ControlledTextField, TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
@@ -22,10 +24,6 @@ import {
   UpdateCustomercommunications,
   addCustomercommunications,
 } from "../../../servicesapi/Customerapi";
-import {
-  CancelButton,
-  SaveButton,
-} from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Communication = (props: any) => {
   const {

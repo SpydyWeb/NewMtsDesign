@@ -8,6 +8,8 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  CancelButton,
+  SaveButton,
 } from "../../order/OrderStyledComponents";
 import { Form } from "react-bootstrap";
 import { TextField } from "../../utils/InputGroup";
@@ -16,7 +18,7 @@ import { Getvendorbyid, UpdateVendor } from "../../../servicesapi/Vendorapi";
 import { Updatecustomer } from "../../../servicesapi/Customerapi";
 import { useDispatch } from "react-redux";
 import { setloading } from "../../../store/action/actions";
-import { CancelButton, SaveButton } from "../../order/orderProperty/OrderPropertyStyledComponents";
+
 
 const Additional = (props: any) => {
   const { formFields, Vendordata, setVendordata, setActiveTab } = props;
@@ -28,11 +30,11 @@ const Additional = (props: any) => {
   useEffect(() => {
     if (isNaN(parseInt(urlD)) === false) {
       dispatch(setloading());
-      if(location.pathname.split("/").includes("vendor"))
-      Getvendorbyid(urlD).then((res: any) => {
-        setVendordata(res);
-        dispatch(setloading());
-      });
+      if (location.pathname.split("/").includes("vendor"))
+        Getvendorbyid(urlD).then((res: any) => {
+          setVendordata(res);
+          dispatch(setloading());
+        });
     }
   }, []);
   const onhandleChange = (e: any, type = "") => {
@@ -77,17 +79,19 @@ const Additional = (props: any) => {
         }
       });
     } else {
-      let formValues={
-        "order_Confirmation": Vendordata.order_Confirmation?Vendordata.order_Confirmation:false,
-        "assignment": Vendordata.assignment? Vendordata.assignment:false,
-        "inspection": Vendordata.inspection?Vendordata.inspection:false,
-        "in_QC_Review": Vendordata.in_QC_Review? Vendordata.in_QC_Review:false,
-        "order_ConfirmationNotes": Vendordata.order_ConfirmationNotes,
-        "assignmentNotes": Vendordata.assignmentNotes,
-        "inspectionNotes": Vendordata.inspectionNotes,
-        "in_QC_ReviewNotes": Vendordata.in_QC_ReviewNotes,
-        "id": Vendordata.customerId,
-      }
+      let formValues = {
+        order_Confirmation: Vendordata.order_Confirmation
+          ? Vendordata.order_Confirmation
+          : false,
+        assignment: Vendordata.assignment ? Vendordata.assignment : false,
+        inspection: Vendordata.inspection ? Vendordata.inspection : false,
+        in_QC_Review: Vendordata.in_QC_Review ? Vendordata.in_QC_Review : false,
+        order_ConfirmationNotes: Vendordata.order_ConfirmationNotes,
+        assignmentNotes: Vendordata.assignmentNotes,
+        inspectionNotes: Vendordata.inspectionNotes,
+        in_QC_ReviewNotes: Vendordata.in_QC_ReviewNotes,
+        id: Vendordata.customerId,
+      };
       Updatecustomer(formValues).then((res: any) => {
         if (res.status === 200) {
           updateMessages([

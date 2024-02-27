@@ -1,4 +1,3 @@
-import axios from "axios";
 import { CurrentUrl } from "./UrlApi";
 
 let Url = `${CurrentUrl}Customer/`;
@@ -12,111 +11,142 @@ let config = {
   },
 };
 
-export const AddCustomer = async (data) => {
-  return await axios
-    .post(`${Url}AddCustomer`, data, config)
-    .then((data) => data);
+export const AddCustomer = async (data: any) => {
+  return await fetch(`${Url}AddCustomer`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
 
-export const AddCustomerUser = async (data) => {
-  return await axios
-    .post(`${CurrentUrl}User/Adduser`, data, config)
-    .then((data) => data);
+export const AddCustomerUser = async (data: any) => {
+  return await fetch(`${CurrentUrl}User/Adduser`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const DeleteCustomerUser = async (id) => {
-  return await axios
-    .post(`${CurrentUrl}User/Deleteuser?id=${id}`, config)
-    .then((data) => data);
-};
-
-export const CustomerSearch = async (data) => {
-  return await axios
-    .post(`${Url}Customersearch`, data, config)
-    .then((data) => data);
+export const DeleteCustomerUser = async (id: any) => {
+  return await fetch(`${CurrentUrl}User/Deleteuser?id=${id}`, {
+    method: "POST",
+    ...config,
+  }).then((data) => data.json());
 };
 
-export const UpdateCustomerUser = async (data) => {
-  return await axios
-    .put(`${CurrentUrl}User/Updateuser`, data, config)
-    .then((data) => data);
+export const CustomerSearch = async (data: any) => {
+  return await fetch(`${Url}Customersearch`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
+};
+
+export const UpdateCustomerUser = async (data: any) => {
+  return await fetch(`${CurrentUrl}User/Updateuser`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerDetaills = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerbyid?id=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerbyid?id=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerProductDetaills = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerProduct?Customerid=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerProduct?Customerid=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdateCustomerProduct = async (data) => {
-  return await axios
-    .put(`${Url}UpdateCustomerProduct`, data, config)
-    .then((data) => data);
+export const UpdateCustomerProduct = async (data: any) => {
+  return await fetch(`${Url}UpdateCustomerProduct`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerCommunicationbyid = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerCommunication?Customerid=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerCommunication?Customerid=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerAddressbyid = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerAddress?Customerid=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerAddress?Customerid=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerContactbyid = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerContact?Customerid=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerContact?Customerid=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerIntegrationDetailbyid = async (id: number) => {
-  return await axios
-    .get(`${Url}GetCustomerIntegrationDetail?customerid=${id}`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetCustomerIntegrationDetail?customerid=${id}`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdateCustomercommunications = async (data, id) => {
-  return await axios
-    .put(`${Url}UpdateCommunication?id=${id}`, data, config)
-    .then((data) => data);
+export const UpdateCustomercommunications = async (data: any, id: any) => {
+  return await fetch(`${Url}UpdateCommunication?id=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const addCustomercommunications = async (data, id) => {
-  return await axios
-    .post(`${Url}addCommunication?customerid=${id}`, data, config)
-    .then((data) => data);
+export const addCustomercommunications = async (data: any, id: any) => {
+  return await fetch(`${Url}addCommunication?customerid=${id}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdateCustomerIntegrationDetail = async (data:any, id:any) => {
-  return await axios
-    .put(`${Url}UpdateCustomerIntegrationDetail?detailid=${id}`, data, config)
-    .then((data) => data);
+export const UpdateCustomerIntegrationDetail = async (data: any, id: any) => {
+  return await fetch(`${Url}UpdateCustomerIntegrationDetail?detailid=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const Updatecustomer = async (data) => {
-  return await axios
-    .put(`${Url}Updatecustomer`, data, config)
-    .then((data) => data);
+export const Updatecustomer = async (data: any) => {
+  return await fetch(`${Url}Updatecustomer`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdateCustomerAddress = async (data, id) => {
-  return await axios
-    .put(`${Url}UpdateCustomerAddress?addressid=${id}`, data, config)
-    .then((data) => data);
+export const UpdateCustomerAddress = async (data: any, id: any) => {
+  return await fetch(`${Url}UpdateCustomerAddress?addressid=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdateCustomerContact = async (data, id) => {
-  return await axios
-    .put(`${Url}UpdateCustomerContact?Contactid=${id}`, data, config)
-    .then((data) => data);
+export const UpdateCustomerContact = async (data: any, id: any) => {
+  return await fetch(`${Url}UpdateCustomerContact?Contactid=${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetcommunicationLists = async () => {
-  return await axios
-    .get(`${Url}GetcommunicationLists`, config)
-    .then((data) => data);
+  return await fetch(`${Url}GetcommunicationLists`, {
+    method: "GET",
+    ...config,
+  }).then((data) => data.json());
 };
-export const Addcustomerfile = (data) => {
+export const Addcustomerfile = async (data: any) => {
   const formData = new FormData();
   formData.append("Files", data);
-  return axios
-    .post(`${Url}Addfile`, formData)
-    .then((res) => res)
-    .catch((err) => console.log("File Upload Error"));
+  return await fetch(`${Url}Addfile`, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    ...config,
+  }).then((data) => data.json());
 };
 export const GetCustomerFileById = async (id: number) => {
   return await fetch(`${Url}GetCustomerFileById?vendorid=${id}`, {
@@ -128,35 +158,32 @@ export const GetCustomerFileById = async (id: number) => {
     },
   }).then((data) => data.json());
 };
-export const Addexistingcustomerfile = async (data, id) => {
-  return axios
-    .post(`${Url}AddcustomerFile?Customerid=${id}`, data)
-    .then((res) => res)
-    .catch((err) => console.log("File Upload Error"));
+export const Addexistingcustomerfile = async (data: any, id: any) => {
+  return await fetch(`${Url}AddcustomerFile?Customerid=${id}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const UpdatecustomerFile = async (data, id) => {
-  return axios
-    .post(`${Url}UpdatecustomerFile`, data)
-    .then((res) => res)
-    .catch((err) => console.log("File Upload Error"));
+export const UpdatecustomerFile = async (data: any, id: any) => {
+  return await fetch(`${Url}UpdatecustomerFile`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
-export const UploadProductFile = async (data, id) => {
-  return await axios
-    .post(`${Url}Uploadfiles?Customerid=${id}`, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-    .then((data) => data);
+export const UploadProductFile = async (data: any, id: any) => {
+  return await fetch(`${Url}Uploadfiles?Customerid=${id}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "multipart/form-data" },
+  }).then((data) => data.json());
 };
-export const DownloadFile = async (path) => {
-  return await axios
-    .post(`${Url}Downloadfiles?path=${path}`, {
-      responseType: "blob",
-      headers: {
-        "content-type": "application/octet-stream",
-      },
-    })
-    .then((response) => response)
-    .catch((error) => error);
+export const DownloadFile = async (path: any) => {
+  return await fetch(`${Url}Downloadfiles?path=${path}`, {
+    method: "POST",
+    ...config,
+  }).then((data) => data.json());
 };
 
 export const DeleteCommuncationbycutomerid = async (id: number) => {
@@ -170,96 +197,122 @@ export const DeleteCommuncationbycutomerid = async (id: number) => {
   }).then((data) => data);
 };
 export const GetcustomerProductsPriceList = async (
-  customerid,
-  productid,
-  type
+  customerid: any,
+  productid: any,
+  type: any
 ) => {
-  return await axios
-    .get(
-      `${Url}CustomerProductPriceList?customerid=${customerid}&productid=${productid}&type=${type}`,
-      config
-    )
-    .then((data) => data);
+  return await fetch(
+    `${Url}CustomerProductPriceList?customerid=${customerid}&productid=${productid}&type=${type}`,
+    {
+      method: "GET",
+      ...config,
+    }
+  ).then((data) => data.json());
 };
 
-export const AddcustomerProductPrice = async (data, customerid, productid) => {
-  return await axios
-    .post(
-      `${Url}AddcustomerProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+export const AddcustomerProductPrice = async (
+  data: any,
+  customerid: any,
+  productid: any
+) => {
+  return await fetch(
+    `${Url}AddcustomerProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
 
-export const AddcustomerNationProduct = async (data, customerid, productid) => {
-  return await axios
-    .post(
-      `${Url}AddcustomerNationProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+export const AddcustomerNationProduct = async (
+  data: any,
+  customerid: any,
+  productid: any
+) => {
+  return await fetch(
+    `${Url}AddcustomerNationProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
-export const AddcustomerStateProduct = async (data, customerid, productid) => {
-  return await axios
-    .post(
-      `${Url}AddcustomerStateProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+export const AddcustomerStateProduct = async (
+  data: any,
+  customerid: any,
+  productid: any
+) => {
+  return await fetch(
+    `${Url}AddcustomerStateProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
-export const AddcustomerCountyProduct = async (data, customerid, productid) => {
-  return await axios
-    .post(
-      `${Url}AddcustomerCountyProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+export const AddcustomerCountyProduct = async (
+  data: any,
+  customerid: any,
+  productid: any
+) => {
+  return await fetch(
+    `${Url}AddcustomerCountyProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
 export const UpdateCustomerNationProduct = async (
-  data,
-  customerid,
-  productid
+  data: any,
+  customerid: any,
+  productid: any
 ) => {
-  return await axios
-    .put(
-      `${Url}UpdateCustomerNationProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+  return await fetch(
+    `${Url}UpdateCustomerNationProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
 export const UpdatecustomerStateProduct = async (
-  data,
-  customerid,
-  productid
+  data: any,
+  customerid: any,
+  productid: any
 ) => {
-  return await axios
-    .put(
-      `${Url}UpdatecustomerStateProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+  return await fetch(
+    `${Url}UpdatecustomerStateProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };
-export const Updatecustomeraccountinfo = async (data, customerid) => {
-  return await axios
-    .put(`${Url}updateAccountinfo?id=${customerid}`, data, config)
-    .then((data) => data);
+export const Updatecustomeraccountinfo = async (data: any, customerid: any) => {
+  return await fetch(`${Url}updateAccountinfo?id=${customerid}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    ...config,
+  }).then((data) => data.json());
 };
 export const UpdatecustomerCountyProduct = async (
-  data,
-  customerid,
-  productid
+  data: any,
+  customerid: any,
+  productid: any
 ) => {
-  return await axios
-    .put(
-      `${Url}UpdatecustomerCountyProduct?customerid=${customerid}&productid=${productid}`,
-      data,
-      config
-    )
-    .then((data) => data);
+  return await fetch(
+    `${Url}UpdatecustomerCountyProduct?customerid=${customerid}&productid=${productid}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      ...config,
+    }
+  ).then((data) => data.json());
 };

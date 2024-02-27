@@ -8,15 +8,13 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  AddButton,
+  CancelButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { Form } from "react-bootstrap";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
 import { AddVendor, Addvendorfile } from "../../../servicesapi/Vendorapi";
-import {
-  AddButton,
-  CancelButton,
-} from "../../order/orderProperty/OrderPropertyStyledComponents";
 import { useNavigate } from "react-router-dom";
 import {
   AddCustomer,
@@ -39,9 +37,9 @@ const UserRegistration = (props: any) => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
   const [cPassword, setCpassword] = useState("");
-  let urlD =
+  let urlD:any =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
-  const [userregistration, setUserRegistation] = useState({
+  const [userregistration, setUserRegistation]:any = useState({
     vendorid: 0,
     firstName: "",
     lastName: "",
@@ -76,8 +74,8 @@ const UserRegistration = (props: any) => {
         // setLoading(true);
         dispatch(setloading());
         let vendordata = props.Vendordata;
-        vendordata.productFiles.map((ele) => {
-          Addvendorfile(ele.file).then((res) => {
+        vendordata.productFiles.map((ele:any) => {
+          Addvendorfile(ele.file).then((res:any) => {
             // setLoading(false);
             ele.fileid = res.data[0];
             delete ele.file;
@@ -93,101 +91,7 @@ const UserRegistration = (props: any) => {
                   },
                   ...messages,
                 ]);
-                // props.setActiveStep(0);
-                // props.setVendordata({
-                //   id: 0,
-                //   vendorId: "",
-                //   name: "",
-                //   primery_Address: {
-                //     address: "",
-                //     city: "",
-                //     suite: "",
-                //     state: "",
-                //     pincode: "",
-                //   },
-                //   secondary_Address: {
-                //     address: "",
-                //     city: "",
-                //     suite: "",
-                //     state: "",
-                //     pincode: "",
-                //   },
-                //   primery_Contact: {
-                //     firstName: "",
-                //     middleName: "",
-                //     lastName: "",
-                //     phone: "",
-                //     email: "",
-                //     ext: "",
-                //     cellPhone: "",
-                //   },
-                //   secondary_contact: {
-                //     firstName: "",
-                //     middleName: "",
-                //     lastName: "",
-                //     phone: "",
-                //     email: "",
-                //     ext: "",
-                //     cellPhone: "",
-                //   },
-                //   assignmentNote: "",
-                //   new_Assignment: true,
-                //   qcRejection: true,
-                //   dailyReminder: true,
-                //   profileReminder: true,
-                //   licences: [
-                //     {
-                //       firstName: "",
-                //       lastName: "",
-                //       licenceNo: "",
-                //       licenceType: "",
-                //       status: "",
-                //       address: "",
-                //       expiry_Date: "",
-                //       issueDate: "",
-                //       disciplinaryAction: "",
-                //       note: "",
-                //     },
-                //   ],
-                //   communication: [
-                //     {
-                //       type: "",
-                //       detail: "",
-                //       product_id: 0,
-                //       method: "",
-                //     },
-                //   ],
-                //   product: [
-                //     {
-                //       id: "",
-                //       name: "string",
-                //       price: 0,
-                //       productId: 0,
-                //       selected: false,
-                //     },
-                //   ],
-                //   userregistration: {
-                //     firstName: "",
-                //     lastName: "",
-                //     emailId: "",
-                //     logId: "",
-                //     password: "",
-                //     allowTextMsg: true,
-                //   },
-                //   productFiles: [
-                //     {
-                //       fileName: "",
-                //       location: "",
-                //       size: 0,
-                //       file: "",
-                //       type: "",
-                //       remarks: "",
-                //       issueDate: "",
-                //       expiryDate: "",
-                //       fileid: 0,
-                //     },
-                //   ],
-                // });
+                
                 history("/viewvendor");
               } else {
                 res.json().then((val) =>
@@ -214,7 +118,7 @@ const UserRegistration = (props: any) => {
             //   setLoading(false);
             ele.fileid = res.data[0];
             delete ele.file;
-            AddCustomer(props.Vendordata).then((res) => {
+            AddCustomer(props.Vendordata).then((res:any) => {
               if (res.status === 200) {
                 UploadProductFile(props.fileupload, res.data).then((res) => {
                   console.log(res);
@@ -227,82 +131,7 @@ const UserRegistration = (props: any) => {
                   },
                   ...messages,
                 ]);
-                //   props.setActiveStep(0);
-                //   props.setVendordata({
-                //       customerId: '',
-                //       name: '',
-                //       parent: '',
-                //       client_type: '',
-                //       timezone: '',
-                //       primery_Address: {
-                //           address: '',
-                //           city: '',
-                //           suite: '',
-                //           state: '',
-                //           pincode: ''
-                //       },
-                //       secondary_Address: {
-                //           address: '',
-                //           city: '',
-                //           suite: '',
-                //           state: '',
-                //           pincode: ''
-                //       },
-                //       primery_Contact: {
-                //           firstName: '',
-                //           middleName: '',
-                //           lastName: '',
-                //           phone: '',
-                //           email: '',
-                //           ext: '',
-                //           cellPhone: ''
-                //       },
-                //       secondary_contact: {
-                //           firstName: '',
-                //           middleName: '',
-                //           lastName: '',
-                //           phone: '',
-                //           email: '',
-                //           ext: '',
-                //           cellPhone: ''
-                //       },
-                //       order_Confirmation: false,
-                //       assignment: false,
-                //       inspection: false,
-                //       in_QC_Review: false,
-                //       uploadedfile: 'string',
-                //       communication: [
-                //           {
-                //               vendorId: 0,
-                //               type: '',
-                //               detail: '',
-                //               product_id: 0,
-                //               customerId: 0,
-                //               method: ''
-                //           }
-                //       ],
-                //       product: [
-                //           {
-                //               id: 0,
-                //               name: 'string',
-                //               price1: 0,
-                //               price2: 0,
-                //               price3: 0,
-                //               productId: 0,
-                //               selected: true,
-                //               subCategory: [null]
-                //           }
-                //       ],
-                //       additionalDetail: [''],
-                //       customer_Integration_details: {
-                //           detail: '',
-                //           port: '',
-                //           login: '',
-                //           password: '',
-                //           customerId: 0
-                //       },
-                //       registerId: [0]
-                //   });
+             
                 history("/customer");
               } else {
                 res.json().then((val: any) =>
@@ -319,7 +148,14 @@ const UserRegistration = (props: any) => {
           });
         });
       } else {
-        toast.error("Please enter atleast one user details");
+        updateMessages([
+            {
+              title: "Error !!",
+              message: "Please enter atleast one user details",
+            },
+            ...messages,
+          ])
+     
       }
     }
   };
@@ -339,7 +175,7 @@ const UserRegistration = (props: any) => {
       });
     }
   };
-  const handleDleteuser = (id) => {
+  const handleDleteuser = (id:any) => {
     DeleteCustomerUser(id).then((res) => {
       if (res.status === 200) {
         updateMessages([
@@ -357,7 +193,7 @@ const UserRegistration = (props: any) => {
       }
     });
   };
-  const handleEdituser = (id) => {
+  const handleEdituser = (id:any) => {
     let data = [...userlist];
 
     let mydata = data.filter((ele) => ele.vendorid === id);
@@ -595,7 +431,7 @@ const UserRegistration = (props: any) => {
                 <div className="col">Action</div>
               </TableRow>
 
-              {userlist.map((ele, i) => {
+              {userlist.map((ele:any, i:number) => {
                 return (
                   <TableRow className="row" key={i + 1}>
                     <div className="col-1">{i + 1}</div>

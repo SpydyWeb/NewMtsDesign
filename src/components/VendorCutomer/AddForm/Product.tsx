@@ -5,23 +5,21 @@ import {
   InputContainer,
   Switch,
   UtilityButton,
+  CancelButton,
+  SaveButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { useDispatch, useSelector } from "react-redux";
 import ProductPricePopup from "./ProductPricePopup";
 import { setDialogueview } from "../../../store/action/actions";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
-import {
-  CancelButton,
-  SaveButton,
-} from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Product = (props: any) => {
   const { setActiveTab, setVendordata } = props;
   const [expanded, setexpanded] = useState();
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-  let urlD =
+  let urlD:any =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const { customization }: any = useSelector((state: any) => state);
@@ -39,7 +37,7 @@ const Product = (props: any) => {
   const handleNext = () => {
     let status = false;
     let count = 0;
-    props.productD.map((ele) => {
+    props.productD.map((ele:any) => {
       console.log();
       if (ele.selected === true) {
         count = 1;

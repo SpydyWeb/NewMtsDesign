@@ -10,6 +10,9 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  AddButton,
+  CancelButton,
+  SaveButton,
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
@@ -26,17 +29,13 @@ import {
   UpdatecustomerFile,
 } from "../../../servicesapi/Customerapi";
 import { Form } from "react-bootstrap";
-import {
-  AddButton,
-  CancelButton,
-  SaveButton,
-} from "../../order/orderProperty/OrderPropertyStyledComponents";
+
 
 const FileUpload = (props: any) => {
   const { formFields, Vendordata, productD, setActiveTab } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-  let urlD =
+  let urlD:any =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const handlechangedate = (e: any, i: number) => {
@@ -105,7 +104,7 @@ const FileUpload = (props: any) => {
         ...messages,
       ]);
     else {
-      let data = props.Vendordata.productFiles;
+      let data:any = props.Vendordata.productFiles;
       if (location.pathname.split("/").includes("vendor")) {
         data.map((ele: any) => {
           console.log();
@@ -135,7 +134,7 @@ const FileUpload = (props: any) => {
                     ...messages,
                   ]);
                 } else {
-                  res.json().then((res) =>
+                  res.json().then((res:any) =>
                     updateMessages([
                       {
                         title: "Error !!",
@@ -149,38 +148,38 @@ const FileUpload = (props: any) => {
             });
           } else {
             console.log("else hit");
-            Addvendorfile(ele.file).then((res) => {
+            Addvendorfile(ele.file).then((res:any) => {
               ele.File_id = ele.fileid;
               ele.size = ele.size === null ? 0 : ele.size;
               ele.new_File_id = res.data[0];
               // ele.id = urlD;
               delete ele.updateDate;
-              UpdateVendorFile(ele).then((res) => {
-                if (res.status === 200) {
-                  updateMessages([
-                    {
-                      title: "Success !!",
-                      message: "File updated succsessfully",
-                    },
-                    ...messages,
-                  ]);
-                } else {
-                  res.json().then((res) =>
-                    updateMessages([
-                      {
-                        title: "Error !!",
-                        message: res,
-                      },
-                      ...messages,
-                    ])
-                  );
-                }
-              });
+              // UpdateVendorFile(ele).then((res:any) => {
+              //   if (res.status === 200) {
+              //     updateMessages([
+              //       {
+              //         title: "Success !!",
+              //         message: "File updated succsessfully",
+              //       },
+              //       ...messages,
+              //     ]);
+              //   } else {
+              //     res.json().then((res) =>
+              //       updateMessages([
+              //         {
+              //           title: "Error !!",
+              //           message: res,
+              //         },
+              //         ...messages,
+              //       ])
+              //     );
+              //   }
+              // });
             });
           }
         });
       } else {
-        data.map((ele) => {
+        data.map((ele:any) => {
           console.log();
           if (props.iseditdata === 0 || ele.id === undefined) {
             const data = new FormData();
@@ -190,9 +189,9 @@ const FileUpload = (props: any) => {
             data.append("size", ele.size);
             data.append("type", ele.type);
             data.append("fileName", ele.fileName);
-            Addcustomerfile(ele.file).then((resP) => {
+            Addcustomerfile(ele.file).then((resP:any) => {
               data.append("File_id", resP.data[0]);
-              Addexistingcustomerfile(data, urlD).then((res) => {
+              Addexistingcustomerfile(data, urlD).then((res:any) => {
                 ele.File_id = ele.fileid;
                 ele.new_File_id = res.data[0];
                 delete ele.updateDate;
@@ -208,7 +207,7 @@ const FileUpload = (props: any) => {
                     ...messages,
                   ]);
                 } else {
-                  res.json().then((res) =>
+                  res.json().then((res:any) =>
                     updateMessages([
                       {
                         title: "Error !!",
@@ -221,33 +220,33 @@ const FileUpload = (props: any) => {
               });
             });
           } else {
-            Addcustomerfile(ele.file).then((res) => {
+            Addcustomerfile(ele.file).then((res:any) => {
               ele.File_id = ele.fileid;
               ele.size = ele.size === null ? 0 : ele.size;
               ele.new_File_id = res.data[0];
               // ele.id = urlD;
               delete ele.updateDate;
-              UpdatecustomerFile(ele).then((res) => {
-                if (res.status === 200) {
-                  updateMessages([
-                    {
-                      title: "Success !!",
-                      message: "File updated succsessfully",
-                    },
-                    ...messages,
-                  ]);
-                } else {
-                  res.json().then((res) =>
-                    updateMessages([
-                      {
-                        title: "Error !!",
-                        message: res,
-                      },
-                      ...messages,
-                    ])
-                  );
-                }
-              });
+              // UpdatecustomerFile(ele).then((res) => {
+              //   if (res.status === 200) {
+              //     updateMessages([
+              //       {
+              //         title: "Success !!",
+              //         message: "File updated succsessfully",
+              //       },
+              //       ...messages,
+              //     ]);
+              //   } else {
+              //     res.json().then((res) =>
+              //       updateMessages([
+              //         {
+              //           title: "Error !!",
+              //           message: res,
+              //         },
+              //         ...messages,
+              //       ])
+              //     );
+              //   }
+              // });
             });
           }
         });
@@ -356,7 +355,7 @@ const FileUpload = (props: any) => {
                         //  style={{display:'none'}}
                          type="file"
                          name="file"
-                         onChange={(e) => {
+                         onChange={(e:any) => {
                            const data = [...props.Vendordata.productFiles];
                            data[idx]["fileName"] = e.target.files[0].name;
                            data[idx]["size"] = e.target.files[0].size;

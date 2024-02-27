@@ -2,7 +2,7 @@ import { CurrentUrl } from './UrlApi';
 
 let Url = `${CurrentUrl}Role/`;
 
-export const CreateRole = async (data) => {
+export const CreateRole = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Createrole`, {
         method: 'POST',
@@ -41,7 +41,7 @@ export const GetsubRole = async () => {
     }).then((data) => data.json());
 };
 
-export const CreateSubRole = async (data) => {
+export const CreateSubRole = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Createsubrole`, {
         method: 'POST',
@@ -55,7 +55,7 @@ export const CreateSubRole = async (data) => {
     }).then((data) => data);
 };
 
-export const CreateMapping = async (data) => {
+export const CreateMapping = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Createmapping`, {
         method: 'POST',
@@ -82,7 +82,7 @@ export const GetMappingsubRole = async () => {
     }).then((data) => data.json());
 };
 
-export const Deletemapping = async (data) => {
+export const Deletemapping = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Deletemapping`, {
         method: 'DELETE',
@@ -96,7 +96,7 @@ export const Deletemapping = async (data) => {
     }).then((data) => data);
 };
 // EDIT ROLE MASTER
-export const EditRole = async (data) => {
+export const EditRole = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Updaterole`, {
         method: 'PUT',
@@ -111,7 +111,7 @@ export const EditRole = async (data) => {
 };
 
 // DELETE ROLE
-export const Deleterole = async (data) => {
+export const Deleterole = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Deleterole`, {
         method: 'DELETE',
@@ -128,7 +128,7 @@ export const Deleterole = async (data) => {
 };
 
 // EDIT ROLE MASTER Defunation
-export const EditRoleDefination = async (data) => {
+export const EditRoleDefination = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Editsubrole`, {
         method: 'PUT',
@@ -143,7 +143,7 @@ export const EditRoleDefination = async (data) => {
 };
 
 // DELETE ROLE Defunation
-export const DeleteroleDefunation = async (data) => {
+export const DeleteroleDefunation = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}Deletesubrole`, {
         method: 'DELETE',
@@ -159,7 +159,7 @@ export const DeleteroleDefunation = async (data) => {
         .catch((err) => err);
 };
 
-export const AssignRole = async (data) => {
+export const AssignRole = async (data:any) => {
     const token = localStorage.getItem('jwtTokenId');
     return await fetch(`${Url}AssignRole`, {
         method: 'PUT',

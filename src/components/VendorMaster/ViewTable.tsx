@@ -1,13 +1,4 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import {
-  CenterContainer,
-  FloatingButton,
-  Table,
-  TableRow,
-  TableTitle,
-  TableTitleBar,
-  TableTitleRow,
-} from "../order/OrderStyledComponents";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCommunicationdata,
@@ -29,9 +20,17 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Navigation/Pagination/Pagination";
-import { AlterToast } from "../../utils/renderUitils";
 import ConfimDialoague from "../Common/ConfimDialoague";
 import { ApplicationContext, ApplicationContextType } from "../../App";
+import {
+  CenterContainer,
+  FloatingButton,
+  Table,
+  TableRow,
+  TableTitle,
+  TableTitleBar,
+  TableTitleRow,
+} from "../order/OrderStyledComponents";
 let PageSize = 10;
 const ViewTable = () => {
   const dispatch = useDispatch();
@@ -150,6 +149,22 @@ const ViewTable = () => {
     let formtype = location.pathname.split("/")[2];
     // dispatch(setDialogueview(formtype));
   };
+  useEffect(() => {
+ if (
+      customization.Message !== "" &&
+      customization.Message !== undefined&&
+      customization.Message !== "Save"
+    ) {
+      updateMessages([
+        {
+          title: "Error !!",
+          message: customization.Message,
+        },
+        ...messages,
+      ]);
+    }
+  }, [customization.isLoading]);
+
   const renderRow = (data: any) => {
     if (data.length > 0)
       return data.map((val: any, i: number) => {

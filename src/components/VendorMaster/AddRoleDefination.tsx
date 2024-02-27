@@ -6,6 +6,8 @@ import {
   TableTitle,
   TableTitleBar,
   TableTitleRow,
+  CancelButton,
+  SaveButton,
 } from "../order/OrderStyledComponents";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,47 +16,48 @@ import {
   GetsubRole,
 } from "../../servicesapi/Userroleapi";
 import { ApplicationContext, ApplicationContextType } from "../../App";
-import { CancelButton, SaveButton } from "../order/orderProperty/OrderPropertyStyledComponents";
 import { useDispatch } from "react-redux";
 import { setloading } from "../../store/action/actions";
 
 const AddRoleDefination = () => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-const dispatch=useDispatch()
-  const [accessRoleData, setAccessroleData] = useState({
+  const dispatch = useDispatch();
+  const [accessRoleData, setAccessroleData]: any = useState({
     role: [],
     subroles: [],
   });
   const Navigate = useNavigate();
-  const [roleid, setRoleid] = useState(false);
+  const [roleid, setRoleid]: any = useState(false);
   const [allRole, setAllRole] = useState([]);
   const [subrole, setsubrole] = useState([]);
   useEffect(() => {
     dispatch(setloading());
     GetRole().then((res) => {
-        dispatch(setloading());
+      dispatch(setloading());
       setAllRole(res);
     });
     dispatch(setloading());
     GetsubRole().then((res) => {
-        dispatch(setloading());
+      dispatch(setloading());
       setsubrole(res);
     });
   }, []);
   const onChangehandler = (evt: any, type: any) => {
+    console.log("hitt", evt.target, type, accessRoleData.role);
+
     if (type === "role") {
-      if (evt.target.checked) {
-        let data = accessRoleData.role;
-        data.push(evt.target.name);
+      let data: any = accessRoleData.role;
+      if (data.includes(evt) === false) {
+        data.push(evt);
         setAccessroleData({
           ...accessRoleData,
           role: data,
         });
       } else {
         let data = accessRoleData.role;
-        data = data.filter((ele) => {
-          return ele !== evt.target.name;
+        data = data.filter((ele: any) => {
+          return ele !== evt;
         });
         setAccessroleData({
           ...accessRoleData,
@@ -62,17 +65,17 @@ const dispatch=useDispatch()
         });
       }
     } else {
-      if (evt.target.checked) {
-        let data = accessRoleData.subroles;
-        data.push(evt.target.name);
+      let data: any = accessRoleData.subroles;
+      if (data.includes(evt) === false) {
+        data.push(evt);
         setAccessroleData({
           ...accessRoleData,
           subroles: data,
         });
       } else {
         let data = accessRoleData.subroles;
-        data = data.filter((ele) => {
-          return ele !== evt.target.name;
+        data = data.filter((ele: any) => {
+          return ele !== evt;
         });
         setAccessroleData({
           ...accessRoleData,
@@ -116,93 +119,102 @@ const dispatch=useDispatch()
       });
     }
   };
-  return (<>
-    <CenterContainer>
-      <Table className="table mt-3">
-        <div
-          className="d-grid"
-          // onClick={() => handleCollapse()}
-        >
-          <TableTitleRow>
-            <TableTitleBar>
-              <TableTitle>Access Role</TableTitle>
-            </TableTitleBar>
-          </TableTitleRow>
-        </div>
-        <div id="clientFormSection" className="displaySection">
-          <div className="container-fluid card border-0">
-            <div className="d-flex align-items-center" style={{gap:'10px'}}>
-              {allRole.length > 0
-                ? allRole.map((ele:any, indx:number) => {
-                    return (
-                      <div className="d-flex align-items-center" key={indx}>
-                        <input
-                          type={"checkbox"}
-                          Checked={roleid}
-                          name={ele.name}
-                          onClick={(evt) => onChangehandler(evt, "role")}
-                        />{" "}
-                        <span>{ele.name}</span>
-                      </div>
-                    );
-                  })
-                : ""}
+  return (
+    <>
+      <CenterContainer>
+        <Table className="table mt-3">
+          <div
+            className="d-grid"
+            // onClick={() => handleCollapse()}
+          >
+            <TableTitleRow>
+              <TableTitleBar>
+                <TableTitle>Access Role</TableTitle>
+              </TableTitleBar>
+            </TableTitleRow>
+          </div>
+          <div id="clientFormSection" className="displaySection">
+            <div className="container-fluid card border-0">
+              <div
+                className="d-flex align-items-center"
+                style={{ gap: "10px" }}
+              >
+                {allRole.length > 0
+                  ? allRole.map((ele: any, indx: number) => {
+                      return (
+                        <div className="d-flex align-items-center" key={indx}>
+                          <input
+                            checked={accessRoleData.role.includes(ele.name)}
+                            name={ele.name}
+                            onChange={(evt) =>
+                              onChangehandler(ele.name, "role")
+                            }
+                            type="checkbox"
+                          />
+                          <span>{ele.name}</span>
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
             </div>
           </div>
-        </div>
-      </Table>
-     
-    </CenterContainer>
-    <CenterContainer>
-    <Table className="table mt-3">
-        <div
-          className="d-grid"
-          // onClick={() => handleCollapse()}
-        >
-          <TableTitleRow>
-            <TableTitleBar>
-              <TableTitle>Access Role Defination</TableTitle>
-            </TableTitleBar>
-          </TableTitleRow>
-        </div>
-        <div id="clientFormSection" className="displaySection">
-          <div className="container-fluid card border-0">
-            <div className="d-flex align-items-center" style={{gap:'10px'}}>
-              {subrole.length > 0
-                ? subrole.map((ele:any, indx:number) => {
-                    return (
-                      <div className="d-flex align-items-center" key={indx}>
-                        <input
-                          type={"checkbox"}
-                          Checked={roleid}
-                          name={ele.subrole}
-                          onClick={(evt) => onChangehandler(evt, "subrole")}
-                        />{" "}
-                        <span>{ele.subrole}</span>
-                      </div>
-                    );
-                  })
-                : ""}
+        </Table>
+      </CenterContainer>
+      <CenterContainer>
+        <Table className="table mt-3">
+          <div
+            className="d-grid"
+            // onClick={() => handleCollapse()}
+          >
+            <TableTitleRow>
+              <TableTitleBar>
+                <TableTitle>Access Role Defination</TableTitle>
+              </TableTitleBar>
+            </TableTitleRow>
+          </div>
+          <div id="clientFormSection" className="displaySection">
+            <div className="container-fluid card border-0">
+              <div
+                className="d-flex align-items-center"
+                style={{ gap: "10px" }}
+              >
+                {subrole.length > 0
+                  ? subrole.map((ele: any, indx: number) => {
+                      return (
+                        <div className="d-flex align-items-center" key={indx}>
+                          <input
+                            type={"checkbox"}
+                            checked={accessRoleData.subroles.includes(ele.subrole)}
+                            name={ele.subrole}
+                            onClick={(evt) =>
+                              onChangehandler(ele.subrole, "subrole")
+                            }
+                          />{" "}
+                          <span>{ele.subrole}</span>
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
             </div>
           </div>
-        </div>
-      </Table>
-    </CenterContainer>
-    <TableRow className="border-0 mt-4">
-                  <CancelButton
-                    onClick={() => {
-                    //   resetForm();
-                    Navigate(`/viewaccessrole`);
-                    }}
-                  >
-                    Cancel
-                  </CancelButton>
-                  <SaveButton onClick={onClickhandler} className="float-end">
-                    Save
-                  </SaveButton>
-                </TableRow>
+        </Table>
+      </CenterContainer>
+      <TableRow className="border-0 mt-4">
+        <CancelButton
+          onClick={() => {
+            //   resetForm();
+            Navigate(`/viewaccessrole`);
+          }}
+        >
+          Cancel
+        </CancelButton>
+        <SaveButton onClick={onClickhandler} className="float-end">
+          Save
+        </SaveButton>
+      </TableRow>
     </>
-
   );
 };
 

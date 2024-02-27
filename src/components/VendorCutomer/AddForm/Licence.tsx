@@ -10,6 +10,7 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  CancelButton, SaveButton
 } from "../../order/OrderStyledComponents";
 import { TextField } from "../../utils/InputGroup";
 import { ApplicationContext, ApplicationContextType } from "../../../App";
@@ -18,7 +19,6 @@ import {
   DeleteVendorLicences,
   UpdateVendorLicences,
 } from "../../../servicesapi/Vendorapi";
-import { CancelButton, SaveButton } from "../../order/orderProperty/OrderPropertyStyledComponents";
 
 const Licence = (props: any) => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
@@ -212,7 +212,7 @@ const Licence = (props: any) => {
           ...props.Vendordata,
           ["licences"]: props.licences,
         });
-        props.seteditModalOpen((prev) => !prev);
+        props.seteditModalOpen((prev:any) => !prev);
       }
     }
   };

@@ -14,6 +14,8 @@ import {
   TableTitleBar,
   TableTitleRow,
   UtilityButton,
+  SearchContainer,
+  SearchIcon,
 } from "../order/OrderStyledComponents";
 import {
   Accordion,
@@ -25,10 +27,6 @@ import {
 } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, FaRegEdit, FaSearch } from "react-icons/fa";
 import { ControlledSelectBox, SelectBox, TextField } from "../utils/InputGroup";
-import {
-  SearchContainer,
-  SearchIcon,
-} from "../order/orderProperty/OrderPropertyStyledComponents";
 import Multiselect from "multiselect-react-dropdown";
 import {
   GetStateList,
@@ -161,7 +159,7 @@ const ViewTable = () => {
     } else {
       CustomerSearch(data).then((res:any) => {
         console.log(res);
-        if(res.data.length===0)
+        if(res.length===0)
         updateMessages([
           {
             title: "Error !!",
@@ -170,7 +168,7 @@ const ViewTable = () => {
           ...messages,
         ]);
         let data: any = [];
-        res.data.map((ele: any) =>
+        res.map((ele: any) =>
           data.push({
             id: ele.id,
             vendorid: ele.customerId,
@@ -274,13 +272,13 @@ const ViewTable = () => {
     );
   };
   const renderRows = (data: any, columns: any) => {
-    let fields: [] = [];
+    let fields: any = [];
     columns.map((ele: any) => {
       fields.push(ele.field);
     });
     return data.map((item: any, idx: number) => (
       <TableRow key={"order" + idx} className="row">
-        {fields.map((val, i) => {
+        {fields.map((val:any, i:number) => {
           return i === 0 ? (
             <div className={`col-1`} key={i}>
               {" "}

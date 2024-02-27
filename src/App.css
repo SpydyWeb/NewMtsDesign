@@ -74,17 +74,32 @@ input[type=text], input[type=number], input[type=date], textarea, select{
 
 #main{
   width: 100%;
-  height: 100vh;
   overflow-y: scroll;
   overflow-x: auto;
 }
 
 .App{
   display: flex;
+  flex-direction: column;
   height: 100vh;
+  overflow-y: hidden;
+}
+
+.Body{
+  display: flex;
+  flex-direction: row;
   overflow-y: hidden;
 }
 
 .pointer{
   cursor: pointer;
+}
+
+.userProfile{
+  font-size: 1.75rem;
+}
+
+.content-section{
+  min-height: 64vh; 
+  margin-bottom: 10vh;
 }

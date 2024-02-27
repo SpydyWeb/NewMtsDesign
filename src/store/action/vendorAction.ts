@@ -1,5 +1,5 @@
 import { constant } from '../constant';
-export const getVendordata = (searchValue) => {
+export const getVendordata = (searchValue:any) => {
     return { type: constant.GET_VENDOR_DATA, value: searchValue };
 };
 export const getLicencedata = () => {
@@ -11,22 +11,22 @@ export const getCommunicationdata = () => {
 export const addLicencedata = (formdata:any) => {
     return { type: constant.ADD_LICENCETYPE_DATA, data: formdata };
 };
-export const addCommunicationdata = (formdata) => {
+export const addCommunicationdata = (formdata:any) => {
     return { type: constant.ADD_COMMUNICATIONTYPE_DATA, data: formdata };
 };
-export const deleteLicencedata = (id) => {
+export const deleteLicencedata = (id:any) => {
     return { type: constant.DELETE_LICENCETYPE_DATA, data: id };
 };
-export const deleteCommunicationdata = (id) => {
+export const deleteCommunicationdata = (id:any) => {
     return { type: constant.DELETE_COMMUNICATIONTYPE_DATA, data: id };
 };
-export const deletestatedata = (id) => {
+export const deletestatedata = (id:any) => {
     return { type: constant.DELETE_STATE_DATA, data: id };
 };
 export const getStatedata = () => {
     return { type: constant.GET_STATE_DATA };
 };
-export const addStatedata = (formdata) => {
+export const addStatedata = (formdata:any) => {
     return { type: constant.ADD_STATE_DATA, data: formdata };
 };
 export const getProductdata = () => {

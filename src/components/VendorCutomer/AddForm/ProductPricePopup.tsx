@@ -57,7 +57,7 @@ const ProductPricePopup = (props: any) => {
   const dispatch = useDispatch();
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-    let urlD =
+  let urlD: any =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const [stateList, setStateList] = useState([]);
@@ -69,7 +69,7 @@ const ProductPricePopup = (props: any) => {
     county: [],
     nation: [],
   });
-  const [selectedStates, setSelectedStates] = useState([]);
+  const [selectedStates, setSelectedStates]: any = useState([]);
   const [viewstatecounty, setViewstatecounty] = useState(0);
   const [viewState, setViewState] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -108,11 +108,7 @@ const ProductPricePopup = (props: any) => {
         }
       }
       if (urlD) {
-        GetVendorProductsPriceList(
-         urlD,
-          props.productid,
-          0
-        ).then((res1) => {
+        GetVendorProductsPriceList(urlD, props.productid, 0).then((res1) => {
           res1.data.map((ele: any) => {
             if (ele.selected || ele.price > 0) {
               ele["price"] = ele.price;
@@ -125,7 +121,7 @@ const ProductPricePopup = (props: any) => {
           setnationList(res1.data);
         });
       } else {
-        res.data.map((ele) => {
+        res.data.map((ele: any) => {
           if (data?.productPriceList === undefined || data === undefined) {
             ele["price"] = "";
             ele["isChecked"] = false;
@@ -253,110 +249,105 @@ const ProductPricePopup = (props: any) => {
     GetStateListBynation([1]).then((res) => {
       if (urlD) {
         if (location.pathname.split("/").includes("vendor")) {
-          GetVendorProductsPriceList(
-           urlD,
-            props.productid,
-            type
-          ).then((res1) => {
-            let data: any = [];
-            res1.data.map((ele: any) => {
-              if (type === 1) {
-                if (ele.selected && ele.price > 0) {
-                  ele["price"] = ele.price;
-                  ele["isChecked"] = true;
-                } else {
-                  ele["price"] = "";
-                  ele["isChecked"] = false;
-                }
-              } else {
-                if (ele.selected) {
-                  data.push(ele.id);
-                  ele["isChecked"] = true;
-                } else {
-                  ele["isChecked"] = false;
-                }
-              }
-            });
-            if (type === 2) {
-              let tempdata: any = [];
-              setCheckboxData({ ...checkboxData, state: data });
-              let countyData: any = [];
-              console.log(countyData, res1, tempdata);
-              for (let i = 0; i < res1.data.length; i++) {
-                if (res1.data[i].isChecked) {
-                  countyData = [...countyData, res1.data[i]];
-                }
-              }
-              console.log(countyData);
-              for (let i = 0; i < countyData.length; i++) {
-                for (let j = 0; j < countyData[i].countylist.length; j++) {
-                  if (countyData[i].countylist[j].price > 0) {
-                    countyData[i].countylist[j].isChecked = true;
+          GetVendorProductsPriceList(urlD, props.productid, type).then(
+            (res1) => {
+              let data: any = [];
+              res1.data.map((ele: any) => {
+                if (type === 1) {
+                  if (ele.selected && ele.price > 0) {
+                    ele["price"] = ele.price;
+                    ele["isChecked"] = true;
                   } else {
-                    countyData[i].countylist[j].price = "";
-                    countyData[i].countylist[j].isChecked = false;
+                    ele["price"] = "";
+                    ele["isChecked"] = false;
+                  }
+                } else {
+                  if (ele.selected) {
+                    data.push(ele.id);
+                    ele["isChecked"] = true;
+                  } else {
+                    ele["isChecked"] = false;
                   }
                 }
-              }
+              });
+              if (type === 2) {
+                let tempdata: any = [];
+                setCheckboxData({ ...checkboxData, state: data });
+                let countyData: any = [];
+                console.log(countyData, res1, tempdata);
+                for (let i = 0; i < res1.data.length; i++) {
+                  if (res1.data[i].isChecked) {
+                    countyData = [...countyData, res1.data[i]];
+                  }
+                }
+                console.log(countyData);
+                for (let i = 0; i < countyData.length; i++) {
+                  for (let j = 0; j < countyData[i].countylist.length; j++) {
+                    if (countyData[i].countylist[j].price > 0) {
+                      countyData[i].countylist[j].isChecked = true;
+                    } else {
+                      countyData[i].countylist[j].price = "";
+                      countyData[i].countylist[j].isChecked = false;
+                    }
+                  }
+                }
 
-              setCountyList(countyData);
+                setCountyList(countyData);
+              }
+              setStateList(res1.data);
             }
-            setStateList(res1.data);
-          });
+          );
         } else {
-          GetcustomerProductsPriceList(
-           urlD,
-            props.productid,
-            type
-          ).then((res1) => {
-            let data = [];
-            res1.data.map((ele) => {
-              if (type === 1) {
-                if (ele.selected && ele.price > 0) {
-                  ele["price"] = ele.price;
-                  ele["isChecked"] = true;
-                } else {
-                  ele["price"] = "";
-                  ele["isChecked"] = false;
-                }
-              } else {
-                if (ele.selected) {
-                  data.push(ele.id);
-                  ele["isChecked"] = true;
-                } else {
-                  ele["isChecked"] = false;
-                }
-              }
-            });
-            if (type === 2) {
-              let tempdata = [];
-              setCheckboxData({ ...checkboxData, state: data });
-              let countyData = [];
-              console.log(countyData, res1, tempdata);
-              for (let i = 0; i < res1.data.length; i++) {
-                if (res1.data[i].isChecked) {
-                  countyData = [...countyData, res1.data[i]];
-                }
-              }
-              console.log(countyData);
-              for (let i = 0; i < countyData.length; i++) {
-                for (let j = 0; j < countyData[i].countylist.length; j++) {
-                  if (countyData[i].countylist[j].price > 0) {
-                    countyData[i].countylist[j].isChecked = true;
+          GetcustomerProductsPriceList(urlD, props.productid, type).then(
+            (res1) => {
+              let data: any = [];
+              res1.data.map((ele: any) => {
+                if (type === 1) {
+                  if (ele.selected && ele.price > 0) {
+                    ele["price"] = ele.price;
+                    ele["isChecked"] = true;
                   } else {
-                    countyData[i].countylist[j].price = "";
-                    countyData[i].countylist[j].isChecked = false;
+                    ele["price"] = "";
+                    ele["isChecked"] = false;
+                  }
+                } else {
+                  if (ele.selected) {
+                    data.push(ele.id);
+                    ele["isChecked"] = true;
+                  } else {
+                    ele["isChecked"] = false;
                   }
                 }
-              }
+              });
+              if (type === 2) {
+                let tempdata: any = [];
+                setCheckboxData({ ...checkboxData, state: data });
+                let countyData: any = [];
+                for (let i = 0; i < res1.data.length; i++) {
+                  if (res1.data[i].isChecked) {
+                    countyData = [...countyData, res1.data[i]];
+                  }
+                }
+                console.log(countyData);
+                for (let i = 0; i < countyData.length; i++) {
+                  for (let j = 0; j < countyData[i].countylist.length; j++) {
+                    if (countyData[i].countylist[j].price > 0) {
+                      countyData[i].countylist[j].isChecked = true;
+                    } else {
+                      countyData[i].countylist[j].price = "";
+                      countyData[i].countylist[j].isChecked = false;
+                    }
+                  }
+                }
 
-              setCountyList(countyData);
+                setCountyList(countyData);
+              }
+              setStateList(res1.data);
             }
-            setStateList(res1.data);
-          });
+          );
         }
       } else {
-        res.data.map((ele) => {
+        res.data.map((ele: any) => {
           if (data?.productPriceList === undefined || data === undefined) {
             ele["price"] = "";
             ele["isChecked"] = false;
@@ -384,10 +375,10 @@ const ProductPricePopup = (props: any) => {
   const handlePrevious = () => {
     setViewstatecounty(viewstatecounty - 1);
   };
-  const handleChange = (id, type = "", value = "", indx = "") => {
+  const handleChange = (id: any, type = "", value = "", indx = "") => {
     if (viewState === 0) {
-      let selectedstate = checkboxData.nation;
-      let data = [...nationList];
+      let selectedstate:any = checkboxData.nation;
+      let data: any = [...nationList];
       for (let i = 0; i < data.length; i++) {
         if (data[i].id === id) {
           if (type === "price") data[i].price = value;
@@ -404,8 +395,8 @@ const ProductPricePopup = (props: any) => {
       }
     } else if (viewState === 1 || (viewState === 2 && viewstatecounty === 0)) {
       console.log("else if");
-      let selectedstate = checkboxData.state;
-      let data = [...stateList];
+      let selectedstate:any = checkboxData.state;
+      let data: any = [...stateList];
       let states = selectedStates;
       for (let i = 0; i < data.length; i++) {
         if (data[i].id === id) {
@@ -426,8 +417,8 @@ const ProductPricePopup = (props: any) => {
         }
       }
     } else {
-      let selectedstate = checkboxData.county;
-      let data = [...countyList];
+      let selectedstate:any = checkboxData.county;
+      let data: any = [...countyList];
       for (let i = 0; i < data[indx]?.countylist.length; i++) {
         if (data[indx]?.countylist[i].id === id) {
           if (type === "price") data[indx].countylist[i].price = value;
@@ -461,11 +452,7 @@ const ProductPricePopup = (props: any) => {
         });
       if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
-          UpdateVendorNationProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
+          UpdateVendorNationProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
               updateMessages([
                 {
@@ -490,33 +477,31 @@ const ProductPricePopup = (props: any) => {
             }
           });
         } else {
-          UpdateCustomerNationProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
-            if (res.status === 200) {
-              updateMessages([
-                {
-                  title: "Success !!",
-                  message: "Nation wise price saved successfully",
-                },
-                ...messages,
-              ]);
+          UpdateCustomerNationProduct(data, urlD, props.productid).then(
+            (res) => {
+              if (res.status === 200) {
+                updateMessages([
+                  {
+                    title: "Success !!",
+                    message: "Nation wise price saved successfully",
+                  },
+                  ...messages,
+                ]);
 
-              let selectedData = props.Productseletected.subCategory;
-              for (let i = 0; i < selectedData.length; i++) {
-                if (props.productid === selectedData[i].id) {
-                  selectedData[i].productPriceList = data;
-                  if (type === "remove") {
-                    selectedData[i].selected = false;
-                    selectedData[i].productPriceList = null;
+                let selectedData = props.Productseletected.subCategory;
+                for (let i = 0; i < selectedData.length; i++) {
+                  if (props.productid === selectedData[i].id) {
+                    selectedData[i].productPriceList = data;
+                    if (type === "remove") {
+                      selectedData[i].selected = false;
+                      selectedData[i].productPriceList = null;
+                    }
                   }
                 }
+                props.setProductseletected(selectedData);
               }
-              props.setProductseletected(selectedData);
             }
-          });
+          );
         }
       } else {
         let index = 0;
@@ -555,7 +540,7 @@ const ProductPricePopup = (props: any) => {
       }
     } else if (viewState === 1) {
       if (type === "")
-        stateList.map((ele) => {
+        stateList.map((ele: any) => {
           if (ele.isChecked)
             data.push({
               price: +ele.price,
@@ -565,11 +550,7 @@ const ProductPricePopup = (props: any) => {
         });
       if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
-          UpdateVendorStateProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
+          UpdateVendorStateProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
               updateMessages([
                 {
@@ -593,32 +574,30 @@ const ProductPricePopup = (props: any) => {
             }
           });
         } else {
-          UpdatecustomerStateProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
-            if (res.status === 200) {
-              updateMessages([
-                {
-                  title: "Success !!",
-                  message: "State wise price saved successfully",
-                },
-                ...messages,
-              ]);
-              let selectedData = props.Productseletected.subCategory;
-              for (let i = 0; i < selectedData.length; i++) {
-                if (props.productid === selectedData[i].id) {
-                  selectedData[i].productPriceList = data;
-                  if (type === "remove") {
-                    selectedData[i].selected = false;
-                    selectedData[i].productPriceList = null;
+          UpdatecustomerStateProduct(data, urlD, props.productid).then(
+            (res) => {
+              if (res.status === 200) {
+                updateMessages([
+                  {
+                    title: "Success !!",
+                    message: "State wise price saved successfully",
+                  },
+                  ...messages,
+                ]);
+                let selectedData = props.Productseletected.subCategory;
+                for (let i = 0; i < selectedData.length; i++) {
+                  if (props.productid === selectedData[i].id) {
+                    selectedData[i].productPriceList = data;
+                    if (type === "remove") {
+                      selectedData[i].selected = false;
+                      selectedData[i].productPriceList = null;
+                    }
                   }
                 }
+                props.setProductseletected(selectedData);
               }
-              props.setProductseletected(selectedData);
             }
-          });
+          );
         }
       } else {
         let index = 0;
@@ -655,8 +634,8 @@ const ProductPricePopup = (props: any) => {
       }
     } else {
       if (type === "")
-        countyList.map((val:any) => {
-          val.countylist.map((ele:any) => {
+        countyList.map((val: any) => {
+          val.countylist.map((ele: any) => {
             if (ele.isChecked)
               data.push({
                 price: +ele.price,
@@ -667,11 +646,7 @@ const ProductPricePopup = (props: any) => {
         });
       if (urlD !== undefined) {
         if (location.pathname.split("/").includes("vendor")) {
-          UpdateVendorCountyProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
+          UpdateVendorCountyProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
               updateMessages([
                 {
@@ -694,32 +669,30 @@ const ProductPricePopup = (props: any) => {
             }
           });
         } else {
-          UpdatecustomerCountyProduct(
-            data,
-           urlD,
-            props.productid
-          ).then((res) => {
-            if (res.status === 200) {
-              updateMessages([
-                {
-                  title: "Success !!",
-                  message: "County wise price saved successfully",
-                },
-                ...messages,
-              ]);
-              let selectedData = props.Productseletected.subCategory;
-              for (let i = 0; i < selectedData.length; i++) {
-                if (props.productid === selectedData[i].id) {
-                  selectedData[i].productPriceList = data;
-                  if (type === "remove") {
-                    selectedData[i].selected = false;
-                    selectedData[i].productPriceList = null;
+          UpdatecustomerCountyProduct(data, urlD, props.productid).then(
+            (res) => {
+              if (res.status === 200) {
+                updateMessages([
+                  {
+                    title: "Success !!",
+                    message: "County wise price saved successfully",
+                  },
+                  ...messages,
+                ]);
+                let selectedData = props.Productseletected.subCategory;
+                for (let i = 0; i < selectedData.length; i++) {
+                  if (props.productid === selectedData[i].id) {
+                    selectedData[i].productPriceList = data;
+                    if (type === "remove") {
+                      selectedData[i].selected = false;
+                      selectedData[i].productPriceList = null;
+                    }
                   }
                 }
+                props.setProductseletected(selectedData);
               }
-              props.setProductseletected(selectedData);
             }
-          });
+          );
         }
       } else {
         let index = 0;
@@ -851,7 +824,6 @@ const ProductPricePopup = (props: any) => {
                           onClick={(e) => handleChange(ele.id)}
                           checked={ele.isChecked}
                         />
-                       
                       </div>
                       <InputContainer width="50%" className={`col-6 `}>
                         <TextField
@@ -888,17 +860,15 @@ const ProductPricePopup = (props: any) => {
                           type={"checkbox"}
                           label={ele.name}
                           checked={ele.isChecked}
-                          onClick={(e) => handleChange(ele.id, 'check')}
+                          onClick={(e) => handleChange(ele.id, "check")}
                         />
-                     
                       </div>
-           
                     </div>
                   );
                 })}
               </div>
             ) : countyList.length > 0 ? (
-              countyList?.map((val: any, i: number) => {
+              countyList?.map((val: any, i: any) => {
                 return (
                   <div style={{ width: "100%" }}>
                     <TableTitleRow>
@@ -923,18 +893,12 @@ const ProductPricePopup = (props: any) => {
                                 type={"checkbox"}
                                 label={ele.city}
                                 checked={ele.isChecked}
-                                onClick={(e) => handleChange(ele.id, 'check', '', i)}
-                                                             
+                                onClick={(e: any) =>
+                                  handleChange(ele.id, "check", "", i)
+                                }
                               />
-                              {/* <Checkbox
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                            defaultChecked={ele.isChecked}
-                                            checked={ele.isChecked}
-                                            onClick={(e) => handleChange(ele.id)}
-                                            value={ele.id}
-                                        /> */}
                             </div>
-                            <InputContainer className={`col-6 `}>
+                            <InputContainer width="100%" className={`col-6 `}>
                               <TextField
                                 id={ele.name}
                                 name={ele.name}
@@ -942,8 +906,14 @@ const ProductPricePopup = (props: any) => {
                                 value={ele.price}
                                 label="Price"
                                 disabled={!ele.isChecked}
-                                onChange={(e) => handleChange(ele.id, 'price', e.target.value, i)}
-                                                       
+                                onChange={(e: any) =>
+                                  handleChange(
+                                    ele.id,
+                                    "price",
+                                    e.target.value,
+                                    i
+                                  )
+                                }
                               />
                               {/* <ErrorMessage id="loanIdError"></ErrorMessage> */}
                             </InputContainer>
@@ -991,213 +961,6 @@ const ProductPricePopup = (props: any) => {
           </UtilityButton>
         </Modal.Footer>
       </Modal>
-      {/* <TransDialoague
-        dialogTitle={
-          <Tabs value={viewState} onChange={handleNext} centered>
-            {steps.map((val) => (
-              <Tab label={val} />
-            ))}
-          </Tabs>
-        }
-        maxWidth={"md"}
-        fullWidth={true}
-      >
-        <MainCard>
-          {viewState === 2 && viewstatecounty === 0
-            ? "Please select state"
-            : ""}
-          <Grid container>
-            {loading ? (
-              <div className="text-lg text-center">Loading...</div>
-            ) : viewState === 0 ? (
-              nationList.map((ele) => {
-                return (
-                  <Grid container md={6} sx={{ mb: 1 }}>
-                    <Grid item md={1}>
-                      <Checkbox
-                        inputProps={{ "aria-label": "controlled" }}
-                        defaultChecked={ele.isChecked}
-                        checked={ele.isChecked}
-                        onClick={(e) => handleChange(ele.id)}
-                        value={ele.id}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      md={5}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      {ele.name}
-                    </Grid>
-                    <Grid item md={6}>
-                      <TextField
-                        disabled={!ele.isChecked}
-                        label="Price"
-                        size="small"
-                        value={ele.price}
-                        onChange={(e) =>
-                          handleChange(ele.id, "price", e.target.value)
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                );
-              })
-            ) : viewState === 1 ? (
-              stateList.map((ele) => {
-                return (
-                  <Grid container md={6} sx={{ mb: 1 }}>
-                    <Grid item md={1}>
-                      <Checkbox
-                        inputProps={{ "aria-label": "controlled" }}
-                        defaultChecked={ele.isChecked}
-                        checked={ele.isChecked}
-                        onClick={(e) => handleChange(ele.id)}
-                        value={ele.id}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      md={5}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      {ele.name}
-                    </Grid>
-                    <Grid item md={6}>
-                      <TextField
-                        disabled={!ele.isChecked}
-                        label="Price"
-                        size="small"
-                        value={ele.price}
-                        onChange={(e) =>
-                          handleChange(ele.id, "price", e.target.value)
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                );
-              })
-            ) : viewstatecounty === 0 ? (
-              stateList.map((ele) => {
-                return (
-                  <Grid container md={4}>
-                    <Grid item md={2}>
-                      <Checkbox
-                        inputProps={{ "aria-label": "controlled" }}
-                        defaultChecked={ele.isChecked}
-                        checked={ele.isChecked}
-                        onClick={(e) => handleChange(ele.id, "check")}
-                        value={ele.id}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      md={10}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      {ele.name}
-                    </Grid>
-                 
-                  </Grid>
-                );
-              })
-            ) : countyList.length > 0 ? (
-              countyList?.map((val, i) => {
-                return (
-                  <div style={{ width: "100%" }}>
-                    <SubCard title={val.name}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          marginBottom: "3px",
-                        }}
-                      >
-                        {val.countylist?.map((ele, ind) => {
-                          return (
-                            <Grid container md={6} sx={{ mb: 1 }} key={ind}>
-                              <Grid item md={1}>
-                                <Checkbox
-                                  inputProps={{ "aria-label": "controlled" }}
-                                  defaultChecked={ele.isChecked}
-                                  checked={ele.isChecked}
-                                  onClick={(e) =>
-                                    handleChange(ele.id, "check", "", i)
-                                  }
-                                  value={ele.id}
-                                />
-                              </Grid>
-                              <Grid
-                                item
-                                md={5}
-                                sx={{ display: "flex", alignItems: "center" }}
-                              >
-                                {ele.city}
-                              </Grid>
-                              <Grid item md={6}>
-                                <TextField
-                                  disabled={!ele.isChecked}
-                                  label="Price"
-                                  size="small"
-                                  value={ele.price}
-                                  onChange={(e) =>
-                                    handleChange(
-                                      ele.id,
-                                      "price",
-                                      e.target.value,
-                                      i
-                                    )
-                                  }
-                                />
-                              </Grid>
-                            </Grid>
-                          );
-                        })}
-                      </div>
-                    </SubCard>
-                  </div>
-                );
-              })
-            ) : (
-              <p style={{ fontSize: "1rem" }}>{countyerrmsg}</p>
-            )}
-          </Grid>
-          <Box sx={{ display: "flex", justifyContent: "end", gap: "5px" }}>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-              onClick={() => handleSubmit("remove")}
-            >
-              Delete Price
-            </Button>
-            {viewState === 2 && viewstatecounty !== 0 ? (
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                onClick={() => handlePrevious()}
-              >
-                Previous
-              </Button>
-            ) : (
-              ""
-            )}
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() =>
-                viewState === 2 && viewstatecounty === 0
-                  ? handlecountynext()
-                  : handleSubmit()
-              }
-            >
-              {viewState === 2 && viewstatecounty === 0 ? "Next" : "Submit"}
-            </Button>
-          </Box>
-        </MainCard>
-      </TransDialoague> */}
     </>
   );
 };

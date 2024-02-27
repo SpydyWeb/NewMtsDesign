@@ -13,7 +13,7 @@ const Login = () => {
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
 
-  const LogSubmit = (e) => {
+  const LogSubmit = (e:any) => {
    
     e.preventDefault();
      if (LogData.password === "" || LogData.username === "") {
@@ -49,7 +49,7 @@ const Login = () => {
     //   toast.error("Please enter Email and Password");
     // }
   };
-  const Loghandler = (e) => {
+  const Loghandler = (e:any) => {
     setLogData({ ...LogData, [e.target.name]: e.target.value });
 };
 
