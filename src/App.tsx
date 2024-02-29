@@ -46,6 +46,7 @@ export const MenuData = [
   {
     icon: <AiFillHome />,
     title: "User Module",
+    url: "/dashboard",
     subCategory: [
       {
         icon: <AiFillHome />,
@@ -72,6 +73,7 @@ export const MenuData = [
   {
     icon: <AiFillHome />,
     title: "Vendor Master Module",
+    url: "/dashboard",
     subCategory: [
       {
         icon: <AiFillHome />,

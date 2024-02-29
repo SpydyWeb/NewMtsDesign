@@ -127,7 +127,7 @@ const Product = (props: any) => {
     )} */}
 
       <div>
-        {props.productdata.map((ele: any, indx: number) => {
+        {props.productdata?.length>0?props.productdata.map((ele: any, indx: number) => {
           if (ele.subCategory && ele.subCategory.length > 0) {
             return (
               <>
@@ -205,7 +205,7 @@ const Product = (props: any) => {
               </>
             );
           } else return <></>;
-        })}
+        }):<></>}
       </div>
       {isNaN(parseInt(urlD)) === false ? (
         <div className="d-flex justify-content-end">

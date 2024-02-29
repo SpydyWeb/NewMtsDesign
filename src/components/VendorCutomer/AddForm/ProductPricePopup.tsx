@@ -100,6 +100,8 @@ const ProductPricePopup = (props: any) => {
   }, []);
   const GetNationListData = () => {
     GetNationList().then((res: any) => {
+      console.log(res);
+      
       let data: any;
       for (let i = 0; i < props.productD.length; i++) {
         if (props.productD[i].id === props.productid) {
@@ -107,9 +109,9 @@ const ProductPricePopup = (props: any) => {
           break;
         }
       }
-      if (urlD) {
+      if (isNaN(urlD)===false) {
         GetVendorProductsPriceList(urlD, props.productid, 0).then((res1) => {
-          res1.data.map((ele: any) => {
+          res1.map((ele: any) => {
             if (ele.selected || ele.price > 0) {
               ele["price"] = ele.price;
               ele["isChecked"] = true;
@@ -118,10 +120,10 @@ const ProductPricePopup = (props: any) => {
               ele["isChecked"] = false;
             }
           });
-          setnationList(res1.data);
+          setnationList(res1);
         });
       } else {
-        res.data.map((ele: any) => {
+        res.map((ele: any) => {
           if (data?.productPriceList === undefined || data === undefined) {
             ele["price"] = "";
             ele["isChecked"] = false;
@@ -141,7 +143,7 @@ const ProductPricePopup = (props: any) => {
             }
           }
         });
-        setnationList(res.data);
+        setnationList(res);
       }
     });
   };
@@ -183,9 +185,11 @@ const ProductPricePopup = (props: any) => {
     setCheckboxData({ ...checkboxData, state: formvalue });
     setCountyList([]);
     GetCountyList(formvalue).then((res) => {
+      console.log(res);
+      
       let msg = "";
       let tempdata: any = selectedStates;
-      res.data.map((ele: any) => {
+      res.map((ele: any) => {
         if (data?.productPriceList === undefined || data === undefined) {
           ele["price"] = "";
           ele["isChecked"] = false;
@@ -230,7 +234,7 @@ const ProductPricePopup = (props: any) => {
 
       setCountyList(tempdata);
 
-      if (res.data.length === 0)
+      if (res.length === 0)
         msg = "Selected state has no county. Please select other states";
       else msg = "";
       setCountyerrmsg(msg);
@@ -247,12 +251,12 @@ const ProductPricePopup = (props: any) => {
       }
     }
     GetStateListBynation([1]).then((res) => {
-      if (urlD) {
+      if (isNaN(urlD)===false) {
         if (location.pathname.split("/").includes("vendor")) {
           GetVendorProductsPriceList(urlD, props.productid, type).then(
             (res1) => {
               let data: any = [];
-              res1.data.map((ele: any) => {
+              res1.map((ele: any) => {
                 if (type === 1) {
                   if (ele.selected && ele.price > 0) {
                     ele["price"] = ele.price;
@@ -275,9 +279,9 @@ const ProductPricePopup = (props: any) => {
                 setCheckboxData({ ...checkboxData, state: data });
                 let countyData: any = [];
                 console.log(countyData, res1, tempdata);
-                for (let i = 0; i < res1.data.length; i++) {
-                  if (res1.data[i].isChecked) {
-                    countyData = [...countyData, res1.data[i]];
+                for (let i = 0; i < res1.length; i++) {
+                  if (res1[i].isChecked) {
+                    countyData = [...countyData, res1[i]];
                   }
                 }
                 console.log(countyData);
@@ -294,14 +298,14 @@ const ProductPricePopup = (props: any) => {
 
                 setCountyList(countyData);
               }
-              setStateList(res1.data);
+              setStateList(res1);
             }
           );
         } else {
           GetcustomerProductsPriceList(urlD, props.productid, type).then(
             (res1) => {
               let data: any = [];
-              res1.data.map((ele: any) => {
+              res1.map((ele: any) => {
                 if (type === 1) {
                   if (ele.selected && ele.price > 0) {
                     ele["price"] = ele.price;
@@ -323,9 +327,9 @@ const ProductPricePopup = (props: any) => {
                 let tempdata: any = [];
                 setCheckboxData({ ...checkboxData, state: data });
                 let countyData: any = [];
-                for (let i = 0; i < res1.data.length; i++) {
-                  if (res1.data[i].isChecked) {
-                    countyData = [...countyData, res1.data[i]];
+                for (let i = 0; i < res1.length; i++) {
+                  if (res1[i].isChecked) {
+                    countyData = [...countyData, res1[i]];
                   }
                 }
                 console.log(countyData);
@@ -342,12 +346,12 @@ const ProductPricePopup = (props: any) => {
 
                 setCountyList(countyData);
               }
-              setStateList(res1.data);
+              setStateList(res1);
             }
           );
         }
       } else {
-        res.data.map((ele: any) => {
+        res.map((ele: any) => {
           if (data?.productPriceList === undefined || data === undefined) {
             ele["price"] = "";
             ele["isChecked"] = false;
@@ -367,7 +371,7 @@ const ProductPricePopup = (props: any) => {
             }
           }
         });
-        setStateList(res.data);
+        setStateList(res);
       }
       setLoading(false);
     });
@@ -450,7 +454,7 @@ const ProductPricePopup = (props: any) => {
               cityStateId: ele.id,
             });
         });
-      if (urlD !== undefined) {
+      if (isNaN(urlD)===false) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorNationProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
@@ -548,7 +552,7 @@ const ProductPricePopup = (props: any) => {
               cityStateId: ele.id,
             });
         });
-      if (urlD !== undefined) {
+      if (isNaN(urlD)===false) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorStateProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
@@ -621,6 +625,7 @@ const ProductPricePopup = (props: any) => {
           }
         }
         product[index]["productPriceList"] = data;
+console.log(product);
 
         props.setProductD(product);
 
@@ -644,7 +649,7 @@ const ProductPricePopup = (props: any) => {
               });
           });
         });
-      if (urlD !== undefined) {
+      if (isNaN(urlD)===false) {
         if (location.pathname.split("/").includes("vendor")) {
           UpdateVendorCountyProduct(data, urlD, props.productid).then((res) => {
             if (res.status === 200) {
@@ -898,7 +903,7 @@ const ProductPricePopup = (props: any) => {
                                 }
                               />
                             </div>
-                            <InputContainer width="100%" className={`col-6 `}>
+                            <InputContainer width="50%" className={`col-6 `}>
                               <TextField
                                 id={ele.name}
                                 name={ele.name}

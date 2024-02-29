@@ -16,7 +16,7 @@ export const AddCustomer = async (data: any) => {
     method: "POST",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 
 export const AddCustomerUser = async (data: any) => {
@@ -96,7 +96,7 @@ export const UpdateCustomercommunications = async (data: any, id: any) => {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const addCustomercommunications = async (data: any, id: any) => {
   return await fetch(`${Url}addCommunication?customerid=${id}`, {
@@ -110,28 +110,28 @@ export const UpdateCustomerIntegrationDetail = async (data: any, id: any) => {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const Updatecustomer = async (data: any) => {
   return await fetch(`${Url}Updatecustomer`, {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const UpdateCustomerAddress = async (data: any, id: any) => {
   return await fetch(`${Url}UpdateCustomerAddress?addressid=${id}`, {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const UpdateCustomerContact = async (data: any, id: any) => {
   return await fetch(`${Url}UpdateCustomerContact?Contactid=${id}`, {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const GetcommunicationLists = async () => {
   return await fetch(`${Url}GetcommunicationLists`, {
@@ -279,7 +279,7 @@ export const UpdateCustomerNationProduct = async (
       body: JSON.stringify(data),
       ...config,
     }
-  ).then((data) => data.json());
+  ).then((data) => data);
 };
 export const UpdatecustomerStateProduct = async (
   data: any,
@@ -293,14 +293,14 @@ export const UpdatecustomerStateProduct = async (
       body: JSON.stringify(data),
       ...config,
     }
-  ).then((data) => data.json());
+  ).then((data) => data);
 };
 export const Updatecustomeraccountinfo = async (data: any, customerid: any) => {
   return await fetch(`${Url}updateAccountinfo?id=${customerid}`, {
     method: "PUT",
     body: JSON.stringify(data),
     ...config,
-  }).then((data) => data.json());
+  }).then((data) => data);
 };
 export const UpdatecustomerCountyProduct = async (
   data: any,

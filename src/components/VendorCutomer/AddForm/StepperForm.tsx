@@ -93,7 +93,10 @@ const StepperForm = () => {
       setAllState(res);
     });
     GetcommunicationLists().then((res) => {
-      let data = res.data.communication_Method_Masters;
+      console.log(res);
+     
+      let data = res.communication_Method_Masters;
+   
       setCommunicationMethod(data);
     });
     GetCommunicationTypeList().then((res) => {
@@ -112,8 +115,10 @@ const StepperForm = () => {
           });
         } else {
           GetCustomerProductDetaills(urlD).then((res) => {
-            setProductdata(res.data);
-            setProductD(res.data);
+       
+            
+            setProductdata(res);
+            setProductD(res);
           });
         }
       } else if (activeTab === 0) {
@@ -125,13 +130,13 @@ const StepperForm = () => {
         } else {
           GetCustomerDetaills(urlD).then((res) => {
             console.log(res);
-            setVendordata(res.data);
+            setVendordata(res);
           });
         }
       } else if (activeTab === 1) {
         // setProductD(vendorDetail.product);
         GetcommunicationLists().then((res) => {
-          let data = res.data.communication_Method_Masters;
+          let data = res.communication_Method_Masters;
           setCommunicationMethod(data);
         });
         if (location.pathname.split("/").includes("vendor")) {
@@ -192,7 +197,7 @@ const StepperForm = () => {
           GetCustomerDetaills(urlD).then((res) => {
            console.log(res);
            
-            setVendordata({customer_Integration_details:res.data.customer_Integration_details});
+            setVendordata({customer_Integration_details:res.customer_Integration_details});
           });
           // let additional = vendorDetail.additionalDetail.length > 0 ? vendorDetail.additionalDetail[0].details : '';
           // vendorDetail['additionalDetail'] = [additional];
@@ -205,7 +210,7 @@ const StepperForm = () => {
         } else {
           GetCustomerDetaills(urlD).then((res) => {
             console.log(res);
-            setVendordata(res.data);
+            setVendordata(res);
           });
         }
       } else if (activeTab === 5) {

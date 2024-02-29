@@ -30,12 +30,11 @@ import {
 } from "../../../servicesapi/Customerapi";
 import { Form } from "react-bootstrap";
 
-
 const FileUpload = (props: any) => {
   const { formFields, Vendordata, productD, setActiveTab } = props;
   const { messages, updateMessages, updateLoading, updateLoadingMessage } =
     useContext(ApplicationContext) as ApplicationContextType;
-  let urlD:any =
+  let urlD: any =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
   const handlechangedate = (e: any, i: number) => {
@@ -104,7 +103,7 @@ const FileUpload = (props: any) => {
         ...messages,
       ]);
     else {
-      let data:any = props.Vendordata.productFiles;
+      let data: any = props.Vendordata.productFiles;
       if (location.pathname.split("/").includes("vendor")) {
         data.map((ele: any) => {
           console.log();
@@ -134,7 +133,7 @@ const FileUpload = (props: any) => {
                     ...messages,
                   ]);
                 } else {
-                  res.json().then((res:any) =>
+                  res.json().then((res: any) =>
                     updateMessages([
                       {
                         title: "Error !!",
@@ -148,7 +147,7 @@ const FileUpload = (props: any) => {
             });
           } else {
             console.log("else hit");
-            Addvendorfile(ele.file).then((res:any) => {
+            Addvendorfile(ele.file).then((res: any) => {
               ele.File_id = ele.fileid;
               ele.size = ele.size === null ? 0 : ele.size;
               ele.new_File_id = res.data[0];
@@ -179,7 +178,7 @@ const FileUpload = (props: any) => {
           }
         });
       } else {
-        data.map((ele:any) => {
+        data.map((ele: any) => {
           console.log();
           if (props.iseditdata === 0 || ele.id === undefined) {
             const data = new FormData();
@@ -189,9 +188,9 @@ const FileUpload = (props: any) => {
             data.append("size", ele.size);
             data.append("type", ele.type);
             data.append("fileName", ele.fileName);
-            Addcustomerfile(ele.file).then((resP:any) => {
+            Addcustomerfile(ele.file).then((resP: any) => {
               data.append("File_id", resP.data[0]);
-              Addexistingcustomerfile(data, urlD).then((res:any) => {
+              Addexistingcustomerfile(data, urlD).then((res: any) => {
                 ele.File_id = ele.fileid;
                 ele.new_File_id = res.data[0];
                 delete ele.updateDate;
@@ -207,7 +206,7 @@ const FileUpload = (props: any) => {
                     ...messages,
                   ]);
                 } else {
-                  res.json().then((res:any) =>
+                  res.json().then((res: any) =>
                     updateMessages([
                       {
                         title: "Error !!",
@@ -220,7 +219,7 @@ const FileUpload = (props: any) => {
               });
             });
           } else {
-            Addcustomerfile(ele.file).then((res:any) => {
+            Addcustomerfile(ele.file).then((res: any) => {
               ele.File_id = ele.fileid;
               ele.size = ele.size === null ? 0 : ele.size;
               ele.new_File_id = res.data[0];
@@ -318,13 +317,13 @@ const FileUpload = (props: any) => {
                       width="20%"
                       className="d-flex align-items-center"
                     >
-                      {val.file === ""&&isNaN(urlD) ? (
-                       ""
+                      {val.file === "" && isNaN(urlD) ? (
+                        ""
+                      ) : (
                         // <UtilityButton style={{ width: "100px" }}>
                         //   Upload
-                         
+
                         // </UtilityButton>
-                      ) : (
                         <AiOutlineDownload
                           style={{ color: "blue" }}
                           size={20}
@@ -347,27 +346,33 @@ const FileUpload = (props: any) => {
                           }}
                         />
                       )}
-                      {isNaN(urlD)===false?val.fileName === ""
-                        ? "No file"
-                        : val.fileName.length > 10
-                        ? val.fileName.slice(0, 10) + "..."
-                        : val.fileName:  <input
-                        //  style={{display:'none'}}
-                         type="file"
-                         name="file"
-                         onChange={(e:any) => {
-                           const data = [...props.Vendordata.productFiles];
-                           data[idx]["fileName"] = e.target.files[0].name;
-                           data[idx]["size"] = e.target.files[0].size;
-                           data[idx]["file"] = e.target.files[0];
-                           props.setVendordata({
-                             ...props.Vendordata,
-                             ["productFiles"]: data,
-                           });
-                         }}
-                       />}
+                      {isNaN(urlD) === false ? (
+                        val.fileName === "" ? (
+                          "No file"
+                        ) : val.fileName.length > 10 ? (
+                          val.fileName.slice(0, 10) + "..."
+                        ) : (
+                          val.fileName
+                        )
+                      ) : (
+                        <input
+                          //  style={{display:'none'}}
+                          type="file"
+                          name="file"
+                          onChange={(e: any) => {
+                            const data = [...props.Vendordata.productFiles];
+                            data[idx]["fileName"] = e.target.files[0].name;
+                            data[idx]["size"] = e.target.files[0].size;
+                            data[idx]["file"] = e.target.files[0];
+                            props.setVendordata({
+                              ...props.Vendordata,
+                              ["productFiles"]: data,
+                            });
+                          }}
+                        />
+                      )}
                     </InputContainer>
-                    {formFields.formFields.map((item: any) => {
+                    {formFields.formFields.map((item: any, i: number) => {
                       return (
                         <>
                           {item.type === "select" ? (
@@ -432,13 +437,52 @@ const FileUpload = (props: any) => {
                                   //   idx
                                   // );
                                 }}
-                                //   onBlur={(e) => {
-                                //     if (tooltip.valid && e.target.value.length > 3)
-                                //       setTooltip({
-                                //         isshow: false,
-                                //         valid: true,
-                                //       });
-                                //   }}
+                                onBlur={(e: any) => {
+                                  const data = [
+                                    ...props.Vendordata.productFiles,
+                                  ];
+                                  if (item.name === "issueDate") {
+                                    if (
+                                      new Date(e.target.value) <
+                                      new Date("01-01-3000")
+                                    ) {
+                                      data[i][e.target.name] = e.target.value;
+                                    } else {
+                                      updateMessages([
+                                        {
+                                          title: "Error !!",
+                                          message: "Enter valid date",
+                                        },
+                                        ...messages,
+                                      ]);
+                                      data[i][e.target.name] = "";
+                                    }
+                                  } else if (item.name === "expiryDate") {
+                                    if (
+                                      new Date(e.target.value) >
+                                        new Date(data[i].issueDate) &&
+                                      new Date(e.target.value) <
+                                        new Date("01-01-3000")
+                                    ) {
+                                      data[i][e.target.name] = e.target.value;
+                                    } else {
+                                      updateMessages([
+                                        {
+                                          title: "Error !!",
+                                          message:
+                                            "Expiry date should be greater than issue date",
+                                        },
+                                        ...messages,
+                                      ]);
+
+                                      data[i][e.target.name] = "";
+                                    }
+                                  }
+                                  props.setVendordata({
+                                    ...props.Vendordata,
+                                    ["productFiles"]: data,
+                                  });
+                                }}
                               />
                               <ErrorMessage id="loanIdError"></ErrorMessage>
                             </InputContainer>

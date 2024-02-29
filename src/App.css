@@ -95,6 +95,11 @@ input[type=text], input[type=number], input[type=date], textarea, select{
   cursor: pointer;
 }
 
+.required-field label::after{
+  content: " *";
+  color:red
+}
+
 .userProfile{
   font-size: 1.75rem;
 }

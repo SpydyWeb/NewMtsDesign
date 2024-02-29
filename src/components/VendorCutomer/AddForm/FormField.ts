@@ -66,6 +66,7 @@ export const VendorFormField = {
           isErrorMsg: false,
           type: "text",
           width: "20%",
+          maxLength:5
         },
       ],
     },
@@ -113,6 +114,7 @@ export const VendorFormField = {
           isErrorMsg: false,
           type: "text",
           width: "20%",
+          maxLength:5
         },
       ],
     },
@@ -947,7 +949,7 @@ export const CustomerFormField = {
           label: "Phone",
           require: true,
           isErrorMsg: false,
-          type: "text",
+          type: "phone",
           width: "20%",
         },
         {
@@ -971,7 +973,7 @@ export const CustomerFormField = {
           label: "Cell Phone",
           require: true,
           isErrorMsg: false,
-          type: "text",
+          type: "phone",
           width: "20%",
         },
       ],
@@ -1010,7 +1012,7 @@ export const CustomerFormField = {
           label: "Phone",
           require: false,
           isErrorMsg: false,
-          type: "text",
+          type: "phone",
           width: "20%",
         },
         {
@@ -1034,7 +1036,7 @@ export const CustomerFormField = {
           label: "Cell Phone",
           require: false,
           isErrorMsg: false,
-          type: "text",
+          type: "phone",
           width: "20%",
         },
       ],

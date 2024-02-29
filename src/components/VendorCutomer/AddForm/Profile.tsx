@@ -100,7 +100,7 @@ const Profile = (props: any) => {
     }
   };
   const handleInput = (value: any) => {
-    return value !== "" ? value.replace(phoneRegex, "($1) $2-$3") : "";
+    return value !== ""&&value !== undefined ? value.replace(phoneRegex, "($1) $2-$3") : "";
   };
   const handleEditSubmit = () => {
     if (
@@ -308,8 +308,8 @@ const Profile = (props: any) => {
               ["primery_Address"]: props.Vendordata.primery_Address,
               ["secondary_Address"]: props.Vendordata.secondary_Address,
             });
-            props.seteditModalOpen((prev: any) => !prev);
-            props.setEditData(!props.editData);
+            // props.seteditModalOpen((prev: any) => !prev);
+            // props.setEditData(!props.editData);
           } else {
             res.json().then((res: any) =>
               updateMessages([
@@ -336,8 +336,8 @@ const Profile = (props: any) => {
               ["primery_Contact"]: props.Vendordata.primery_Contact,
               ["secondary_contact"]: props.Vendordata.secondary_contact,
             });
-            props.setEditData(!props.editData);
-            props.seteditModalOpen((prev: any) => !prev);
+            // props.setEditData(!props.editData);
+            // props.seteditModalOpen((prev: any) => !prev);
           } else {
             res.json().then((res: any) =>
               updateMessages([
@@ -364,8 +364,8 @@ const Profile = (props: any) => {
               ...props.Vendordata,
               ["accountinfo"]: accoutninfodata,
             });
-            props.setEditData(!props.editData);
-            props.seteditModalOpen((prev: any) => !prev);
+            // props.setEditData(!props.editData);
+            // props.seteditModalOpen((prev: any) => !prev);
           } else {
             res.json().then((res: any) =>
               updateMessages([

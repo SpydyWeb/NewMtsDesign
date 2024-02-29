@@ -77,7 +77,7 @@ const UserRegistration = (props: any) => {
         vendordata.productFiles.map((ele:any) => {
           Addvendorfile(ele.file).then((res:any) => {
             // setLoading(false);
-            ele.fileid = res.data[0];
+            ele.fileid = res[0];
             delete ele.file;
             // props.setVendordata(vendordata);
             AddVendor(props.Vendordata).then((res) => {
@@ -116,9 +116,11 @@ const UserRegistration = (props: any) => {
         vendordata.productFiles.map((ele: any) => {
           Addcustomerfile(ele.file).then((res: any) => {
             //   setLoading(false);
-            ele.fileid = res.data[0];
+            ele.fileid = res[0];
             delete ele.file;
             AddCustomer(props.Vendordata).then((res:any) => {
+              console.log(res);
+              
               if (res.status === 200) {
                 UploadProductFile(props.fileupload, res.data).then((res) => {
                   console.log(res);
@@ -219,7 +221,9 @@ const UserRegistration = (props: any) => {
     else {
       if (userregistration.vendorid === 0) {
         AddCustomerUser(userregistration).then((res) => {
-          if (res.status === 200) {
+          console.log(res);
+          
+         
             if (res.data === 0) {
               updateMessages([
                 {
@@ -237,12 +241,12 @@ const UserRegistration = (props: any) => {
                 ...messages,
               ]);
               let data = [...props.Vendordata.registerId];
-              data.push(res.data);
+              data.push(res);
               props.setVendordata({ ...props.Vendordata, registerId: data });
               setUserList([
                 ...userlist,
                 {
-                  vendorid: res.data,
+                  vendorid: res,
                   firstName: userregistration.firstName,
                   lastName: userregistration.lastName,
                   emailId: userregistration.emailId,
@@ -262,7 +266,7 @@ const UserRegistration = (props: any) => {
               });
               setCpassword("");
             }
-          }
+       
         });
       } else {
         UpdateCustomerUser(Vendordata.userregistration).then((res) => {

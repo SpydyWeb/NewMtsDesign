@@ -9,7 +9,7 @@ import { NavLink } from "./NavBarStyledComponents";
 import { BiUserCircle } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
-
+import ImgLogo from "../../../../public/logo_black_and_blue.png"
 type AuthProps = {
   MenuData: any;
   handleSubClass:any;
@@ -24,12 +24,12 @@ const NavBar = (props: AuthProps) => {
     <div>
       <Navbar
         expand={"lg"}
-        className="bg-body-tertiary mb-3 w-100"
+        className="bg-body-tertiary w-100"
         sticky="top"
       >
         <Container fluid>
           <Navbar.Brand href="/">
-            <img width={250} src="logo_black_and_blue.png" />
+            <img width={250} src={ImgLogo} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
           <Navbar.Offcanvas
@@ -39,7 +39,7 @@ const NavBar = (props: AuthProps) => {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-                <img width={250} src="logo_black_and_blue.png" />
+                <img width={250} src={ImgLogo} />
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
